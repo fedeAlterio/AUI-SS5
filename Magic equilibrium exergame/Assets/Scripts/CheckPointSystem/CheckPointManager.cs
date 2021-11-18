@@ -6,7 +6,7 @@ public class CheckPointManager : MonoBehaviour
 {
     public static CheckPointManager instance;
 
-    private List<CheckPoint> checkPoints;
+    public List<CheckPoint> checkPoints;
 
     private int lastCheckpoint;
 

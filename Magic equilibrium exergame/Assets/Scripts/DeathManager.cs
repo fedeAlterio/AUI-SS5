@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class DeathManager : MonoBehaviour
 {
     public static DeathManager instance;
-    UnityEvent playerDeathEvent;
+    public UnityEvent playerDeathEvent;
 
     private void Awake()
     {

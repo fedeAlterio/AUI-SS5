@@ -6,7 +6,11 @@ public class Input : MonoBehaviour
 {
     public static Input instance;
     public PlayerMovement playerMovement;
+
+    [Range(-1f, 1f)]
     public float inputX;
+
+    [Range(-1f, 1f)]
     public float inputZ;
 
     private void Awake()

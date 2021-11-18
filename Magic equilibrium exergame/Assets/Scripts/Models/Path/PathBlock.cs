@@ -8,12 +8,13 @@ namespace Assets.Scripts.Models.Path
     {
         // Editor fields
         [SerializeField] private Transform _entryTransform;
-        [SerializeField] private Transform _exitTransform;
-
+        [SerializeField] private Transform _exitTransform;        
 
 
         // Properties
         public Vector3 EntryPosition => _entryTransform.position;
         public Vector3 ExitPosition => _exitTransform.position;
+        public Vector3 Position => transform.position;      
+        [field:SerializeField] public string BlockName { get; private set; }
     }
 }

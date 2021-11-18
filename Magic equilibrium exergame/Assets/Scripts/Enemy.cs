@@ -8,8 +8,6 @@ public class Enemy : MonoBehaviour
     // Check if the colliding object is a Player, in which case call Manager
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collision: Enemy");
-
         if(other.gameObject.tag == "Player")
         {
             DeathManager.instance.PlayerDeath();

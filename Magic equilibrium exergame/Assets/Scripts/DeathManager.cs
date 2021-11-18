@@ -28,6 +28,5 @@ public class DeathManager : MonoBehaviour
     public void PlayerDeath()
     {
         playerDeathEvent.Invoke();
-        Debug.Log("Player Death Event Invoked");
     }
 }

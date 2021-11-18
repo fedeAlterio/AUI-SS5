@@ -10,8 +10,6 @@ public class CheckPoint : MonoBehaviour
     // Check if the colliding object is a Player, in which case call Manager
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collision: CheckPoint");
-
         if(other.gameObject.tag == "Player")
         {
             CheckPointManager.instance.NewCheckpoint(this);

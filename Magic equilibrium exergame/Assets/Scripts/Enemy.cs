@@ -2,19 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckPoint : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    public Vector3 checkPointPosition;
-
-    // Call this method when something collides with the checkpoint
+    // Call this method when something collides with this enemy
     // Check if the colliding object is a Player, in which case call Manager
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collision: CheckPoint");
+        Debug.Log("Collision: Enemy");
 
         if(other.gameObject.tag == "Player")
         {
-            CheckPointManager.instance.NewCheckpoint(this);
+            DeathManager.instance.PlayerDeath();
         }        
     }
 }

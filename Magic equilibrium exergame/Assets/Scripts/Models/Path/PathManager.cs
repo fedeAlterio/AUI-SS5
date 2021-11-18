@@ -23,11 +23,18 @@ namespace Assets.Scripts.Models.Path
 
         // Public Methods
         public void AddBlock(PathBlock pathBlock)
-        {                        
+        {                                    
             pathBlock.transform.parent = _pathTransform;
-            pathBlock.transform.position = _path.Any()
-                ? LastBlock.ExitPosition + (pathBlock.Position - pathBlock.EntryPosition)
-                : Vector3.zero;
+
+            var lastBlock = LastBlock;
+            if(lastBlock == null)
+                pathBlock.transform.position = Vector3.zero;
+            else
+            {
+                var rotation = Quaternion.FromToRotation(pathBlock.EntryDirection, lastBlock.ExitDirection);
+                pathBlock.transform.localRotation *= rotation;
+                pathBlock.transform.position = lastBlock.ExitPosition + (pathBlock.Position - pathBlock.EntryPosition);
+            }            
 
             _path.Add(pathBlock);
         }

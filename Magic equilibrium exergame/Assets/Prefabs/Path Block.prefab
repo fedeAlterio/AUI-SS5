@@ -181,7 +181,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9138256466594254364}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -203,4 +203,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entryTransform: {fileID: 9138256466093485253}
   _exitTransform: {fileID: 9138256465279393427}
+  _entryDirection: {x: -1, y: 0, z: 0}
+  _exitDirection: {x: -1, y: 0, z: 0}
   <BlockName>k__BackingField: Base Block

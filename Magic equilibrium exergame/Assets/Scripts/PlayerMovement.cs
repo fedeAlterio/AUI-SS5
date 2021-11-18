@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float x = 0;
-    public float z = 0;
+    public const float baseX = 1;
+    public const float baseZ = 0;
+
+    private float x;
+    private float z;
 
     private Vector3 speed = new Vector3(0, 0, 0);
-
-    void Start()
-    {
-        x = 1;
-    }
 
     // Update is called once per frame
     void Update()
@@ -20,5 +18,11 @@ public class PlayerMovement : MonoBehaviour
         speed = new Vector3 (x, 0, z);
 
         transform.Translate(speed * Time.deltaTime);
+    }
+
+    public void UpdateSpeed(float inputX, float inputZ)
+    {
+        x = baseX + inputX;
+        z = baseZ + inputZ;
     }
 }

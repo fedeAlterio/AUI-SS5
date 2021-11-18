@@ -33,5 +33,11 @@ public class CheckPointManager : MonoBehaviour
         {
             lastCheckpoint = tempIndex;
         }
-    }    
+    }   
+
+    // Tells where to respawn the player
+    public Vector3 GetRespawn()
+    {
+        return checkPoints[lastCheckpoint].checkPointPosition;
+    } 
 }

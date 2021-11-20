@@ -20,8 +20,8 @@ namespace Assets.Scripts.GameDebug
 
         private void Update()
         {
-            var meshFilter = GetComponent<MeshFilter>();
-            meshFilter.sharedMesh = new CurveMeshGenerator().FromCurve();
+            //var meshFilter = GetComponent<MeshFilter>();
+            //meshFilter.sharedMesh = new CurveMeshGenerator().FromCurve();
         }
     }
 }

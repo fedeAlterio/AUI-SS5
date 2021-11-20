@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Models.Path.Blocks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,18 +12,18 @@ namespace Assets.Scripts.Models.Path
     {
         // Editor fields
         [SerializeField] private Transform _pathTransform;
-        [SerializeField] private List<PathBlock> _path = new List<PathBlock>();
+        [SerializeField] private List<BaseBlock> _blocks = new List<BaseBlock>();
 
 
 
         // Properties
-        public IReadOnlyList<PathBlock> Path => _path;
-        public PathBlock LastBlock => _path.Count > 0 ? _path[_path.Count - 1] : null;
+        public IReadOnlyList<BaseBlock> Blocks => _blocks;
+        public BaseBlock LastBlock => _blocks.Count > 0 ? _blocks[_blocks.Count - 1] : null;
 
 
 
         // Public Methods
-        public void AddBlock(PathBlock pathBlock)
+        public void AddBlock(BaseBlock pathBlock, bool autoRotation = true)
         {                                    
             pathBlock.transform.parent = _pathTransform;
 
@@ -31,17 +32,20 @@ namespace Assets.Scripts.Models.Path
                 pathBlock.transform.position = Vector3.zero;
             else
             {
-                var rotation = Quaternion.FromToRotation(pathBlock.EntryDirection, lastBlock.ExitDirection);
-                pathBlock.transform.localRotation *= rotation;
+                if (autoRotation)
+                {
+                    var rotation = Quaternion.FromToRotation(pathBlock.EntryDirection, lastBlock.ExitDirection);
+                    pathBlock.transform.localRotation *= rotation;
+                }
                 pathBlock.transform.position = lastBlock.ExitPosition + (pathBlock.Position - pathBlock.EntryPosition);
             }            
 
-            _path.Add(pathBlock);
+            _blocks.Add(pathBlock);
         }
 
-        public void RemoveBlock(PathBlock pathBlock)
+        public void RemoveBlock(BaseBlock pathBlock)
         {            
-            _path.Remove(pathBlock);
+            _blocks.Remove(pathBlock);
             Destroy(pathBlock.gameObject);
         }
     }

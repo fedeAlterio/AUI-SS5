@@ -11,11 +11,13 @@ namespace Assets.Scripts.Models.Path.Generation
     public class ParametricCurve
     {
         // Private fields
-        private readonly CurveEquation _equation;
+        protected CurveEquation _equation;
 
 
 
         // Initialization
+        protected ParametricCurve() { }
+
         public ParametricCurve(CurveEquation equation, float minT, float maxT)
         {
             _equation = equation;
@@ -26,8 +28,8 @@ namespace Assets.Scripts.Models.Path.Generation
 
 
         // Properties
-        public float MinT { get; }
-        public float MaxT { get; }
+        public float MinT { get; protected set; }
+        public float MaxT { get; protected set; }
         public Vector3 UpDirection { get; set; } = Vector3.up;
 
 

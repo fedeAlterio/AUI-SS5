@@ -166,7 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9138256466594254362}
-  - component: {fileID: 9138256466594254365}
+  - component: {fileID: 7671901524135293782}
   m_Layer: 0
   m_Name: Path Block
   m_TagString: Untagged
@@ -189,7 +189,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9138256466594254365
+--- !u!114 &7671901524135293782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,11 +198,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9138256466594254364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c97eedf9c16474b42bec4b0925769a2b, type: 3}
+  m_Script: {fileID: 11500000, guid: c0efb1b463b33934eb26b694d94fae31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _entryTransform: {fileID: 9138256466093485253}
   _exitTransform: {fileID: 9138256465279393427}
   _entryDirection: {x: -1, y: 0, z: 0}
   _exitDirection: {x: -1, y: 0, z: 0}
-  <BlockName>k__BackingField: Base Block

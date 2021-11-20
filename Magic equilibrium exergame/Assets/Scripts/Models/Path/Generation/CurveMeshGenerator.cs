@@ -9,11 +9,9 @@ namespace Assets.Scripts.Models.Path.Generation
 {
     public class CurveMeshGenerator
     {
-        public Mesh FromCurve()
+        public Mesh FromCurve(ParametricCurve curve, float thickness = 0.4f)
         {
-            //var curve = Curves.Line(Vector3.zero, new Vector3(3, 3, 3));
-            var curve = Curves.Circle();
-            var surface = Surfaces.FromCurve(curve, 0.3f);
+            var surface = Surfaces.FromCurve(curve, thickness);
             return FromSurface(surface);
         }
 
@@ -45,7 +43,6 @@ namespace Assets.Scripts.Models.Path.Generation
             var du = (surface.UMax - surface.UMin) / steps;
             var dv = (surface.VMax - surface.VMin) / steps;
 
-            Debug.Log($"VMIn; {surface.VMin}");
             for(var i=0; i + 1 <= steps; i++)
                 for(var j=0; j + 1 <= steps; j++)
                 {
@@ -55,20 +52,10 @@ namespace Assets.Scripts.Models.Path.Generation
                     var u2 = i + 1 == steps ? surface.UMax : u1 + du;
                     var v2 = j + 1 == steps ? surface.VMax : v1 + dv;
 
-
                     var vert1 = surface.PointAt(u1, v1);
                     var vert2 = surface.PointAt(u1, v2);
                     var vert3 = surface.PointAt(u2, v1);
                     var vert4 = surface.PointAt(u2, v2);
-
-                    if (new[] { vert1, vert2, vert3, vert4 }.Distinct().Count() != 4)
-                        Debug.Log("Grteve");
-
-                    vert1 = surface.PointAt(u1, v1);
-                    vert2 = surface.PointAt(u1, v2);
-                    vert3 = surface.PointAt(u2, v1);
-                    vert4 = surface.PointAt(u2, v2);
-
 
                     var triangleIndex = vertices.Count;
 

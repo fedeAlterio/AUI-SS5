@@ -39,7 +39,7 @@ namespace Assets.Scripts.Models.Path.Generation
             var vertices = new List<Vector3>();
             var indices = new List<int>();
 
-            var steps = 20;
+            var steps = 30;
             var du = (surface.UMax - surface.UMin) / steps;
             var dv = (surface.VMax - surface.VMin) / steps;
 

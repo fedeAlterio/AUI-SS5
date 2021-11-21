@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Models.Path.Generation;
+﻿    using Assets.Scripts.Models.Path.Generation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +39,7 @@ namespace Assets.Scripts.Models.Path.Blocks
         public void Initialize(ParametricCurve parametricCurve)
         {
             Curve = parametricCurve;
-            var mesh = new CurveMeshGenerator().FromCurve(Curve, 4f);            
+            var mesh = new CurveMeshGenerator().FromCurve(Curve, 0.4f);            
             _meshFilter.mesh = mesh;
         }
     }

@@ -11,7 +11,7 @@ namespace Assets.Scripts.Models.Path.Generation
     {
         public static ParametricCurve Line(Vector3 entry, Vector3 exit)
         {
-            CurveEquation equation = t => t * entry + (1 - t) * exit;
+            CurveEquation equation = t => entry + t * (exit - entry);
             return new ParametricCurve(equation, 0, 1);
         }
 

@@ -20,7 +20,6 @@ namespace Assets.Scripts.Models.Path.Blocks
         public override Vector3 Position => transform.position;
         public override Vector3 EntryDirection => transform.TransformDirection(_entryDirection);
         public override Vector3 ExitDirection => transform.TransformDirection(_exitDirection);
-        public override string BlockName { get; protected set; }
 
 
 

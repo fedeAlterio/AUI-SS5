@@ -16,6 +16,8 @@ namespace Assets.Scripts.Models.Path.Generation
 
 
         // Initialization
+        public static ParametricCurve Zero => new ParametricCurve(t => Vector3.zero, 0, 0);
+
         protected ParametricCurve() { }
 
         public ParametricCurve(CurveEquation equation, float minT, float maxT)
@@ -31,6 +33,7 @@ namespace Assets.Scripts.Models.Path.Generation
         public float MinT { get; protected set; }
         public float MaxT { get; protected set; }
         public Vector3 UpDirection { get; set; } = Vector3.up;
+        public Vector3 LastPoint => PointAt(MaxT);
 
 
 
@@ -61,10 +64,23 @@ namespace Assets.Scripts.Models.Path.Generation
 
 
 
+        // Operators overload
+        public static ParametricCurve operator+(ParametricCurve a, ParametricCurve b)
+        {
+            var minT = a.MinT;
+            var maxT = a.MaxT + (b.MaxT - b.MinT);
+            CurveEquation equation = t => t < a.MaxT
+                ? a.PointAt(t)
+                : b.PointAt(t - a.MaxT);
+            return new ParametricCurve(equation, minT, maxT);
+        }
+
+
+
         // Utils
         private float GetSmalDeltaT()
         {
-            return (MaxT - MinT) / 100;
+            return (MaxT - MinT) / 10000;
         }
     }
 }

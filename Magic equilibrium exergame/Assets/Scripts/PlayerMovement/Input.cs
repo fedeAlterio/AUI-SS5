@@ -7,6 +7,9 @@ public class Input : MonoBehaviour
     public static Input instance;
     public PlayerMovement playerMovement;
 
+    public float modifierX;
+    public float modifierZ;
+
     [Range(-1f, 1f)]
     public float inputX;
 
@@ -21,9 +24,10 @@ public class Input : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
-        playerMovement.UpdateSpeed(inputX, inputZ);
+        // Modify player's speed based on input and other modifiers beeing applied
+        playerMovement.UpdateSpeed(inputX + modifierX, inputZ + modifierZ);
     }
 }

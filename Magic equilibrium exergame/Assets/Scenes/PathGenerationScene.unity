@@ -483,7 +483,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pathManager: {fileID: 0}
   _blocksPrefabs:
-  - {fileID: 9138256466594254365, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
+  - {fileID: 0}
+  _curveBlock: {fileID: 0}
 --- !u!1 &1212084373
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,7 +850,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1333127509}
         m_TargetAssemblyTypeName: Assets.Scripts.Models.Path.PathGenerator, Assembly-CSharp
-        m_MethodName: AddRandomBlock
+        m_MethodName: GenerateLine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -980,67 +981,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 59.792, y: 0, z: 0}
---- !u!1001 &942137879266226601
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.51
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -11.44
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254364, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: m_Name
-      value: Path Block
-      objectReference: {fileID: 0}
-    - target: {fileID: 9138256466594254365, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-      propertyPath: _exitDirection.y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
 --- !u!1001 &4778083218884636631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1049,13 +989,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
+      propertyPath: _curveBlock
+      value: 
+      objectReference: {fileID: 2378569183709152381, guid: 0e22dad0e48692f4a80bacc61af9d741, type: 3}
+    - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
       propertyPath: _blocksPrefabs.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
       propertyPath: _blocksPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 9138256466594254365, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
+      objectReference: {fileID: 7671901524135293782, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
     - target: {fileID: 4778083217790617220, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
       propertyPath: m_RootOrder
       value: 2

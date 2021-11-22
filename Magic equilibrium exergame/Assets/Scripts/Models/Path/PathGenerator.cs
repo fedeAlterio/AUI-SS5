@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Assets.Scripts.Models.Path.Blocks;
+using Assets.Scripts.Models.Path.Blocks.Line;
+using Assets.Scripts.Models.Path.Generation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,37 +14,46 @@ namespace Assets.Scripts.Models.Path
     {
         // Editor fields
         [SerializeField] private PathManager _pathManager;
-        [SerializeField] private List<PathBlock> _blocksPrefabs = new List<PathBlock>();
+        [SerializeField] private List<BaseBlock> _blocksPrefabs = new List<BaseBlock>();
+        [SerializeField] private CurveBlock _curveBlock;
 
 
 
-        // Public 
-        public void AddRandomBlock()
+        // Initialization
+        private void Start()
         {
-            if (_blocksPrefabs.Count == 0)
-                return;
-
-            var blockPrefab = _blocksPrefabs.First();
-            var block = BlockFromPrefab(blockPrefab);
-            _pathManager.AddBlock(block);
-        }
-
-        public void RemoveLastBlock()
-        {
-            var lastBlock = _pathManager.LastBlock;
-            if (lastBlock == null)
-                return;
-
-            _pathManager.RemoveBlock(lastBlock);
         }
 
 
 
-        // Utils
-        private PathBlock BlockFromPrefab(PathBlock pathBlock)
+        // Public
+        public void GenerateLine()
         {
+            var line = LineBuilder.NewLine(Vector3.zero, Vector3.forward, 1)
+                .MoveOf(Vector3.forward * 10)
+                .MoveOf(Vector3.right * 10)
+                .MoveOf(Vector3.right * 10)
+                .MoveOf(Vector3.forward * 10)
+                .MoveOf(new Vector3(0,1,3).normalized * 10)     
+                .MoveOf(new Vector3(0,-1,3).normalized * 10)
+                //.MoveOf(Vector3.right * 10)
+                //.MoveOf(new Vector3(0, 1, 1))
+                //.MoveOf(Vector3.right )
+                //.MoveOf()
+                //.MoveOf(Vector3.forward * 10)
+                .Build();
+
+            BlockFromPrefab(_curveBlock).Initialize(line);
+        }
+
+
+        // utils
+        private T BlockFromPrefab<T>(T pathBlock) where T : BaseBlock
+        {
+            if (pathBlock == null)
+                return default;
             var ret = Instantiate(pathBlock);
-            ret.name = pathBlock.BlockName;
+            //ret.name = pathBlock.BlockName;
             return ret;
         }
     }

@@ -23,7 +23,7 @@ namespace Assets.Scripts.Models.Path
 
 
         // Public Methods
-        public void AddBlock(BaseBlock pathBlock, bool autoRotation = true)
+        public void Add(BaseBlock pathBlock, bool autoRotation = true)
         {                                    
             pathBlock.transform.parent = _pathTransform;
 
@@ -43,10 +43,16 @@ namespace Assets.Scripts.Models.Path
             _blocks.Add(pathBlock);
         }
 
-        public void RemoveBlock(BaseBlock pathBlock)
+        public void Remove(BaseBlock pathBlock)
         {            
             _blocks.Remove(pathBlock);
             Destroy(pathBlock.gameObject);
+        }
+
+        public void Clear()
+        {
+            foreach (var block in _blocks)
+                Remove(block);
         }
     }
 }

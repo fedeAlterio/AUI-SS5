@@ -11,6 +11,8 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
     public class DiscreteSurface 
     {
         // Initialization
+
+        protected DiscreteSurface() { }
         public DiscreteSurface(ParametricSurface surface)
         {
             Surface = surface;
@@ -19,7 +21,7 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
 
         // Properties
-        public ParametricSurface Surface { get; }
+        public ParametricSurface Surface { get; protected set; }
         public int UVertexCount { get; set; } = 20;
         public int VVertexCount { get; set; } = 20;
 

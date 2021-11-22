@@ -33,13 +33,15 @@ namespace Assets.Scripts.Models.Path.Blocks
         public override Vector3 Position => transform.position;
         public override Vector3 EntryDirection => Curve.TangentAt(Curve.MinT);
         public override Vector3 ExitDirection => Curve.TangentAt(Curve.MaxT);
-        public ParametricCurve Curve { get; private set; }
+        public CurveSurface Surface { get; private set; }
+        public ParametricCurve Curve => Surface.DiscreteCurve.Curve;
 
 
 
         // Public Methods
-        public void Initialize(DiscreteSurface surface)
+        public void Initialize(CurveSurface surface)
         {
+            Surface = surface;
             var mesh = surface.BuildMesh();
             _meshFilter.mesh = mesh;
             gameObject.AddComponent<MeshCollider>();

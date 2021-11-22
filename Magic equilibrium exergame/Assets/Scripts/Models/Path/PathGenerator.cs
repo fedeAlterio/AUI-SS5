@@ -56,7 +56,7 @@ namespace Assets.Scripts.Models.Path
         // Public
         public void GenerateLine()
         {
-            ClearBlocks();
+            _pathManager.Clear();
             var lines = LineBuilder.NewLine(Vector3.zero, Vector3.forward, CurveSize)
                 .MoveOf(Vector3.forward * 10)
                 .MoveOf(new Vector3(0, 1, 3).normalized * 5)
@@ -70,8 +70,8 @@ namespace Assets.Scripts.Models.Path
             foreach (var surface in surfaces)
             {
                 var block = BlockFromPrefab(_curveBlock);
-                _blocks.Add(block);
                 block.Initialize(surface);
+                _pathManager.Add(block, autoRotation: false);
             }
         }
 

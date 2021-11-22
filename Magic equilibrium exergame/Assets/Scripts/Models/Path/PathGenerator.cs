@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Models.Path.Blocks;
-using Assets.Scripts.Models.Path.Blocks.Line;
 using Assets.Scripts.Models.Path.Generation;
+using Assets.Scripts.Models.Path.Generation.Line;
+using Assets.Scripts.Models.Path.Generation.Surface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,11 @@ namespace Assets.Scripts.Models.Path
 
 
 
+        // Private fields
+        private readonly List<CurveBlock> _blocks = new List<CurveBlock>();
+
+
+
         // Initialization
         private void Start()
         {
@@ -26,24 +32,56 @@ namespace Assets.Scripts.Models.Path
 
 
 
+        // Events
+        private void Update()
+        {
+            if(_oldPathThickness != PathThickness || _oldCurveSize != CurveSize)
+            {
+                _oldPathThickness = PathThickness;
+                _oldCurveSize = CurveSize;
+                GenerateLine();
+            }
+        }
+
+
+        // Properties
+        private float _oldPathThickness;
+        [field:SerializeField] public float PathThickness { get; set; } = 4;
+
+
+        private float _oldCurveSize;
+        [field: SerializeField] public float CurveSize { get; set; } = 3;
+
+
         // Public
         public void GenerateLine()
         {
-            var line = LineBuilder.NewLine(Vector3.zero, Vector3.forward, 1)
+            ClearBlocks();
+            var lines = LineBuilder.NewLine(Vector3.zero, Vector3.forward, CurveSize)
                 .MoveOf(Vector3.forward * 10)
                 .MoveOf(Vector3.right * 10)
                 .MoveOf(Vector3.right * 10)
                 .MoveOf(Vector3.forward * 10)
                 .MoveOf(new Vector3(0,1,3).normalized * 10)     
                 .MoveOf(new Vector3(0,-1,3).normalized * 10)
-                //.MoveOf(Vector3.right * 10)
-                //.MoveOf(new Vector3(0, 1, 1))
-                //.MoveOf(Vector3.right )
-                //.MoveOf()
-                //.MoveOf(Vector3.forward * 10)
                 .Build();
 
-            BlockFromPrefab(_curveBlock).Initialize(line);
+            var surfaces = lines.Select(line => DiscreteSurfaces.FromDiscreteCurve(line, PathThickness));
+            foreach (var surface in surfaces)
+            {
+                var block = BlockFromPrefab(_curveBlock);
+                _blocks.Add(block);
+                block.Initialize(surface);
+            }
+        }
+
+        private void ClearBlocks()
+        {
+            foreach(var block in _blocks.ToList())
+            {
+                Destroy(block.gameObject);
+                _blocks.Remove(block);
+            }
         }
 
 

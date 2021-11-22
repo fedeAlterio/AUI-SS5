@@ -1,4 +1,6 @@
-﻿    using Assets.Scripts.Models.Path.Generation;
+﻿using Assets.Scripts.Models.Path.Generation;
+using Assets.Scripts.Models.Path.Generation.Line;
+using Assets.Scripts.Models.Path.Generation.Surface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.Models.Path.Blocks
-{    
+{
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
     public class CurveBlock : BaseBlock
@@ -36,11 +38,11 @@ namespace Assets.Scripts.Models.Path.Blocks
 
 
         // Public Methods
-        public void Initialize(ParametricCurve parametricCurve)
+        public void Initialize(DiscreteSurface surface)
         {
-            Curve = parametricCurve;
-            var mesh = new CurveMeshGenerator().FromCurve(Curve, 0.4f);            
+            var mesh = surface.BuildMesh();
             _meshFilter.mesh = mesh;
+            gameObject.AddComponent<MeshCollider>();
         }
     }
 }

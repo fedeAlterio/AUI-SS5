@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Models.Path.Generation
+namespace Assets.Scripts.Models.Path.Generation.Line
 {
     public class QuadraticBezier : ParametricCurve
     {

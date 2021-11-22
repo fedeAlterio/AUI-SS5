@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Models.Path.Generation
+namespace Assets.Scripts.Models.Path.Generation.Line
 {
     public delegate Vector3 CurveEquation(float t);
     public class ParametricCurve
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Models.Path.Generation
             var n = Vector3.Cross(Vector3.up, v).normalized;
             if (n == Vector3.zero)
                 n = Vector3.Cross(Vector3.left, v).normalized;
-            if(n == Vector3.zero)
+            if (n == Vector3.zero)
                 n = Vector3.Cross(Vector3.forward, v).normalized;
             return n;
         }
@@ -65,7 +65,7 @@ namespace Assets.Scripts.Models.Path.Generation
 
 
         // Operators overload
-        public static ParametricCurve operator+(ParametricCurve a, ParametricCurve b)
+        public static ParametricCurve operator +(ParametricCurve a, ParametricCurve b)
         {
             var minT = a.MinT;
             var maxT = a.MaxT + (b.MaxT - b.MinT);

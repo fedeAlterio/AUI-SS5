@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Models.Path.Generation
+namespace Assets.Scripts.Models.Path.Generation.Surface
 {
     public delegate Vector3 SurfaceEquation(float u, float v);
 
@@ -38,5 +38,9 @@ namespace Assets.Scripts.Models.Path.Generation
 
         // Public methods
         public Vector3 PointAt(float u, float v) => _equation(u, v);
+        public Vector3 NormalAt(float u, float v)
+        {
+            return Vector3.zero;
+        }
     }
 }

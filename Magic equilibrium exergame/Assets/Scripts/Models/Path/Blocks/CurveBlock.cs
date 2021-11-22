@@ -1,4 +1,6 @@
-﻿    using Assets.Scripts.Models.Path.Generation;
+﻿using Assets.Scripts.Models.Path.Generation;
+using Assets.Scripts.Models.Path.Generation.Line;
+using Assets.Scripts.Models.Path.Generation.Surface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.Models.Path.Blocks
-{    
+{
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
     public class CurveBlock : BaseBlock
@@ -31,16 +33,18 @@ namespace Assets.Scripts.Models.Path.Blocks
         public override Vector3 Position => transform.position;
         public override Vector3 EntryDirection => Curve.TangentAt(Curve.MinT);
         public override Vector3 ExitDirection => Curve.TangentAt(Curve.MaxT);
-        public ParametricCurve Curve { get; private set; }
+        public CurveSurface Surface { get; private set; }
+        public ParametricCurve Curve => Surface.DiscreteCurve.Curve;
 
 
 
         // Public Methods
-        public void Initialize(ParametricCurve parametricCurve)
+        public void Initialize(CurveSurface surface)
         {
-            Curve = parametricCurve;
-            var mesh = new CurveMeshGenerator().FromCurve(Curve, 0.4f);            
+            Surface = surface;
+            var mesh = surface.BuildMesh();
             _meshFilter.mesh = mesh;
+            gameObject.AddComponent<MeshCollider>();
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Models.Path.Generation
+namespace Assets.Scripts.Models.Path.Generation.Line
 {
     public static class Curves
     {
@@ -18,8 +18,8 @@ namespace Assets.Scripts.Models.Path.Generation
 
         public static ParametricCurve Circle()
         {
-            CurveEquation equation = t => new Vector3(-Mathf.Cos(t),0, -Mathf.Sin(t));
+            CurveEquation equation = t => new Vector3(-Mathf.Cos(t), 0, -Mathf.Sin(t));
             return new ParametricCurve(equation, 0, 2 * Mathf.PI);
-        }        
+        }
     }
 }

@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Assets.Scripts.Models.Path.Generation.Line;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Models.Path.Generation
+namespace Assets.Scripts.Models.Path.Generation.Surface
 {
     public static class Surfaces
     {
         public static ParametricSurface Plane()
         {
-            SurfaceEquation equation = (u, v) => new Vector3(u, v,0);
+            SurfaceEquation equation = (u, v) => new Vector3(u, v, 0);
             return new ParametricSurface(equation, -1, 1, -1, 1);
         }
 
@@ -23,8 +24,8 @@ namespace Assets.Scripts.Models.Path.Generation
 
         public static ParametricSurface Circle()
         {
-            SurfaceEquation equation = (u, v) => new Vector3(v*Mathf.Cos(u), v *Mathf.Sin(u), 0);
-            return new ParametricSurface(equation, 0, Mathf.PI * 2, 0,1);
+            SurfaceEquation equation = (u, v) => new Vector3(v * Mathf.Cos(u), v * Mathf.Sin(u), 0);
+            return new ParametricSurface(equation, 0, Mathf.PI * 2, 0, 1);
         }
 
         public static ParametricSurface FromCurve(ParametricCurve curve, float thickness)

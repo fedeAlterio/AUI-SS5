@@ -59,11 +59,11 @@ namespace Assets.Scripts.Models.Path
             ClearBlocks();
             var lines = LineBuilder.NewLine(Vector3.zero, Vector3.forward, CurveSize)
                 .MoveOf(Vector3.forward * 10)
-                .MoveOf(Vector3.right * 10)
-                .MoveOf(Vector3.right * 10)
-                .MoveOf(Vector3.forward * 10)
-                .MoveOf(new Vector3(0,1,3).normalized * 10)     
-                .MoveOf(new Vector3(0,-1,3).normalized * 10)
+                .MoveOf(new Vector3(0, 1, 3).normalized * 5)
+                .MoveOf(new Vector3(0, -1, 3).normalized * 5)
+                .MoveOf(new Vector3(0, -1, 3).normalized * 5)
+                .MoveOf(new Vector3(0, 1, 3).normalized * 5)
+                .MoveOf(new Vector3(1, 0, 1) * 5)
                 .Build();
 
             var surfaces = lines.Select(line => DiscreteSurfaces.FromDiscreteCurve(line, PathThickness));
@@ -91,6 +91,7 @@ namespace Assets.Scripts.Models.Path
             if (pathBlock == null)
                 return default;
             var ret = Instantiate(pathBlock);
+            ret.transform.parent = transform;
             //ret.name = pathBlock.BlockName;
             return ret;
         }

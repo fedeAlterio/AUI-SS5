@@ -789,7 +789,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &1479816329
@@ -824,7 +824,9 @@ MonoBehaviour:
   playerMovement: {fileID: 1409971572}
   modifierX: 0
   modifierZ: 0
-  inputX: 0
+  preX: 0
+  preZ: 0
+  inputX: -1
   inputZ: 0
 --- !u!4 &1479816331
 Transform:

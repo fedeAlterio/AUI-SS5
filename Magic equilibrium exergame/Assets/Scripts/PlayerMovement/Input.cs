@@ -10,10 +10,16 @@ public class Input : MonoBehaviour
     public float modifierX;
     public float modifierZ;
 
-    [Range(-1f, 1f)]
+    [Range(-300f, 3000f)]
+    public float preX;
+
+    [Range(-300f, 3000f)]
+    public float preZ;
+
+    [Range(-300f, 3000f)]
     public float inputX;
 
-    [Range(-1f, 1f)]
+    [Range(-300f, 3000f)]
     public float inputZ;
 
     private void Awake()
@@ -22,12 +28,21 @@ public class Input : MonoBehaviour
         {
             instance = this;
         }
+
+        preX = inputX;
+        preZ = inputZ;
     }
 
     
     void Update()
     {
+        float tempX = inputX - preX;
+        float tempZ = inputZ - preZ;
+
+        preX = inputX;
+        preZ = inputZ;
+
         // Modify player's speed based on input and other modifiers beeing applied
-        playerMovement.UpdateSpeed(inputX + modifierX, inputZ + modifierZ);
+        playerMovement.UpdateSpeed(tempX, tempZ);
     }
 }

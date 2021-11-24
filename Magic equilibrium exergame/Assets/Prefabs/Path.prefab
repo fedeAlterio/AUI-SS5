@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pathTransform: {fileID: 4778083217790617220}
-  _path: []
+  _blocks: []
 --- !u!114 &4778083217790617218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,4 +59,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pathManager: {fileID: 4778083217790617219}
-  _blocksPrefabs: []
+  _blocksPrefabs:
+  - {fileID: 7671901524135293782, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
+  _curveBlock: {fileID: 2378569183709152381, guid: 0e22dad0e48692f4a80bacc61af9d741, type: 3}
+  _sprite: {fileID: 21300000, guid: bf4625c9060e6cb4184ed0a3758ab12d, type: 3}
+  _pathMaterial: {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
+  <PathThickness>k__BackingField: 2.51
+  <CurveSize>k__BackingField: 4

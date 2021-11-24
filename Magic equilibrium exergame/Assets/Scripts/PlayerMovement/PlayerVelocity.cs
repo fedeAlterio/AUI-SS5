@@ -7,9 +7,10 @@ public class PlayerVelocity : MonoBehaviour
     public const float baseVelocity = 5f;
 
     public float slope;
-    public bool colliding;
 
     public const float gravity = -5f;
+
+    public float collisionCount;
 
     public float x;
     public float y;
@@ -22,21 +23,20 @@ public class PlayerVelocity : MonoBehaviour
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        slope = 0f;
+        collisionCount = 0;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if(colliding)
-        {
-            speed = new Vector3 (x, y, z);
-        }
-        else
+        if(collisionCount == 0)
         {
             speed = new Vector3 (x, gravity, z);
         }
-        
+        else
+        {
+            speed = new Vector3 (x, y, z);
+        }
     }
 
     private void FixedUpdate()
@@ -47,6 +47,11 @@ public class PlayerVelocity : MonoBehaviour
     // Modify player's speed based on input and other modifiers beeing applied
     public void UpdateSpeed(float inputX, float inputZ)
     {   
+        if(collisionCount == 0)
+        {
+            slope = 0;
+        }
+
         float cos = Mathf.Cos(slope);
         float sin = Mathf.Sin(slope);
 
@@ -60,15 +65,26 @@ public class PlayerVelocity : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collisionInfo)
+    {
+        collisionCount++;
+    }
+
     private void OnCollisionStay(Collision collisionInfo)
     {
-        if(collisionInfo == null)
-        {
-            colliding = false;
-        }
-        else
-        {
-            colliding = true;
-        }
+        slope = AngleFromCollision(collisionInfo);
+    }
+
+    private void OnCollisionExit(Collision collisionInfo)
+    {
+        collisionCount--;
+    }
+
+    private float AngleFromCollision(Collision collisionInfo)
+    {
+        var cosAngle = collisionInfo.contacts[0].normal.normalized.y;
+        var angle = Mathf.Acos(cosAngle);
+        var angleInDegrees = angle * 180 / Mathf.PI;
+        return angleInDegrees; 
     }
 }

@@ -39,7 +39,7 @@ namespace Assets.Scripts.Models.Path.Generation.Line
 
         // Public Methods
         public Vector3 PointAt(float t) => _equation.Invoke(t);
-        public Vector3 TangentAt(float t)
+        public virtual Vector3 TangentAt(float t)
         {
             return VelocityAt(t).normalized;
         }

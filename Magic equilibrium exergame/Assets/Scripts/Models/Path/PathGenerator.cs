@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Models.Path.Blocks;
 using Assets.Scripts.Models.Path.Generation;
-using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Models.Path.Generation.Surface;
 using System;
 using System.Collections.Generic;
@@ -17,6 +16,7 @@ namespace Assets.Scripts.Models.Path
         [SerializeField] private PathManager _pathManager;
         [SerializeField] private List<BaseBlock> _blocksPrefabs = new List<BaseBlock>();
         [SerializeField] private CurveBlock _curveBlock;
+        [SerializeField] private Sprite _sprite;
 
 
 
@@ -50,39 +50,30 @@ namespace Assets.Scripts.Models.Path
 
 
         private float _oldCurveSize;
-        [field: SerializeField] public float CurveSize { get; set; } = 3;
+        [field: SerializeField] public float CurveSize { get; set; } = 4;
+
 
 
         // Public
         public void GenerateLine()
-        {
+        {            
             _pathManager.Clear();
-            var lines = LineBuilder.NewLine(Vector3.zero, Vector3.forward, CurveSize)
-                .MoveOf(Vector3.forward * 10)
-                .MoveOf(new Vector3(0, 1, 3).normalized * 5)
-                .MoveOf(new Vector3(0, -1, 3).normalized * 5)
-                .MoveOf(new Vector3(0, -1, 3).normalized * 5)
-                .MoveOf(new Vector3(0, 1, 3).normalized * 5)
-                .MoveOf(new Vector3(1, 0, 1) * 5)
+            var surfaces = PathBuilder.NewLine(Vector3.zero, Vector3.right, CurveSize, PathThickness)
+                .Go(Vector3.forward * 5)
+                .GoWithHole(Vector3.forward * 10, 0, 0.3f)      
+                .Go(Vector3.forward * 5)
+                .GoWithHole(new Vector3(-1,0,2).normalized * 5, 0.75f, 0.25f, curveWithHole: true)
+                .GoWithHole(new Vector3(0, 1, 3).normalized * 10, 0.75f, 0.25f, curveWithHole: true)
                 .Build();
 
-            var surfaces = lines.Select(line => DiscreteSurfaces.FromDiscreteCurve(line, PathThickness));
             foreach (var surface in surfaces)
             {
-                var block = BlockFromPrefab(_curveBlock);
-                block.Initialize(surface);
-                _pathManager.Add(block, autoRotation: false);
+                var curveBlock = BlockFromPrefab(_curveBlock);
+                curveBlock.Initialize(surface);
+                _pathManager.Add(curveBlock);
             }
         }
 
-        private void ClearBlocks()
-        {
-            foreach(var block in _blocks.ToList())
-            {
-                Destroy(block.gameObject);
-                _blocks.Remove(block);
-            }
-        }
 
 
         // utils

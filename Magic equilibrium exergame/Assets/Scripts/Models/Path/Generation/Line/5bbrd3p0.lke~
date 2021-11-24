@@ -30,15 +30,13 @@ namespace Assets.Scripts.Models.Path.Generation.Line
             
             var borderPoints = points.ToDictionary(x => x, x => true);
             var line = RemoveConnectedLine(borderPoints).Select(p => new Vector2(p.x, p.y) / 10).ToList();
-            line = SmoothPoints(line, 14);
-            while (line.Any())
+            while(line.Any())
             {
                 var bezierSegments = InterpolationUtils.PointsToBezierCurves(line, false)
                     .Select(x => new CubicBezier(FromVector2(x.StartPoint), FromVector2(x.EndPoint), FromVector2(x.FirstControlPoint), FromVector2(x.SecondControlPoint)));
                 foreach (var curve in bezierSegments)
                     yield return curve;
-                line = RemoveConnectedLine(borderPoints).Select(p => new Vector2(p.x, p.y) / 10).ToList();
-                line = SmoothPoints(line, 14);
+                line = RemoveConnectedLine(borderPoints).Select(p => new Vector2(p.x, p.y)).ToList();
             }
         }
 
@@ -77,17 +75,6 @@ namespace Assets.Scripts.Models.Path.Generation.Line
                 yield return current;
             }
             while (TryGetClosest(current.x, current.y, out current));
-        }
-
-
-        private static List<Vector2> SmoothPoints(List<Vector2> points, int smoothFactor)
-        {
-            var ret = new List<Vector2>();
-            for (var i = 0; i < points.Count; i += smoothFactor)
-                ret.Add(points[i]);
-            if(ret.Any())
-                ret.Add(points[points.Count - 1]);
-            return ret;
         }
     }
 }

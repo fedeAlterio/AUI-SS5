@@ -11,16 +11,22 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
     {
         public CurveSurface(DiscreteCurve curve, float thickness) : base(Surfaces.FromCurve(curve.Curve, thickness))
         {
-            DiscreteCurve = curve;
+            Curve = curve.Curve;
             Thickness = thickness;
             UVertexCount = curve.VertexCount;
             VVertexCount = 3;
         }
 
+        public CurveSurface(PiercedSurface curveSurface, ParametricCurve curve, float thickness) : base(curveSurface)
+        {
+            Curve = curve;
+            Thickness = thickness;
+        }
+
         
         
         // Properties
-        public DiscreteCurve DiscreteCurve { get; }
+        public ParametricCurve Curve { get; }
         public float Thickness { get; }
     }
 }

@@ -13,17 +13,22 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
         // Initialization
 
         protected DiscreteSurface() { }
-        public DiscreteSurface(ParametricSurface surface)
+        public DiscreteSurface(PiercedSurface surface)
         {
             Surface = surface;
+        }
+        public DiscreteSurface(ParametricSurface surface)
+            : this(PiercedSurface.FromParametricSurface(surface))
+        {
+
         }
 
 
 
         // Properties
-        public ParametricSurface Surface { get; protected set; }
+        private PiercedSurface Surface { get; set; }
         public int UVertexCount { get; set; } = 20;
-        public int VVertexCount { get; set; } = 20;
+        public int VVertexCount { get; set; } = 20;        
 
 
 
@@ -34,12 +39,33 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
             var indices = new List<int>();
             var normals = new List<Vector3>();
 
+            var du = (Surface.UMax - Surface.UMin) / (UVertexCount - 1);
+            var dv = (Surface.VMax - Surface.VMin) / (VVertexCount - 1);
 
-            var du = (Surface.UMax - Surface.UMin) / UVertexCount;
-            var dv = (Surface.VMax - Surface.VMin) / VVertexCount;
+            void AddIndex(int uIndex, int vIndex)
+            {
+                var index = uIndex * VVertexCount + vIndex;
+                indices.Add(index);
+                if (index >= vertices.Count)
+                {
+                    Debug.Log(uIndex);
+                    Debug.Log(UVertexCount);
+                    throw new InvalidOperationException($"Strange");
+                }
+            }
 
-            for (var i = 0; i + 1 <= UVertexCount; i++)
-                for (var j = 0; j + 1 <= VVertexCount; j++)
+
+            for(var i=0; i < UVertexCount; i++)
+                for(var j=0; j < VVertexCount; j++)
+                {
+                    var (u, v) = (Surface.UMin + i * du, Surface.VMin + j * dv);
+                    Surface.TryGetPointAt(u, v, out var vertex);
+                    vertices.Add(vertex);
+                }
+
+
+            for (var i = 0; i + 1 < UVertexCount; i++)
+                for (var j = 0; j + 1 < VVertexCount; j++)
                 {
                     var u1 = Surface.UMin + i * du;
                     var v1 = Surface.VMin + j * dv;
@@ -47,42 +73,24 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
                     var u2 = i + 1 == UVertexCount ? Surface.UMax : u1 + du;
                     var v2 = j + 1 == VVertexCount ? Surface.VMax : v1 + dv;
 
-                    var vert1 = Surface.PointAt(u1, v1);
-                    var vert2 = Surface.PointAt(u1, v2);
-                    var vert3 = Surface.PointAt(u2, v1);
-                    var vert4 = Surface.PointAt(u2, v2);
+                    var allValidVertices = Surface.TryGetPointAt(u1, v1, out _)
+                            && Surface.TryGetPointAt(u1, v2, out _)
+                            && Surface.TryGetPointAt(u2, v1, out _)
+                            && Surface.TryGetPointAt(u2, v2, out _);
 
-                    var triangleIndex = vertices.Count;
+                    if(allValidVertices)
+                    {
+                        // Front triangle 1
+                        AddIndex(i, j);
+                        AddIndex(i + 1, j);
+                        AddIndex(i + 1, j + 1);
 
-                    vertices.Add(vert1);
-                    vertices.Add(vert2);
-                    vertices.Add(vert3);
-                    vertices.Add(vert4);
+                        // Front triangle 2
+                        AddIndex(i, j);
+                        AddIndex(i + 1, j + 1);
+                        AddIndex(i, j + 1);
+                    }
 
-
-                    // normals
-                    var normal1 = Surface.NormalAt(u1, v1);
-                    var normal2 = Surface.NormalAt(u1, v2);
-                    var normal3 = Surface.NormalAt(u2, v1);
-                    var normal4 = Surface.NormalAt(u2, v2);
-
-
-                    normals.Add(normal1);
-                    normals.Add(normal2);
-                    normals.Add(normal3);
-                    normals.Add(normal4);
-
-
-
-                    // Front triangle 1
-                    indices.Add(triangleIndex + 2);
-                    indices.Add(triangleIndex + 1);
-                    indices.Add(triangleIndex);
-
-                    // Front triangle 2
-                    indices.Add(triangleIndex + 2);
-                    indices.Add(triangleIndex + 3);
-                    indices.Add(triangleIndex + 1);
                 }
 
             var mesh = new Mesh

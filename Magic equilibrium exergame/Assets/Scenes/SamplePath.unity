@@ -245,7 +245,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 234611500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d33d6ea04d6a2ba4ab2f4699dcc061d0, type: 3}
+  m_Script: {fileID: 11500000, guid: d87a472e67fc8b44caaf06a97d4bc652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   x: 0
@@ -790,13 +790,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1493627069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d0e462114944224ca7106e5e348d310, type: 3}
+  m_Script: {fileID: 11500000, guid: 46d05bb34d106ba4796e8b95e558c587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 234611506}
-  modifierX: 0
-  modifierZ: 0
-  inputX: -1
+  playerVelocity: {fileID: 234611506}
+  inputX: 0
   inputZ: 0
 --- !u!4 &1493627071
 Transform:

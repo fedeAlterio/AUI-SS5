@@ -10,16 +10,16 @@ public class Input : MonoBehaviour
     public float modifierX;
     public float modifierZ;
 
-    [Range(-300f, 3000f)]
+    [Range(-1000f, 1000f)]
     public float preX;
 
-    [Range(-300f, 3000f)]
+    [Range(-1000f, 1000f)]
     public float preZ;
 
-    [Range(-300f, 3000f)]
+    [Range(-1000f, 1000f)]
     public float inputX;
 
-    [Range(-300f, 3000f)]
+    [Range(-1000f, 1000f)]
     public float inputZ;
 
     private void Awake()

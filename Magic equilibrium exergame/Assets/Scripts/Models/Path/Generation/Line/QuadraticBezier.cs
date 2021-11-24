@@ -30,6 +30,13 @@ namespace Assets.Scripts.Models.Path.Generation.Line
 
 
         // Curve    
+        public override Vector3 TangentAt(float t)
+        {
+            return -2 * (1 - t) * _start
+                + 2 * _middle - 4 * t * _middle
+                + 2 * t * _end;
+        }
+
         private Vector3 Bezier(float t)
         {
             return (1 - t) * (1 - t) * _start

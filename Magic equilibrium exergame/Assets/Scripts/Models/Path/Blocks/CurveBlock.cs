@@ -34,7 +34,7 @@ namespace Assets.Scripts.Models.Path.Blocks
         public override Vector3 EntryDirection => Curve.TangentAt(Curve.MinT);
         public override Vector3 ExitDirection => Curve.TangentAt(Curve.MaxT);
         public CurveSurface Surface { get; private set; }
-        public ParametricCurve Curve => Surface.DiscreteCurve.Curve;
+        public ParametricCurve Curve => Surface.Curve;
 
 
 
@@ -43,7 +43,7 @@ namespace Assets.Scripts.Models.Path.Blocks
         {
             Surface = surface;
             var mesh = surface.BuildMesh();
-            _meshFilter.mesh = mesh;
+            _meshFilter.mesh = mesh;            
             gameObject.AddComponent<MeshCollider>();
         }
     }

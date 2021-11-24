@@ -23,7 +23,7 @@ namespace Assets.Scripts.Models.Path
 
 
         // Public Methods
-        public void Add(BaseBlock pathBlock, bool autoRotation = true)
+        public void Add(BaseBlock pathBlock)
         {                                    
             pathBlock.transform.parent = _pathTransform;
 
@@ -32,11 +32,8 @@ namespace Assets.Scripts.Models.Path
                 pathBlock.transform.position = Vector3.zero;
             else
             {
-                if (autoRotation)
-                {
-                    var rotation = Quaternion.FromToRotation(pathBlock.EntryDirection, lastBlock.ExitDirection);
-                    pathBlock.transform.localRotation *= rotation;
-                }
+                var rotation = Quaternion.FromToRotation(pathBlock.EntryDirection, lastBlock.ExitDirection);
+                pathBlock.transform.localRotation *= rotation;
                 pathBlock.transform.position = lastBlock.ExitPosition + (pathBlock.Position - pathBlock.EntryPosition);
             }            
 
@@ -51,7 +48,7 @@ namespace Assets.Scripts.Models.Path
 
         public void Clear()
         {
-            foreach (var block in _blocks)
+            foreach (var block in _blocks.ToList())
                 Remove(block);
         }
     }

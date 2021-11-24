@@ -9,29 +9,38 @@ using UnityEngine;
 
 namespace Assets.Scripts.Models.Path.Generation
 {
-    public class PathBuilder : ILineBuilder
+    public class PathBuilder : ILineBuilder, IBuilderStep1
     {
         // Private fields
         private readonly List<CurveSurface> _surfaces = new List<CurveSurface>();
         private Vector3 _currentPosition;
         private Vector3 _currentDirection;
+        private Material _material;
 
 
 
         // initialization
-        protected PathBuilder(Vector3 startPosition, Vector3 startDirection, float curveWidth)
+        protected PathBuilder(float curveWidth, float pathThickenss)
+        {
+      
+            CurveSize = curveWidth;
+            Thickness = pathThickenss;
+        }
+
+
+        public static IBuilderStep1 NewLine(float curveWidth, float pathThickenss)
+        {
+            var ret = new PathBuilder(curveWidth, pathThickenss);
+            return ret;
+        }
+
+        public ILineBuilder Start(Vector3 startPosition, Vector3 startDirection)
         {
             _currentPosition = startPosition;
             _currentDirection = startDirection.normalized;
-            CurveSize = curveWidth;
+            return this;
         }
 
-
-        public static ILineBuilder NewLine(Vector3 startPosition, Vector3 startDirection, float curveWidth, float pathThickenss)
-        {
-            var ret = new PathBuilder(startPosition, startDirection, curveWidth) { Thickness = pathThickenss };
-            return ret;
-        }
 
 
 
@@ -174,7 +183,7 @@ namespace Assets.Scripts.Models.Path.Generation
                 var bezierEnd = bezierMiddle + deltaPos.normalized * CurveSize;
                 var bezier = new QuadraticBezier(_currentPosition, bezierMiddle, bezierEnd);
                 var bezierSurface = bezierToSurface?.Invoke(bezier);
-                _currentPosition = bezierEnd;                
+                _currentPosition = bezierEnd;               
                 _surfaces.Add(bezierSurface);
             }
 
@@ -182,7 +191,7 @@ namespace Assets.Scripts.Models.Path.Generation
             // Segment Creation
             var nextPoint = _currentPosition + deltaPos;
             var forwardLine = Curves.Line(_currentPosition, nextPoint);
-            var segmentSurface = segmentToSurface?.Invoke(forwardLine);
+            var segmentSurface = segmentToSurface?.Invoke(forwardLine);            
             _surfaces.Add(segmentSurface);
 
 
@@ -203,5 +212,11 @@ namespace Assets.Scripts.Models.Path.Generation
             return direction.x * x + direction.y * y + direction.z * z;
         }
 
+    }
+   
+
+    public interface IBuilderStep1
+    {
+        ILineBuilder Start(Vector3 startPosition, Vector3 startDirection);
     }
 }

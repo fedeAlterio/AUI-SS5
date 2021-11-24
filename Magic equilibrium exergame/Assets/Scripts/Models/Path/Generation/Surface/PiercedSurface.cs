@@ -48,7 +48,8 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
         public float UMax { get; }
         public float VMin { get; }
         public float VMax { get; }
-
+        public float ULength => UMax - UMin;
+        public float VLength => VMax - VMin;
 
 
         // Public

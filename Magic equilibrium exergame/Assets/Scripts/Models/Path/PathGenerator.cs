@@ -17,6 +17,7 @@ namespace Assets.Scripts.Models.Path
         [SerializeField] private List<BaseBlock> _blocksPrefabs = new List<BaseBlock>();
         [SerializeField] private CurveBlock _curveBlock;
         [SerializeField] private Sprite _sprite;
+        [SerializeField] private Material _pathMaterial;
 
 
 
@@ -58,7 +59,8 @@ namespace Assets.Scripts.Models.Path
         public void GenerateLine()
         {            
             _pathManager.Clear();
-            var surfaces = PathBuilder.NewLine(Vector3.zero, Vector3.right, CurveSize, PathThickness)
+            var surfaces = PathBuilder.NewLine(CurveSize, PathThickness)
+                .Start(Vector3.zero, Vector3.right)
                 .Go(Vector3.forward * 5)
                 .GoWithHole(Vector3.forward * 10, 0, 0.3f)      
                 .Go(Vector3.forward * 5)
@@ -66,10 +68,12 @@ namespace Assets.Scripts.Models.Path
                 .GoWithHole(new Vector3(0, 1, 3).normalized * 10, 0.75f, 0.25f, curveWithHole: true)
                 .Build();
 
+
+
             foreach (var surface in surfaces)
             {
                 var curveBlock = BlockFromPrefab(_curveBlock);
-                curveBlock.Initialize(surface);
+                curveBlock.Initialize(surface, _pathMaterial);
                 _pathManager.Add(curveBlock);
             }
         }

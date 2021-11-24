@@ -16,6 +16,7 @@ namespace Assets.Scripts.Models.Path.Blocks
     {
         // Private fields;
         private MeshFilter _meshFilter;
+        private MeshRenderer _meshRenderer;
 
 
 
@@ -23,6 +24,7 @@ namespace Assets.Scripts.Models.Path.Blocks
         private void Awake()
         {
             _meshFilter = GetComponent<MeshFilter>();
+            _meshRenderer = GetComponent<MeshRenderer>();
         }
 
 
@@ -39,11 +41,13 @@ namespace Assets.Scripts.Models.Path.Blocks
 
 
         // Public Methods
-        public void Initialize(CurveSurface surface)
+        public void Initialize(CurveSurface surface, Material material)
         {
             Surface = surface;
             var mesh = surface.BuildMesh();
-            _meshFilter.mesh = mesh;            
+            _meshFilter.mesh = mesh;
+            _meshRenderer.material = material;
+
             gameObject.AddComponent<MeshCollider>();
         }
     }

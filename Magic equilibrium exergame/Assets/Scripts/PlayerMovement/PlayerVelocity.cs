@@ -45,6 +45,7 @@ public class PlayerVelocity : MonoBehaviour
     }
 
     // Modify player's speed based on input and other modifiers beeing applied
+    // Also modify the angle at which the speed is applied
     public void UpdateSpeed(float inputX, float inputZ)
     {   
         if(collisionCount == 0)
@@ -83,8 +84,9 @@ public class PlayerVelocity : MonoBehaviour
     private float AngleFromCollision(Collision collisionInfo)
     {
         var cosAngle = collisionInfo.contacts[0].normal.normalized.y;
+
+        // Get angle of slope in RADIANTS
         var angle = Mathf.Acos(cosAngle);
-        var angleInDegrees = angle * 180 / Mathf.PI;
-        return angleInDegrees; 
+        return angle; 
     }
 }

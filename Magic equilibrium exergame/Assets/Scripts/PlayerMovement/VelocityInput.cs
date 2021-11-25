@@ -31,7 +31,7 @@ public class VelocityInput : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void Update()
+    private void FixedUpdate()
     {
         // Modify player's speed based on input and other modifiers beeing applied
         playerVelocity.UpdateSpeed(inputX + modifierX, inputZ + modifierZ);

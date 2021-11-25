@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8b0599a3df35244bfdfc9000057c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 0}
+  playerVelocity: {fileID: 1409971572}
 --- !u!4 &26429625
 Transform:
   m_ObjectHideFlags: 0
@@ -192,7 +192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
       propertyPath: m_LocalPosition.z
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingPosition: {x: 0, y: 0, z: 0}
   target: {x: 0, y: 0, z: 10}
-  speed: 0.3
+  step: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
 --- !u!65 &439172697
 BoxCollider:
@@ -458,7 +458,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!1 &590446629
 GameObject:
@@ -878,6 +878,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerVelocity: {fileID: 1409971572}
+  modifierZ: 0
+  modifierX: 0
   inputX: 0
   inputZ: -5
 --- !u!4 &1479816331

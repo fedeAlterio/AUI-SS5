@@ -65,7 +65,7 @@ namespace Assets.Scripts.Models.Path
             _pathManager.Clear();
             var surfaces = PathBuilder.NewLine(CurveSize, PathThickness)
                 .WithTextureScaleFactor(TextureScale)
-                .Start(Vector3.zero, Vector3.right)
+                .Start(Vector3.zero, Vector3.forward)
                 .Go(Vector3.forward * 10)
                 .Go(new Vector3(0,1,3).normalized * 10)
                 .Go(new Vector3(0, -1, 3).normalized * 10)

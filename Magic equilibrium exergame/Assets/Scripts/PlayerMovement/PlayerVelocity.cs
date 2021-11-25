@@ -16,6 +16,9 @@ public class PlayerVelocity : MonoBehaviour
     public float y;
     public float z;
 
+    // Velocity modifier set by the slope of the path that we're currently on top of
+    public float m_slope;
+
     private Rigidbody rb;
 
     private Vector3 speed;
@@ -56,11 +59,12 @@ public class PlayerVelocity : MonoBehaviour
         float cos = Mathf.Cos(slope);
         float sin = Mathf.Sin(slope);
 
-        Debug.Log("slope: " + slope);
+        //Debug.Log("slope: " + slope);
+        Debug.Log("slope: " + m_slope);
 
         x = inputX;
-        y = sin * (baseVelocity + inputZ);
-        z = cos * (baseVelocity + inputZ);
+        y = sin * (baseVelocity + m_slope + inputZ);
+        z = cos * (baseVelocity + m_slope + inputZ);
 
         if(z < 0f)
         {
@@ -98,9 +102,20 @@ public class PlayerVelocity : MonoBehaviour
             sign = 1;
         }
 
-        // Get angle of slope in RADIANTS
+        // Get absolute value of the slope angle in RADIANS
         var angle = Mathf.Acos(cosAngle);
+
+        Attrition(angle);
+
+        // Give it positive/negative sign based on its normal's direction
         angle = sign * angle;
         return angle; 
+    }
+
+    private void Attrition(float angleRadians)
+    {
+        float angleDegrees = angleRadians * 180 / Mathf.PI;
+
+        m_slope = AttritionCalculator.SlopeAttrition(angleDegrees);
     }
 }

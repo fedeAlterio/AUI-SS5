@@ -56,6 +56,8 @@ public class PlayerVelocity : MonoBehaviour
         float cos = Mathf.Cos(slope);
         float sin = Mathf.Sin(slope);
 
+        Debug.Log("slope: " + slope);
+
         x = inputX;
         y = sin * (baseVelocity + inputZ);
         z = cos * (baseVelocity + inputZ);
@@ -83,10 +85,22 @@ public class PlayerVelocity : MonoBehaviour
 
     private float AngleFromCollision(Collision collisionInfo)
     {
+        float sign;
+
         var cosAngle = collisionInfo.contacts[0].normal.normalized.y;
+
+        if(collisionInfo.contacts[0].normal.z >= 0)
+        {
+            sign = -1;
+        }
+        else
+        {
+            sign = 1;
+        }
 
         // Get angle of slope in RADIANTS
         var angle = Mathf.Acos(cosAngle);
+        angle = sign * angle;
         return angle; 
     }
 }

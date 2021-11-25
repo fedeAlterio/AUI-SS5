@@ -26,82 +26,71 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
 
         // Properties
-        private PiercedSurface Surface { get; set; }
+        protected PiercedSurface Surface { get; set; }
         public int UVertexCount { get; set; } = 20;
-        public int VVertexCount { get; set; } = 20;                
+        public int VVertexCount { get; set; } = 20;
+        public virtual int TotVertices => UVertexCount * VVertexCount;
+        public float Du => (Surface.UMax - Surface.UMin) / (UVertexCount - 1);
+        public float Dv => (Surface.VMax - Surface.VMin) / (VVertexCount - 1);
 
 
+        // Building Mesh
+        
+        protected float UFromIndex(int i) => i == UVertexCount - 1 ? Surface.UMax : Surface.UMin + i * Du;
+        protected float VFromIndex(int j) => j == VVertexCount - 1 ? Surface.VMax : Surface.VMin + j * Dv;
+        protected (float u, float v) UVFromIndices(int i, int j) => (UFromIndex(i), VFromIndex(j));
 
-        // Public 
-        public Mesh BuildMesh()
+
+        protected IEnumerable<(int i, int j)> VertexIndices()
         {
-            //(UVertexCount, VVertexCount) = (20, 20);
-
-            var vertices = new List<Vector3>();
-            var indices = new List<int>();
-            var normals = new List<Vector3>();
-            var uvs = new List<Vector2>();
-
-            var du = (Surface.UMax - Surface.UMin) / (UVertexCount - 1);
-            var dv = (Surface.VMax - Surface.VMin) / (VVertexCount - 1);
-
-            void AddIndex(int uIndex, int vIndex)
-            {
-                var index = uIndex * VVertexCount + vIndex;
-                indices.Add(index);                
-            }
-
-            // Creating vertices
-            for(var i=0; i < UVertexCount; i++)
-                for(var j=0; j < VVertexCount; j++)
-                {
-                    var (u, v) = (Surface.UMin + i * du, Surface.VMin + j * dv);
-                    Surface.TryGetPointAt(u, v, out var vertex);
-                    vertices.Add(vertex);
-                    //uvs.Add(new Vector2((u - Surface.UMin) / Surface.ULength, (v - Surface.VMin) / Surface.VLength));
-                    //uvs.Add(new Vector2( (u - Surface.UMin) % 1, (v - Surface. % 1));
-                }
-
-
-            // Creating uvs
-            Surface.TryGetPointAt(Surface.UMin, Surface.VMin, out var currentPoint);
-            var totDistance = 0f;            
-            for(var i=0; i < UVertexCount; i++)
-            {
-                if(i > 0)
-                {
-                    var u = Surface.UMin + i * du;
-                    Surface.TryGetPointAt(u, Surface.VMin, out var newPoint);
-                    totDistance += Vector3.Distance(newPoint, currentPoint);
-                    currentPoint = newPoint;
-                }
-                var textureU = totDistance*0.25f;
+            for (var i = 0; i < UVertexCount; i++)
                 for (var j = 0; j < VVertexCount; j++)
-                {
-                    var v = Surface.VMin + j * dv;
-                    var textureV = (v - Surface.VMin) / Surface.VLength;
-                    uvs.Add(new Vector2(textureU, textureV));
-                }
+                    yield return (i, j);
+        }
 
+        protected virtual Vector3[] BuildVertices()
+        {
+            var vertices = new List<Vector3>();
+            foreach(var (i,j) in VertexIndices())
+            {
+                var (u, v) = UVFromIndices(i, j);
+                Surface.TryGetPointAt(u, v, out var vertex);
+                vertices.Add(vertex);
             }
 
+            return vertices.ToArray();
+        }
 
-            // Creating indices
+        protected virtual Vector2[] BuildUvs()
+        {
+            var uvs = new List<Vector2>();
+            foreach(var (i,j) in VertexIndices())
+            {
+                var (u, v) = UVFromIndices(i, j);
+                var uv = new Vector2((u - Surface.UMin) / Surface.ULength, (v - Surface.VMin) / Surface.VLength);
+                uvs.Add(uv);
+            }
+            return uvs.ToArray();
+        }
+
+
+        protected virtual int[] BuildIndices()
+        {
+            var indices = new List<int>();
+            void AddIndex(int uIndex, int vIndex) => indices.Add(uIndex * VVertexCount + vIndex);
+
             for (var i = 0; i + 1 < UVertexCount; i++)
                 for (var j = 0; j + 1 < VVertexCount; j++)
                 {
-                    var u1 = Surface.UMin + i * du;
-                    var v1 = Surface.VMin + j * dv;
-
-                    var u2 = i + 1 == UVertexCount ? Surface.UMax : u1 + du;
-                    var v2 = j + 1 == VVertexCount ? Surface.VMax : v1 + dv;
+                    var (u1, v1) = UVFromIndices(i, j);
+                    var (u2, v2) = UVFromIndices(i + 1, j + 1);
 
                     var allValidVertices = Surface.TryGetPointAt(u1, v1, out _)
                             && Surface.TryGetPointAt(u1, v2, out _)
                             && Surface.TryGetPointAt(u2, v1, out _)
                             && Surface.TryGetPointAt(u2, v2, out _);
 
-                    if(allValidVertices)
+                    if (allValidVertices)
                     {
                         // Front triangle 1
                         AddIndex(i, j);
@@ -113,17 +102,17 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
                         AddIndex(i + 1, j + 1);
                         AddIndex(i, j + 1);
                     }
-
                 }
+            return indices.ToArray();
+        }
 
-
-            // Creating mesh
+        public Mesh BuildMesh()
+        {
             var mesh = new Mesh
             {
-                vertices = vertices.ToArray(),
-                triangles = indices.ToArray(),
-                normals = normals.ToArray(),
-                uv = uvs.ToArray()
+                vertices = BuildVertices(),
+                triangles = BuildIndices(),                
+                //uv = BuildUvs()
             };
             mesh.RecalculateNormals();
             return mesh;

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Models.Path.Generation
 {
-    public class PathBuilder : ILineBuilder, IBuilderStep1
+    public class PathBuilder : ILineBuilder, IBuilderStep1, IBuilderStep2
     {
         // Private fields
         private readonly List<CurveSurface> _surfaces = new List<CurveSurface>();
@@ -34,6 +34,14 @@ namespace Assets.Scripts.Models.Path.Generation
             return ret;
         }
 
+        public IBuilderStep2 WithTextureScaleFactor(float textureScaleFactor)
+        {
+            TextureScaleFactor = textureScaleFactor;
+            return this;
+        }
+
+
+
         public ILineBuilder Start(Vector3 startPosition, Vector3 startDirection)
         {
             _currentPosition = startPosition;
@@ -46,9 +54,10 @@ namespace Assets.Scripts.Models.Path.Generation
 
         // Properties
         public int SegmentVertexCount { get; set; } = 3;
-        public int CurveVertexCount { get; set; } = 10;
+        public int CurveVertexCount { get; set; } = 40;
         public float CurveSize { get; set; } = 3;
         public float Thickness { get; set; } = 4;
+        public float TextureScaleFactor { get; set; } = 0.25f;
 
 
 
@@ -124,7 +133,7 @@ namespace Assets.Scripts.Models.Path.Generation
             bool TryGetPointAt(float s, float n, out Vector3 point)
             {
                 point = surface.PointAt(s, n);
-                return n <= startN || n >= endN;
+                return n < startN || n > endN;
             }
             var piercedSurface = PiercedSurface.FromParametricSurface(surface, TryGetPointAt);
             var curveSurface = new CurveSurface(piercedSurface, curve, Thickness);
@@ -168,7 +177,13 @@ namespace Assets.Scripts.Models.Path.Generation
 
 
 
-        // Utils
+        // Utils        
+        private void AddSurface(CurveSurface curveSurface)
+        {
+            curveSurface.TextureScaleFactor = TextureScaleFactor;
+            _surfaces.Add(curveSurface);
+        }
+
         private ILineBuilder MoveOf(Vector3 nextPointRelativePosition, 
             Func<ParametricCurve, CurveSurface> segmentToSurface, Func<QuadraticBezier, CurveSurface> bezierToSurface)
         {
@@ -183,16 +198,16 @@ namespace Assets.Scripts.Models.Path.Generation
                 var bezierEnd = bezierMiddle + deltaPos.normalized * CurveSize;
                 var bezier = new QuadraticBezier(_currentPosition, bezierMiddle, bezierEnd);
                 var bezierSurface = bezierToSurface?.Invoke(bezier);
-                _currentPosition = bezierEnd;               
-                _surfaces.Add(bezierSurface);
+                _currentPosition = bezierEnd;
+                AddSurface(bezierSurface);
             }
 
 
             // Segment Creation
             var nextPoint = _currentPosition + deltaPos;
             var forwardLine = Curves.Line(_currentPosition, nextPoint);
-            var segmentSurface = segmentToSurface?.Invoke(forwardLine);            
-            _surfaces.Add(segmentSurface);
+            var segmentSurface = segmentToSurface?.Invoke(forwardLine);
+            AddSurface(segmentSurface);
 
 
             // Next point setup
@@ -212,11 +227,17 @@ namespace Assets.Scripts.Models.Path.Generation
             return direction.x * x + direction.y * y + direction.z * z;
         }
 
+
+    }
+    public interface IBuilderStep1
+    {
+        IBuilderStep2 WithTextureScaleFactor(float textureScale);
     }
    
 
-    public interface IBuilderStep1
+    public interface IBuilderStep2
     {
         ILineBuilder Start(Vector3 startPosition, Vector3 startDirection);
     }
+
 }

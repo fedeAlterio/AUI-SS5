@@ -36,10 +36,11 @@ namespace Assets.Scripts.Models.Path
         // Events
         private void Update()
         {
-            if(_oldPathThickness != PathThickness || _oldCurveSize != CurveSize)
+            if(_oldPathThickness != PathThickness || _oldCurveSize != CurveSize  || _oldTextureScale != TextureScale)
             {
                 _oldPathThickness = PathThickness;
                 _oldCurveSize = CurveSize;
+                _oldTextureScale = TextureScale;
                 GenerateLine();
             }
         }
@@ -54,18 +55,22 @@ namespace Assets.Scripts.Models.Path
         [field: SerializeField] public float CurveSize { get; set; } = 4;
 
 
+        private float _oldTextureScale;
+        [field: SerializeField] public float TextureScale { get; set; } = 0.25f;
+
 
         // Public
         public void GenerateLine()
         {            
             _pathManager.Clear();
             var surfaces = PathBuilder.NewLine(CurveSize, PathThickness)
+                .WithTextureScaleFactor(TextureScale)
                 .Start(Vector3.zero, Vector3.right)
-                .Go(Vector3.forward * 5)
-                .GoWithHole(Vector3.forward * 10, 0, 0.3f)      
-                .Go(Vector3.forward * 5)
-                .GoWithHole(new Vector3(-1,0,2).normalized * 5, 0.75f, 0.25f, curveWithHole: true)
-                .GoWithHole(new Vector3(0, 1, 3).normalized * 10, 0.75f, 0.25f, curveWithHole: true)
+                .Go(Vector3.forward * 10)
+                .Go(new Vector3(0,1,3).normalized * 10)
+                .Go(new Vector3(0, -1, 3).normalized * 10)
+                .Go(new Vector3(0, -1, 3).normalized * 10)
+                .Go(new Vector3(1, 0, 3).normalized * 10)
                 .Build();
 
 

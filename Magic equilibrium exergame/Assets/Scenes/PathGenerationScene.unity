@@ -229,7 +229,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 234611500}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 12, z: 0}
+  m_LocalPosition: {x: -0.831, y: 12, z: 0.625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -826,8 +826,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 784794690}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 77.7, y: 6.4, z: -31.9}
-  m_LocalScale: {x: 3.0490162, y: 1, z: 1.3866}
+  m_LocalPosition: {x: -104.1453, y: 6.4, z: 34.2606}
+  m_LocalScale: {x: 6.0800433, y: 1, z: 3.4745424}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -1304,34 +1304,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
-      propertyPath: _sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: bf4625c9060e6cb4184ed0a3758ab12d, type: 3}
-    - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
-      propertyPath: _texture
-      value: 
-      objectReference: {fileID: 2800000, guid: bf4625c9060e6cb4184ed0a3758ab12d, type: 3}
-    - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
-      propertyPath: _curveBlock
-      value: 
-      objectReference: {fileID: 2378569183709152381, guid: 0e22dad0e48692f4a80bacc61af9d741, type: 3}
-    - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
-      propertyPath: _pathMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
-    - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
-      propertyPath: _blocksPrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
-      propertyPath: _blocksPrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 7671901524135293782, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
-    - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
-      propertyPath: <PathThickness>k__BackingField
-      value: 2.51
-      objectReference: {fileID: 0}
     - target: {fileID: 4778083217790617220, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
       propertyPath: m_RootOrder
       value: 2

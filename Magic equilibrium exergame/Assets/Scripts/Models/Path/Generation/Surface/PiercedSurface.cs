@@ -54,5 +54,17 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
         // Public
         public bool TryGetPointAt(float u, float v, out Vector3 point) => _equation.Invoke(u, v, out point);
+
+        public Vector3 GetNormalAt(float u, float v)
+        {
+            var epsilon = 0.01f;
+            TryGetPointAt(u, v, out var S);
+            TryGetPointAt(u + epsilon, v, out var Sue);
+            TryGetPointAt(u, v + epsilon, out var Sve);
+
+            var Su = Sue - S;
+            var Sv = Sve - S;
+            return Vector3.Cross(Su.normalized, Sv.normalized);
+        }
     }
 }

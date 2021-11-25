@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PositionManager : MonoBehaviour
 {
-    public PlayerMovement playerMovement;
+    public PlayerVelocity playerVelocity;
 
     private void Start()
     {
@@ -13,7 +13,7 @@ public class PositionManager : MonoBehaviour
 
     private void Respawn()
     {
-        playerMovement.gameObject.transform.position = CheckPointManager.instance.GetRespawn();
+        playerVelocity.gameObject.transform.position = CheckPointManager.instance.GetRespawn();
     }
 }
 

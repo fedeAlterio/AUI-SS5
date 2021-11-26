@@ -106,13 +106,13 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
             return indices.ToArray();
         }
 
-        public Mesh BuildMesh()
+        public virtual Mesh BuildMesh()
         {
             var mesh = new Mesh
             {
                 vertices = BuildVertices(),
-                triangles = BuildIndices(),                
-                //uv = BuildUvs()
+                triangles = BuildIndices(),
+                uv = BuildUvs()
             };
             mesh.RecalculateNormals();
             return mesh;

@@ -9,9 +9,9 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 {
     public static class DiscreteSurfaces
     {
-        public static CurveSurface FromDiscreteCurve(DiscreteCurve curve, float thickness)
+        public static CurveSurface FromDiscreteCurve(DiscreteCurve curve, float thickness, float height)
         {
-            return new CurveSurface(curve, thickness);
+            return new CurveSurface(curve, thickness, height);
         }
     }
 }

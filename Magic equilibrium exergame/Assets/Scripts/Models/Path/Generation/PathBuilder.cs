@@ -20,17 +20,17 @@ namespace Assets.Scripts.Models.Path.Generation
 
 
         // initialization
-        protected PathBuilder(float curveWidth, float pathThickenss)
+        protected PathBuilder(float curveWidth, float pathThickenss, float pathHeight)
         {
-      
+            PathHeight = pathHeight;
             CurveSize = curveWidth;
             Thickness = pathThickenss;
         }
 
 
-        public static IBuilderStep1 NewLine(float curveWidth, float pathThickenss)
+        public static IBuilderStep1 NewLine(float curveWidth, float pathThickenss, float pathHeight)
         {
-            var ret = new PathBuilder(curveWidth, pathThickenss);
+            var ret = new PathBuilder(curveWidth, pathThickenss, pathHeight);
             return ret;
         }
 
@@ -58,6 +58,7 @@ namespace Assets.Scripts.Models.Path.Generation
         public float CurveSize { get; set; } = 3;
         public float Thickness { get; set; } = 4;
         public float TextureScaleFactor { get; set; } = 0.25f;
+        public float PathHeight { get; set; } = 0.1f;
 
 
 
@@ -91,7 +92,7 @@ namespace Assets.Scripts.Models.Path.Generation
         private CurveSurface NormalSegment(ParametricCurve segment)
         {
             var discreteCurve = new DiscreteCurve(segment) { VertexCount = SegmentVertexCount };
-            return new CurveSurface(discreteCurve, Thickness);
+            return new CurveSurface(discreteCurve, Thickness, PathHeight);
         }
 
         private CurveSurface SegmentWithHole(ParametricCurve segment, float nStart, float width)
@@ -108,7 +109,7 @@ namespace Assets.Scripts.Models.Path.Generation
         private CurveSurface NormalCurve(ParametricCurve curve)
         {
             var discreteBezier = new DiscreteCurve(curve) { VertexCount = CurveVertexCount };
-            var bezierSurface = new CurveSurface(discreteBezier, Thickness);
+            var bezierSurface = new CurveSurface(discreteBezier, Thickness, PathHeight);
             return bezierSurface;
         }
 
@@ -136,7 +137,7 @@ namespace Assets.Scripts.Models.Path.Generation
                 return n < startN || n > endN;
             }
             var piercedSurface = PiercedSurface.FromParametricSurface(surface, TryGetPointAt);
-            var curveSurface = new CurveSurface(piercedSurface, curve, Thickness);
+            var curveSurface = new CurveSurface(piercedSurface, curve, Thickness, PathHeight);
             return curveSurface;
         }
 
@@ -166,7 +167,7 @@ namespace Assets.Scripts.Models.Path.Generation
                 return true;
             }
             var piercedSurface = PiercedSurface.FromParametricSurface(surface, TryGetPointAt);
-            var curveSurface = new CurveSurface(piercedSurface, curve, Thickness);
+            var curveSurface = new CurveSurface(piercedSurface, curve, Thickness, PathHeight);
             curveSurface.UVertexCount = 100;
             curveSurface.VVertexCount = 100;
             return curveSurface;

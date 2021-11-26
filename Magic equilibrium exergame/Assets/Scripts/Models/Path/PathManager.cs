@@ -23,14 +23,14 @@ namespace Assets.Scripts.Models.Path
 
 
         // Public Methods
-        public void Add(BaseBlock pathBlock)
+        public void Add(BaseBlock pathBlock, bool autoRotation = true)
         {                                    
             pathBlock.transform.parent = _pathTransform;
 
             var lastBlock = LastBlock;
             if(lastBlock == null)
                 pathBlock.transform.position = Vector3.zero;
-            else
+            else if(autoRotation)
             {
                 var rotation = Quaternion.FromToRotation(pathBlock.EntryDirection, lastBlock.ExitDirection);
                 pathBlock.transform.localRotation *= rotation;

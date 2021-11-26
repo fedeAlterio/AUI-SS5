@@ -281,37 +281,49 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
         protected override Vector2[] BuildUvs()
         {
             var uvs = new List<Vector2>();
-            Surface.TryGetPointAt(Surface.UMin, Surface.VMin, out var currentPoint);
-            for (var i = 0; i< TotVertices; i++)
+            
+            // Bottom map
+            for (var i = 0; i < TotVertices; i++)
                 uvs.Add(new Vector2(0, 0));
 
-            void Addtexture()
-            {                
-                for (var i = 0; i < UVertexCount; i++)
-                {
-                    if (i > 0)
-                    {
-                        var u = UFromIndex(i);
-                        Surface.TryGetPointAt(u, 0.5f * (Surface.VMin + Surface.UMax), out var newPoint);
-                        _totDistanceTop += Vector3.Distance(newPoint, currentPoint);
-                        currentPoint = newPoint;
-                    }
-                    var textureU = _totDistanceTop * TextureScaleFactor;
-                    for (var j = 0; j < VVertexCount; j++)
-                    {
-                        var v = VFromIndex(j);
-                        var textureV = (v - Surface.VMin) / Surface.VLength;
-                        uvs.Add(new Vector2(textureU, textureV));
-                    }
-                }
-            }
 
-            //Addtexture();
-            Addtexture();
+            // Top map
+            foreach (var uv in TextureUVMap())
+                uvs.Add(uv);
 
+
+            // Borders map
             for (var i = 2* TotVertices; i < _vertices.Count; i++)
                 uvs.Add(new Vector2(0, 0));
             return uvs.ToArray();
         }        
+
+
+        private IEnumerable<Vector2> TextureUVMap()
+        {
+            Vector3 NewPoint(float u)
+            {
+                Surface.TryGetPointAt(u, 0.5f * (Surface.VMin + Surface.UMax), out var point);
+                return point;
+            }
+
+            var currentPoint = NewPoint(Surface.UMin);
+            for (var i = 0; i < UVertexCount; i++)
+            {
+                var u = UFromIndex(i);
+                var newPoint = NewPoint(u);
+                _totDistanceTop += Vector3.Distance(newPoint, currentPoint);
+
+                var textureU = _totDistanceTop * TextureScaleFactor;
+                for (var j = 0; j < VVertexCount; j++)
+                {
+                    var v = VFromIndex(j);
+                    var textureV = (v - Surface.VMin) / Surface.VLength;
+                    yield return new Vector2(textureU, textureV);
+                }
+
+                currentPoint = newPoint;
+            }
+        }
     }
 }

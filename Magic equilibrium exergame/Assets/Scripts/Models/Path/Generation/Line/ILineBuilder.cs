@@ -12,7 +12,7 @@ namespace Assets.Scripts.Models.Path.Generation.Line
     public interface ILineBuilder
     {
         ILineBuilder Go(Vector3 nextPointDeltaPos);
-        ILineBuilder GoWithHole(Vector3 nextPointDeltaPos, float start, float width, bool curveWithHole = false);
+        ILineBuilder GoWithHole(Vector3 nextPointDeltaPos, float start, float width, bool curveWithHole = true);
         IReadOnlyList<CurveSurface> Build();
     }
 }

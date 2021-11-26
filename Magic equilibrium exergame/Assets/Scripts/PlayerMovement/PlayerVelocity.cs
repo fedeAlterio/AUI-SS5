@@ -13,7 +13,7 @@ public class PlayerVelocity : MonoBehaviour
     public float collisionCount;
 
     // Questa costante è mafia pura e serve per superare un problema che non ha soluzione
-    public const float greve = 0.02f;
+    public const float greve = 0f;
 
     public float x;
     public float y;
@@ -37,11 +37,12 @@ public class PlayerVelocity : MonoBehaviour
     {
         if(collisionCount == 0)
         {
-            speed = new Vector3 (x, gravity, z);
+            //speed = new Vector3 (x, gravity, z);
+            speed = new Vector3 (x, rb.velocity.y, z);
         }
         else
         {
-            speed = new Vector3 (x, y, z);
+            speed = new Vector3 (x, rb.velocity.y, z);
         }
     }
 
@@ -59,21 +60,13 @@ public class PlayerVelocity : MonoBehaviour
             slope = 0;
         }
 
-        float cos = Mathf.Cos(slope);
-        float sin = Mathf.Sin(slope);
+        //float cos = Mathf.Cos(slope);
+        //float sin = Mathf.Sin(slope);
         float velocity = baseVelocity + m_slope + inputZ;
 
-        //Debug.Log("slope: " + slope);
-        //Debug.Log("m_slope: " + m_slope);
-
         x = inputX;
-        y = sin * velocity;
-        z = cos * velocity;
-
-        //Debug.Log("z: " + z);
-        //Debug.Log("y: " + y);
-        //Debug.Log("cos: " + cos);
-        //Debug.Log("sin: " + sin);
+        //y = sin * velocity;
+        z = velocity;
 
         if(z < 0f)
         {
@@ -125,7 +118,6 @@ public class PlayerVelocity : MonoBehaviour
     private void Attrition(float angleRadians)
     {    
         float angleDegrees = angleRadians * 180 / Mathf.PI;
-        //Debug.Log(angleDegrees);
 
         m_slope = AttritionCalculator.SlopeAttrition(angleDegrees);
     }

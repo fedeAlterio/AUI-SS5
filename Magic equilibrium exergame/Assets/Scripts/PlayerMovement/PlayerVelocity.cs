@@ -12,9 +12,15 @@ public class PlayerVelocity : MonoBehaviour
 
     public float collisionCount;
 
+    // Questa costante è mafia pura e serve per superare un problema che non ha soluzione
+    public const float greve = 0.02f;
+
     public float x;
     public float y;
     public float z;
+
+    // Velocity modifier set by the slope of the path that we're currently on top of
+    public float m_slope;
 
     private Rigidbody rb;
 
@@ -45,6 +51,7 @@ public class PlayerVelocity : MonoBehaviour
     }
 
     // Modify player's speed based on input and other modifiers beeing applied
+    // Also modify the angle at which the speed is applied
     public void UpdateSpeed(float inputX, float inputZ)
     {   
         if(collisionCount == 0)
@@ -54,10 +61,19 @@ public class PlayerVelocity : MonoBehaviour
 
         float cos = Mathf.Cos(slope);
         float sin = Mathf.Sin(slope);
+        float velocity = baseVelocity + m_slope + inputZ;
+
+        //Debug.Log("slope: " + slope);
+        //Debug.Log("m_slope: " + m_slope);
 
         x = inputX;
-        y = sin * (baseVelocity + inputZ);
-        z = cos * (baseVelocity + inputZ);
+        y = sin * velocity;
+        z = cos * velocity;
+
+        //Debug.Log("z: " + z);
+        //Debug.Log("y: " + y);
+        //Debug.Log("cos: " + cos);
+        //Debug.Log("sin: " + sin);
 
         if(z < 0f)
         {
@@ -82,9 +98,35 @@ public class PlayerVelocity : MonoBehaviour
 
     private float AngleFromCollision(Collision collisionInfo)
     {
+        float sign;
+
         var cosAngle = collisionInfo.contacts[0].normal.normalized.y;
+
+        if(collisionInfo.contacts[0].normal.z >= 0)
+        {
+            sign = -1;
+        }
+        else
+        {
+            sign = 1;
+        }
+
+        // Get absolute value of the slope angle in RADIANS
         var angle = Mathf.Acos(cosAngle);
-        var angleInDegrees = angle * 180 / Mathf.PI;
-        return angleInDegrees; 
+
+        // Give it positive/negative sign based on its normal's direction
+        angle = sign * angle;
+
+        Attrition(angle);
+
+        return (angle - greve); 
+    }
+
+    private void Attrition(float angleRadians)
+    {    
+        float angleDegrees = angleRadians * 180 / Mathf.PI;
+        //Debug.Log(angleDegrees);
+
+        m_slope = AttritionCalculator.SlopeAttrition(angleDegrees);
     }
 }

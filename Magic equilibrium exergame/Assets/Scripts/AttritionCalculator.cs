@@ -5,7 +5,7 @@ using UnityEngine;
 public static class AttritionCalculator 
 {
     public static float flatDecel = -01f;
-    public static float maxSlope = -45f;
+    public static float maxSlope = -4.5f;
 
     // Returns the deceleration/acceleration to be applied to player based on the ramp's slope
     public static float SlopeAttrition(float angleDegrees)

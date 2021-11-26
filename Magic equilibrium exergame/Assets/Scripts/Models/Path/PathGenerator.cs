@@ -71,7 +71,7 @@ namespace Assets.Scripts.Models.Path
             _pathManager.Clear();
             var surfaces = PathBuilder.NewLine(CurveSize, PathThickness, PathHeight)
                 .WithTextureScaleFactor(TextureScale)
-                .Start(Vector3.zero, Vector3.right)
+                .Start(Vector3.zero, Vector3.forward)
                 .Go(Vector3.forward * 10)
                 .GoWithHole(new Vector3(0,1,3).normalized * 10, 0.3f, 0.3f, true)
                 .GoWithHole(new Vector3(0,-1,3).normalized, 0.3f, 0.3f, true )

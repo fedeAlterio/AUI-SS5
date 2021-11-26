@@ -8,14 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Sea
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: e10b001be7434e34eba41a67356bef23, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -77,6 +76,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_2e515d604fb34be48ae83703225b7a80: 0.1
+    - Vector1_44be8768150e4d2e96d16bc2cdc1deb1: 17.84
+    - Vector1_69e772fbb1f44eae86fb1c293f16c30c: 1
+    - Vector1_9907c3111cd349c08ba0c4e30d4876ac: 1
+    - Vector1_c86c644a8f034da5ad2f501d878d8cdb: 68.31
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -106,6 +110,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_8ddb84ef910c49de8de6fd63509a2c64: {r: 0, g: 0.096918665, b: 0.26415092, a: 0}
+    - Color_b30743a5161a43219931208c71ff9f0f: {r: 0, g: 0.9333333, b: 1.811765, a: 0}
     - _BaseColor: {r: 0, g: 0.40378928, b: 1, a: 1}
     - _Color: {r: 0, g: 0.40378928, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

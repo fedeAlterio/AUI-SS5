@@ -72,7 +72,8 @@ namespace Assets.Scripts.Models.Path
             var surfaces = PathBuilder.NewLine(CurveSize, PathThickness, PathHeight)
                 .WithTextureScaleFactor(TextureScale)
                 .Start(Vector3.zero, Vector3.forward)
-                .Go(Vector3.forward * 10)
+                .Go(Vector3.forward * 5)
+                .GoWithHole(Vector3.forward * 2, 0.1f, 0.3f)
                 .Go(new Vector3(0, 1, 3).normalized)
                 .Go(new Vector3(0,-1,3).normalized)
                 .Go(new Vector3(0, -1, 3).normalized)
@@ -85,7 +86,7 @@ namespace Assets.Scripts.Models.Path
             {
                 var curveBlock = BlockFromPrefab(_curveBlock);
                 curveBlock.Initialize(surface, _pathMaterial);
-                _pathManager.Add(curveBlock);
+                _pathManager.Add(curveBlock, autoRotation: false);
             }
         }
 

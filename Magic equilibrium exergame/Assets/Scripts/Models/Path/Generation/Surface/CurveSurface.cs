@@ -13,6 +13,7 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
         // Private fields
         private List<Vector3> _vertices = new List<Vector3>();
         private List<int> _indices = new List<int>();
+        private List<Vector3> _normals = new List<Vector3>();
 
 
         
@@ -43,20 +44,27 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
 
 
+
         // Mesh Building
         public override Mesh BuildMesh()
         {
+            ComputeNormals = true;
             BuildBottomFace();
             BuildTopFace();
             BuildLeftFace();
             BuildRightFace();
             BuildBackFace();
             BuildFrontFace();
+
+            if (_vertices.Count != _normals.Count)
+                ;
+
             return base.BuildMesh();
         }
 
         protected override Vector3[] BuildVertices()
         {
+
             return _vertices.ToArray();
         }
 
@@ -65,39 +73,81 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
             return _indices.ToArray();
         }
 
+        protected override Vector3[] BuildNormals()
+        {
+            return _normals.ToArray();
+        }
+
 
         // Bottom face
         private void BuildBottomFace()
         {
+            // Vertices
             var vertices = base.BuildVertices();
             _vertices.AddRange(vertices);
+
+
+            // Inidices
             _indices.AddRange(base.BuildIndices());
             for (var i = 0; i < _indices.Count; i += 3)
                 (_indices[i], _indices[i + 2]) = (_indices[i + 2], _indices[i]);
+
+
+            // Normals
+            foreach(var (i,j) in VertexIndices())
+            {
+                var (u,v) = UVFromIndices(i,j);
+                var topNormal = Surface.GetNormalAt(u,v);
+                _normals.Add(new Vector3(topNormal.x, -topNormal.y, topNormal.z));
+            }
         }
 
 
         // Top face
         private void BuildTopFace()
         {            
+            // Vertices
             var totVertices = _vertices.Count;
             for(var i=0; i < totVertices; i++)
                 _vertices.Add(_vertices[i] + Vector3.up * Height);            
 
+
+            // Indices
             var totIndices = _indices.Count;
             for(int i=0; i < totIndices; i++)
                 _indices.Add(_indices[i] + totVertices);
             for (var i = totIndices; i < _indices.Count; i += 3)
                 (_indices[i], _indices[i + 2]) = (_indices[i + 2], _indices[i]);
+
+
+            // Normals 
+            foreach (var (i, j) in VertexIndices())
+            {
+                var (u, v) = UVFromIndices(i, j);
+                _normals.Add(Surface.GetNormalAt(u, v));
+            }
         }
 
 
         // Left Face
-        private void AddTriangle(int index1, int index2, int index3)
+        private void AddTriangle(int index1, int index2, int index3, bool clockWiseNormals = true)
         {
-            var vertices = new[] {index1, index2, index3}.Select(i => _vertices[i]);
-            _vertices.AddRange(vertices);
+            // Vertices
+            var vertices = new[] {index1, index2, index3}.Select(i => _vertices[i]).ToList();
+            _vertices.AddRange(vertices);            
+
+            // Indices
             _indices.AddRange(new[] {_vertices.Count - 1, _vertices.Count - 2, _vertices.Count - 3});
+
+            // Normals
+            var du = vertices[2] - vertices[1];
+            var dv = vertices[1] - vertices[0];
+            var normal = Vector3.Cross(dv, du).normalized;
+            if (!clockWiseNormals)
+                normal *= -1;
+            _normals.Add(normal);
+            _normals.Add(normal);
+            _normals.Add(normal);
         }
 
         private void BuildLeftFace()
@@ -110,8 +160,8 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
                 {
                     var (b1, b2) = (leftIndices[j], leftIndices[j + 1]);
                     var (t1, t2) = (b1 + base.TotVertices, b2 + base.TotVertices);
-                    AddTriangle(b1, t1, b2);
-                    AddTriangle(b2, t1, t2);
+                    AddTriangle(b1, t1, b2, clockWiseNormals: false);
+                    AddTriangle(b2, t1, t2, clockWiseNormals: false);
                 }
                 skipCount++;
                 leftIndices = LeftBordersIndices(skipCount).ToList();

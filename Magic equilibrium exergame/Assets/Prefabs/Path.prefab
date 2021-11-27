@@ -66,3 +66,5 @@ MonoBehaviour:
   _pathMaterial: {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
   <PathThickness>k__BackingField: 2.51
   <CurveSize>k__BackingField: 4
+  <TextureScale>k__BackingField: 0.25
+  <PathHeight>k__BackingField: 0.2

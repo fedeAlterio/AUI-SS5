@@ -32,6 +32,8 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
         public virtual int TotVertices => UVertexCount * VVertexCount;
         public float Du => (Surface.UMax - Surface.UMin) / (UVertexCount - 1);
         public float Dv => (Surface.VMax - Surface.VMin) / (VVertexCount - 1);
+        protected bool ComputeNormals { get; set; }
+
 
 
         // Building Mesh
@@ -47,6 +49,8 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
                 for (var j = 0; j < VVertexCount; j++)
                     yield return (i, j);
         }
+
+        protected virtual Vector3[] BuildNormals() => Array.Empty<Vector3>();
 
         protected virtual Vector3[] BuildVertices()
         {
@@ -114,7 +118,10 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
                 triangles = BuildIndices(),
                 uv = BuildUvs()
             };
-            mesh.RecalculateNormals();
+            if(ComputeNormals)
+                mesh.normals = BuildNormals();
+            else 
+                mesh.RecalculateNormals();
             return mesh;
         }
     }

@@ -16,7 +16,6 @@ namespace Assets.Scripts.Models.Path
         [SerializeField] private PathManager _pathManager;
         [SerializeField] private List<BaseBlock> _blocksPrefabs = new List<BaseBlock>();
         [SerializeField] private CurveBlock _curveBlock;
-        [SerializeField] private Sprite _sprite;
         [SerializeField] private Material _pathMaterial;
 
 
@@ -73,11 +72,12 @@ namespace Assets.Scripts.Models.Path
                 .WithTextureScaleFactor(TextureScale)
                 .Start(Vector3.zero, Vector3.forward)
                 .Go(Vector3.forward * 5)
-                .GoWithHole(Vector3.forward * 2, 0.1f, 0.3f)
-                .Go(new Vector3(0, 1, 3).normalized)
+                .GoWithHole(Vector3.forward * 2, 0f, 0.3f)
+                .GoWithHole(new Vector3(0, 1, 3).normalized, 0f, 0.3f)
                 .Go(new Vector3(0,-1,3).normalized)
                 .Go(new Vector3(0, -1, 3).normalized)
                 .Go(new Vector3(0, 1, 3).normalized)
+                .Go(Vector3.right * 10)
                 .Build();
 
 

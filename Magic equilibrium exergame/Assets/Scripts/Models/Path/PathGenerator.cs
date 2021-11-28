@@ -22,6 +22,7 @@ namespace Assets.Scripts.Models.Path
 
         // Private fields
         private readonly List<CurveBlock> _blocks = new List<CurveBlock>();
+        private int _checkpointId;
 
 
 
@@ -69,20 +70,15 @@ namespace Assets.Scripts.Models.Path
         {            
             _pathManager.Clear();
 
-
-            var plane = Surfaces.Plane();
-            var discretePlane = new DiscreteSurface(plane);
-            discretePlane.UVertexCount = 100;
-            discretePlane.VVertexCount = 100;
-
-
-
-
-            var surfaces = PathBuilder.NewLine(CurveSize, PathThickness, PathHeight)
+            var blocks = PathBuilder<CurveBlock>
+                .New(mapper: BlockFromSurface)
+                .WithDimensions(CurveSize, PathThickness, PathHeight)
                 .WithTextureScaleFactor(TextureScale)
                 .Start(Vector3.zero, Vector3.forward)
                 .Go(Vector3.forward * 5)
+                .With(NewCheckpoint)
                 .GoWithHole(Vector3.forward * 2, 0f, 0.3f)
+                .With(NewCheckpoint)
                 .GoWithHole(new Vector3(0, 1, 3).normalized, 0f, 0.3f)
                 .Go(new Vector3(0,-1,3).normalized)
                 .Go(new Vector3(0, -1, 3).normalized)
@@ -90,19 +86,30 @@ namespace Assets.Scripts.Models.Path
                 .Go(Vector3.right * 10)
                 .Build();
 
-
-
-            foreach (var surface in surfaces)
-            {
-                var curveBlock = BlockFromPrefab(_curveBlock);
-                curveBlock.Initialize(surface, _pathMaterial);
-                _pathManager.Add(curveBlock, autoRotation: false);
-            }
+            foreach (var block in blocks)
+                _pathManager.Add(block, autoRotation: false);
         }
 
 
 
+        // Block strategy
+        private void NewCheckpoint(CurveBlock curveBlock)
+        {
+            var checkpoint = curveBlock.gameObject.AddComponent<CheckPoint>();
+            checkpoint.Initialize(_checkpointId++);
+        }
+
+
+
+
         // utils
+        private CurveBlock BlockFromSurface(CurveSurface curveSurface)
+        {
+            var curveBlock = BlockFromPrefab(_curveBlock);
+            curveBlock.Initialize(curveSurface, _pathMaterial);
+            return curveBlock;
+        }
+
         private T BlockFromPrefab<T>(T pathBlock) where T : BaseBlock
         {
             if (pathBlock == null)

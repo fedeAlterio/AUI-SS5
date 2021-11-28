@@ -21,8 +21,8 @@ namespace Assets.Scripts.GameDebug
             var meshFilter = GetComponent<MeshFilter>();
             var plane = Surfaces.Plane();
             var discretePlane = new DiscreteSurface(plane);
-            discretePlane.UVertexCount = 100;
-            discretePlane.VVertexCount = 100;
+            discretePlane.UVertexCount = 100;            
+            discretePlane.VVertexCount = 100;            
             meshFilter.mesh = discretePlane.BuildMesh();
         }
 

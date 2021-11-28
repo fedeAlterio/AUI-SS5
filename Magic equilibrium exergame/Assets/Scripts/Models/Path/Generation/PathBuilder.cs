@@ -9,46 +9,54 @@ using UnityEngine;
 
 namespace Assets.Scripts.Models.Path.Generation
 {
-    public class PathBuilder : ILineBuilder, IBuilderStep1, IBuilderStep2
+    public class PathBuilder<T> : ILineBuilder<T>, IBuilderStep1<T>, IBuilderStep2<T>, IBuilderStep3<T> where T : class
     {
         // Private fields
-        private readonly List<CurveSurface> _surfaces = new List<CurveSurface>();
+        private readonly List<T> _surfaces = new List<T>();
+        private readonly Func<CurveSurface, T> _mapper;
         private Vector3 _currentPosition;
         private Vector3 _currentDirection;
-        private Material _material;
+        private T _currentCurve;
+        private T _currentSegment;
 
 
 
         // initialization
-        protected PathBuilder(float curveWidth, float pathThickenss, float pathHeight)
+        protected PathBuilder(Func<CurveSurface, T> mapper)
+        {
+            _mapper = mapper;
+        }
+
+
+        public static IBuilderStep1<T> New(Func<CurveSurface, T> mapper)
+        {
+            return new PathBuilder<T>(mapper);
+        }
+
+
+        public IBuilderStep2<T> WithDimensions(float curveWidth, float pathThickenss, float pathHeight)
         {
             PathHeight = pathHeight;
             CurveSize = curveWidth;
             Thickness = pathThickenss;
+
+            return this;
         }
 
 
-        public static IBuilderStep1 NewLine(float curveWidth, float pathThickenss, float pathHeight)
-        {
-            var ret = new PathBuilder(curveWidth, pathThickenss, pathHeight);
-            return ret;
-        }
-
-        public IBuilderStep2 WithTextureScaleFactor(float textureScaleFactor)
+        public IBuilderStep3<T> WithTextureScaleFactor(float textureScaleFactor)
         {
             TextureScaleFactor = textureScaleFactor;
             return this;
         }
 
 
-
-        public ILineBuilder Start(Vector3 startPosition, Vector3 startDirection)
+        public ILineBuilder<T> Start(Vector3 startPosition, Vector3 startDirection)
         {
             _currentPosition = startPosition;
             _currentDirection = startDirection.normalized;
             return this;
         }
-
 
 
 
@@ -58,19 +66,31 @@ namespace Assets.Scripts.Models.Path.Generation
         public float CurveSize { get; set; } = 3;
         public float Thickness { get; set; } = 4;
         public float TextureScaleFactor { get; set; } = 0.25f;
-        public float PathHeight { get; set; } = 0.1f;
+        public float PathHeight { get; set; } = 0.1f;        
 
 
 
         // Line Builder
-        public ILineBuilder Go(Vector3 nextPointRelativePosition)
+        public ILineBuilder<T> With(Action<T> map)
+        {
+            if (_currentSegment != null)
+                map(_currentSegment);
+
+            //if(_currentCurve != null)
+            //    map(_currentCurve);
+
+            return this;
+        }
+
+
+        public ILineBuilder<T> Go(Vector3 nextPointRelativePosition)
         {
             return MoveOf(nextPointRelativePosition, NormalSegment, NormalCurve);
         }
 
 
 
-        public ILineBuilder GoWithHole(Vector3 nextPointDeltaPos, float startPercentage, float width, bool curveWithHole)
+        public ILineBuilder<T> GoWithHole(Vector3 nextPointDeltaPos, float startPercentage, float width, bool curveWithHole)
         {
             return MoveOf(nextPointDeltaPos, 
                 segment => SegmentWithHole(segment, startPercentage, width),
@@ -78,14 +98,24 @@ namespace Assets.Scripts.Models.Path.Generation
         }
 
 
-        public IReadOnlyList<CurveSurface> Build()
+        public IReadOnlyList<T> Build()
         {
             return _surfaces;
         }
 
 
 
+
+
         // Path creation strategies
+        public T AddSurface(CurveSurface curve)
+        {
+            var ret =_mapper.Invoke(curve);
+            _surfaces.Add(ret);
+            curve.TextureScaleFactor = TextureScaleFactor;
+            return ret;
+        }
+
 
 
         // Segment
@@ -171,25 +201,19 @@ namespace Assets.Scripts.Models.Path.Generation
             curveSurface.UVertexCount = 100;
             curveSurface.VVertexCount = 100;
             return curveSurface;
-
-
         }
 
 
 
 
         // Utils        
-        private void AddSurface(CurveSurface curveSurface)
-        {
-            curveSurface.TextureScaleFactor = TextureScaleFactor;
-            _surfaces.Add(curveSurface);
-        }
-
-        private ILineBuilder MoveOf(Vector3 nextPointRelativePosition, 
+        private ILineBuilder<T> MoveOf(Vector3 nextPointRelativePosition, 
             Func<ParametricCurve, CurveSurface> segmentToSurface, Func<QuadraticBezier, CurveSurface> bezierToSurface)
         {
             var deltaPos = ToPathTangentCoordinates(_currentDirection, nextPointRelativePosition);
-            
+            _currentCurve = null;
+            _currentSegment = null;
+
             // If it does not change position do not create a cruve
             if(Vector3.Angle(deltaPos, _currentDirection) > Mathf.Epsilon)
             {
@@ -200,7 +224,7 @@ namespace Assets.Scripts.Models.Path.Generation
                 var bezier = new QuadraticBezier(_currentPosition, bezierMiddle, bezierEnd);
                 var bezierSurface = bezierToSurface?.Invoke(bezier);
                 _currentPosition = bezierEnd;
-                AddSurface(bezierSurface);
+                _currentCurve = AddSurface(bezierSurface);                
             }
 
 
@@ -208,7 +232,7 @@ namespace Assets.Scripts.Models.Path.Generation
             var nextPoint = _currentPosition + deltaPos;
             var forwardLine = Curves.Line(_currentPosition, nextPoint);
             var segmentSurface = segmentToSurface?.Invoke(forwardLine);
-            AddSurface(segmentSurface);
+            _currentSegment = AddSurface(segmentSurface);
 
 
             // Next point setup
@@ -230,15 +254,20 @@ namespace Assets.Scripts.Models.Path.Generation
 
 
     }
-    public interface IBuilderStep1
+    public interface IBuilderStep1<T>
     {
-        IBuilderStep2 WithTextureScaleFactor(float textureScale);
+        public IBuilderStep2<T> WithDimensions(float curveWidth, float pathThickenss, float pathHeight);
     }
    
 
-    public interface IBuilderStep2
+    public interface IBuilderStep2<T>
     {
-        ILineBuilder Start(Vector3 startPosition, Vector3 startDirection);
+        IBuilderStep3<T> WithTextureScaleFactor(float textureScale);
+    }
+
+    public interface IBuilderStep3<T>
+    {
+        ILineBuilder<T> Start(Vector3 startPosition, Vector3 startDirection);
     }
 
 }

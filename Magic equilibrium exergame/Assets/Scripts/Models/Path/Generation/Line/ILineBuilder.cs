@@ -9,10 +9,11 @@ using UnityEngine;
 
 namespace Assets.Scripts.Models.Path.Generation.Line
 {
-    public interface ILineBuilder
+    public interface ILineBuilder<T>
     {
-        ILineBuilder Go(Vector3 nextPointDeltaPos);
-        ILineBuilder GoWithHole(Vector3 nextPointDeltaPos, float start, float width, bool curveWithHole = true);
-        IReadOnlyList<CurveSurface> Build();
+        ILineBuilder<T> With(Action<T> map);
+        ILineBuilder<T> Go(Vector3 nextPointDeltaPos);
+        ILineBuilder<T> GoWithHole(Vector3 nextPointDeltaPos, float start, float width, bool curveWithHole = true);
+        IReadOnlyList<T> Build();
     }
 }

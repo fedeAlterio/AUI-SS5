@@ -19,7 +19,11 @@ namespace Assets.Scripts.GameDebug
         private void Start()
         {
             var meshFilter = GetComponent<MeshFilter>();
-            meshFilter.mesh = new DiscreteSurface(Surfaces.PlaneWithHole()) { UVertexCount = 50, VVertexCount = 50 }.BuildMesh();
+            var plane = Surfaces.Plane();
+            var discretePlane = new DiscreteSurface(plane);
+            discretePlane.UVertexCount = 100;
+            discretePlane.VVertexCount = 100;
+            meshFilter.mesh = discretePlane.BuildMesh();
         }
 
 

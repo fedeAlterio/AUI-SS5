@@ -68,6 +68,16 @@ namespace Assets.Scripts.Models.Path
         public void GenerateLine()
         {            
             _pathManager.Clear();
+
+
+            var plane = Surfaces.Plane();
+            var discretePlane = new DiscreteSurface(plane);
+            discretePlane.UVertexCount = 100;
+            discretePlane.VVertexCount = 100;
+
+
+
+
             var surfaces = PathBuilder.NewLine(CurveSize, PathThickness, PathHeight)
                 .WithTextureScaleFactor(TextureScale)
                 .Start(Vector3.zero, Vector3.forward)

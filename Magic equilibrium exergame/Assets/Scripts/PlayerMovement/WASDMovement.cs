@@ -27,9 +27,9 @@ namespace Assets.Scripts.PlayerMovement
         // Events
         private void Update()
         {
-            //var horizontalAxis = Input.GetAxis("Horizontal");
-            //var verticalAxis = Input.GetAxis("Vertical");
-            _rigidbody.velocity = 5 * new Vector3(0, _rigidbody.velocity.y, 1);
+            var horizontalAxis = Input.GetAxis("Horizontal");
+            var verticalAxis = Input.GetAxis("Vertical");
+            _rigidbody.velocity = 5 * new Vector3(horizontalAxis, _rigidbody.velocity.y, verticalAxis);
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerVelocity : MonoBehaviour
 {
-    public const float baseVelocity = 5f;
+    public float baseVelocity = 5f;
 
     public float slope;
 

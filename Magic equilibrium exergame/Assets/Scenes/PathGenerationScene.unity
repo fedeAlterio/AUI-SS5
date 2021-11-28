@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 0fb81073cfb44b541823e7d02939914a, type: 2}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.005761823, g: 0.008838414, b: 0.010713832, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 234611503}
   - component: {fileID: 234611502}
   - component: {fileID: 234611501}
+  - component: {fileID: 234611506}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Player
@@ -229,12 +230,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 234611500}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.831, y: 12, z: 0.625}
+  m_LocalPosition: {x: 1, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &234611506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234611500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5e48ea1e5a1d1c4eab9943bdd40c0ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &302115656
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,7 +883,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bbd12459931aaf4ba9ffe618e0a5c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkPoints: []
   orderedCheckPoints: []
 --- !u!4 &1405657604
 Transform:
@@ -1176,6 +1188,7 @@ GameObject:
   - component: {fileID: 2080837271}
   - component: {fileID: 2080837270}
   - component: {fileID: 2080837273}
+  - component: {fileID: 2080837274}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1281,6 +1294,21 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &2080837274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080837269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcbfa0b2a23c0f74faae9d62c54fecfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 234611505}
+  smoothingSpeed: 0.125
+  offset: {x: 0, y: 2, z: -5}
 --- !u!1001 &4778083218884636631
 PrefabInstance:
   m_ObjectHideFlags: 0

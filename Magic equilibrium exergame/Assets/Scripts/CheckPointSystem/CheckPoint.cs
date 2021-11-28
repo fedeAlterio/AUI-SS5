@@ -27,7 +27,6 @@ public class CheckPoint : MonoBehaviour
         if(collisionInfo.gameObject.tag == "Player")
         {
             CheckPointManager.instance.CheckpointReached(this);
-            Debug.Log("Player hit");
         }        
     }
 }

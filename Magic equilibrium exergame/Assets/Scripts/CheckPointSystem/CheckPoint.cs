@@ -9,9 +9,9 @@ public class CheckPoint : MonoBehaviour
 
     // Call this method when something collides with the checkpoint
     // Check if the colliding object is a Player, in which case call Manager
-    private void OnCollisionEnter(Collider other)
+    private void OnCollisionEnter(Collision collisionInfo)
     {
-        if(other.gameObject.tag == "Player")
+        if(collisionInfo.gameObject.tag == "Player")
         {
             CheckPointManager.instance.NewCheckpoint(this);
         }        

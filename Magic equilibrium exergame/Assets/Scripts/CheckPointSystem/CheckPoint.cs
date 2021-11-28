@@ -5,10 +5,11 @@ using UnityEngine;
 public class CheckPoint : MonoBehaviour
 {
     public Vector3 checkPointPosition;
+    public int iD;
 
     // Call this method when something collides with the checkpoint
     // Check if the colliding object is a Player, in which case call Manager
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
         {

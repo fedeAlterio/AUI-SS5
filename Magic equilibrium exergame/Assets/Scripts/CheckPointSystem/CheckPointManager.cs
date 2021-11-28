@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CheckPointManager : MonoBehaviour
 {
     public static CheckPointManager instance;
 
-    public List<CheckPoint> checkPoints;
+    public CheckPoint[] checkPoints;
+
+    public List<CheckPoint> orderedCheckPoints = new List<CheckPoint>();
 
     private int lastCheckpoint;
 
@@ -20,6 +23,10 @@ public class CheckPointManager : MonoBehaviour
 
     private void Start()
     {
+        checkPoints = FindObjectsOfType<CheckPoint>();
+
+        orderedCheckPoints = checkPoints.OrderBy(x=> x.iD).ToList();
+
         lastCheckpoint = 0;
     }
 
@@ -27,7 +34,7 @@ public class CheckPointManager : MonoBehaviour
     // If it is, update the index
     public void NewCheckpoint(CheckPoint checkPoint)
     {
-        int tempIndex = checkPoints.IndexOf(checkPoint);
+        int tempIndex = orderedCheckPoints.IndexOf(checkPoint);
 
         if(lastCheckpoint > tempIndex)
         {

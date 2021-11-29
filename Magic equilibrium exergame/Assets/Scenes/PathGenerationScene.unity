@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 234611502}
   - component: {fileID: 234611501}
   - component: {fileID: 234611506}
+  - component: {fileID: 234611507}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Player
@@ -248,6 +249,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e48ea1e5a1d1c4eab9943bdd40c0ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &234611507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234611500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a8b0599a3df35244bfdfc9000057c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerVelocity: {fileID: 0}
 --- !u!1 &302115656
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +407,7 @@ GameObject:
   - component: {fileID: 318568025}
   - component: {fileID: 318568024}
   - component: {fileID: 318568023}
+  - component: {fileID: 318568027}
   m_Layer: 0
   m_Name: Sea
   m_TagString: Untagged
@@ -477,6 +492,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &318568027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318568022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae451de3dc9ad1d489e5a400238a282c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &330963763
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,8 +891,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1405657604}
   - component: {fileID: 1405657603}
+  - component: {fileID: 1405657605}
   m_Layer: 0
-  m_Name: Manager
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -898,6 +926,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1405657605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405657602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc85aa9f9724d5a4e906bdf0f1729502, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1927687609
 GameObject:
   m_ObjectHideFlags: 0

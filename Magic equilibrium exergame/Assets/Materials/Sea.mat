@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Sea
-  m_Shader: {fileID: -6465566751694194690, guid: 55939a625deb2ad4aa2207541bd18ab6, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: e10b001be7434e34eba41a67356bef23, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -95,6 +95,7 @@ Material:
     - Vector1_c1b5b2fe862c48219d9c1237b3ce76a9: -184.5
     - Vector1_c86c644a8f034da5ad2f501d878d8cdb: 68.31
     - Vector1_edfb9b5cda4145e09ea75539a528b6fb: 1
+    - Vector1_f9fa906f41e7483386cc9ec3bf1d22f2: 0.1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -128,6 +129,7 @@ Material:
     - Color_8ddb84ef910c49de8de6fd63509a2c64: {r: 0, g: 0.096918665, b: 0.26415092, a: 0}
     - Color_b30743a5161a43219931208c71ff9f0f: {r: 0, g: 0.9333333, b: 1.811765, a: 0}
     - Color_bfe9ca33240640c8a6d1b01f67a6ea3f: {r: 0.1123887, g: 0.2019765, b: 0.7264151, a: 0.6235294}
+    - Vector2_f4fa29845b684ae487267b314e4c4daa: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 0, g: 0.40378928, b: 1, a: 1}
     - _Color: {r: 0, g: 0.40378928, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

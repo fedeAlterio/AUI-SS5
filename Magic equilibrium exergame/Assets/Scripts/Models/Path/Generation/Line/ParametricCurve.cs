@@ -34,6 +34,7 @@ namespace Assets.Scripts.Models.Path.Generation.Line
         public float MaxT { get; protected set; }
         public Vector3 UpDirection { get; set; } = Vector3.up;
         public Vector3 LastPoint => PointAt(MaxT);
+        public Vector3 FirstPoint => PointAt(MinT);
 
 
 
@@ -51,7 +52,7 @@ namespace Assets.Scripts.Models.Path.Generation.Line
             return dx / dt;
         }
 
-        public Vector3 GetNormalAt(float t)
+        public Vector3 NormalAt(float t)
         {
             var v = VelocityAt(t);
             var n = Vector3.Cross(Vector3.up, v).normalized;

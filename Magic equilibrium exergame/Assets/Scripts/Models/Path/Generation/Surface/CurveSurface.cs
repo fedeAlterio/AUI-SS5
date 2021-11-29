@@ -56,9 +56,6 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
             BuildBackFace();
             BuildFrontFace();
 
-            if (_vertices.Count != _normals.Count)
-                ;
-
             return base.BuildMesh();
         }
 

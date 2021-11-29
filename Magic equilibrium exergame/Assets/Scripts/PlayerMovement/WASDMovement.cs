@@ -29,7 +29,7 @@ namespace Assets.Scripts.PlayerMovement
         {
             var horizontalAxis = Input.GetAxis("Horizontal");
             var verticalAxis = Input.GetAxis("Vertical");
-            _rigidbody.velocity = 5 * new Vector3(horizontalAxis, _rigidbody.velocity.y, verticalAxis);
+            _rigidbody.velocity = new Vector3(5*horizontalAxis, _rigidbody.velocity.y, 5*verticalAxis);
         }
     }
 }

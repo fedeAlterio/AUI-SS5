@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class CheckPointManager : MonoBehaviour
 {
+    // Events
+    public event Action<CheckPoint> CheckpointAdded;
+
     public static CheckPointManager instance;
     public List<CheckPoint> orderedCheckPoints = new List<CheckPoint>();
 
@@ -28,6 +32,7 @@ public class CheckPointManager : MonoBehaviour
     {
         orderedCheckPoints.Add(checkPoint);
         orderedCheckPoints.OrderBy(checkpoint => checkPoint.iD).ToList();
+        CheckpointAdded?.Invoke(checkPoint);
     }
 
 
@@ -37,15 +42,15 @@ public class CheckPointManager : MonoBehaviour
     {
         int tempIndex = orderedCheckPoints.IndexOf(checkPoint);
         
-        if(lastCheckpoint > tempIndex)
+        if(lastCheckpoint < tempIndex)
         {
             lastCheckpoint = tempIndex;
         }
     }   
 
     // Tells where to respawn the player
-    public Vector3 GetRespawn()
+    public Vector3 GetRespawnPosition()
     {
-        return orderedCheckPoints[lastCheckpoint].checkPointPosition;
+        return orderedCheckPoints[lastCheckpoint].spawnPosition;
     } 
 }

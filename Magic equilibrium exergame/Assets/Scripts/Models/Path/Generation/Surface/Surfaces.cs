@@ -33,7 +33,7 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
             Vector3 Equation(float s, float n)
             {
                 var center = curve.PointAt(s);
-                var normal = curve.GetNormalAt(s);
+                var normal = curve.NormalAt(s);
                 return center + normal * n;
             }
 

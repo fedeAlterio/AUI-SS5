@@ -1,3 +1,4 @@
+using Assets.Scripts.Models;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,7 +44,7 @@ public class MovingBlock : MonoBehaviour
     // Start moving this block when the player gets on top of it
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if(other.gameObject.CompareTag(UnityTag.Player))
         {
             VelocityInput.instance.modifierZ = VelocityInput.instance.modifierZ + speed;
             moving = true;

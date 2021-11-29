@@ -1,4 +1,5 @@
 using Assets.Scripts.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class CheckPoint : MonoBehaviour
     public Vector3 spawnPosition;
     public int iD;
     public bool checkpointHit;
+    public event Action<CheckPoint> Taken;
+
 
 
     // Initialization
@@ -36,7 +39,7 @@ public class CheckPoint : MonoBehaviour
             checkpointHit = true;
             Debug.Log("Checkpoint");    
             spawnPosition = collisionInfo.gameObject.transform.position;
-            CheckPointManager.instance.CheckpointReached(this);
+            Taken?.Invoke(this);
         }        
     }
 }

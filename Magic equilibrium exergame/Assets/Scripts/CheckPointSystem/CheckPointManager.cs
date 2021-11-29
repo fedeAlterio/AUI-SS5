@@ -32,6 +32,7 @@ public class CheckPointManager : MonoBehaviour
     {
         orderedCheckPoints.Add(checkPoint);
         orderedCheckPoints.OrderBy(checkpoint => checkPoint.iD).ToList();
+        checkPoint.Taken += CheckpointReached;
         CheckpointAdded?.Invoke(checkPoint);
     }
 

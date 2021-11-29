@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Models.Path.Blocks;
+﻿using Assets.Scripts.CheckPointSystem;
+using Assets.Scripts.Models.Path.Blocks;
 using Assets.Scripts.Models.Path.Generation;
 using Assets.Scripts.Models.Path.Generation.Surface;
 using System;
@@ -81,7 +82,7 @@ namespace Assets.Scripts.Models.Path
                 .With(NewCheckpoint)
                 .GoWithHole(new Vector3(0, 1, 3).normalized, 0f, 0.3f)
                 .With(NewCheckpoint)
-                .Go(new Vector3(0,-1,3).normalized)
+                .Go(new Vector3(0, -1, 3).normalized)
                 .With(NewCheckpoint)
                 .Go(new Vector3(0, -1, 3).normalized)
                 .With(NewCheckpoint)
@@ -106,7 +107,8 @@ namespace Assets.Scripts.Models.Path
             var top = Vector3.Cross(tangent, right);
             
             var checkpoint = curveBlock.gameObject.AddComponent<CheckPoint>();
-            var spawnPosition = curveBlock.Curve.FirstPoint + top * PathHeight*4f;
+            curveBlock.gameObject.AddComponent<CheckPointColorManager>();
+            var spawnPosition = curveBlock.Curve.FirstPoint + top * PathHeight*4f;            
             checkpoint.spawnPosition = spawnPosition;
             checkpoint.Initialize(_checkpointId++);
         }

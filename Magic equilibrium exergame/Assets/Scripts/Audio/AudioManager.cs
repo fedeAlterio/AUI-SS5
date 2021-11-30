@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class AudioManager : MonoBehaviour
 {
@@ -32,5 +33,12 @@ public class AudioManager : MonoBehaviour
             s.source.volume = soundVolume;
             s.source.loop = s.loop;
         }
+    }
+
+    public void PlayClip(string name)
+    {
+        Sound s = Array.Find(soundClips, sound => sound.name == name);
+
+        s.source.Play();
     }
 }

@@ -33,6 +33,9 @@ namespace Assets.Scripts.Gate
         // Events
         private void OnPlayerDeath()
         {
+            if (IsOpen)
+                return;
+
             ResetGate();
         }
 
@@ -66,6 +69,7 @@ namespace Assets.Scripts.Gate
 
         private void ResetGate()
         {
+            _coinsTaken.Clear();
             foreach (var coin in _coins)
                 coin.ResetCoin();
         }

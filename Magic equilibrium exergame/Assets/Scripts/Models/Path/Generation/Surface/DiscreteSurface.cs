@@ -26,7 +26,7 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
 
         // Properties
-        protected PiercedSurface Surface { get; set; }
+        public PiercedSurface Surface { get; set; }
         public int UVertexCount { get; set; } = 20;
         public int VVertexCount { get; set; } = 20;
         public virtual int TotVertices => UVertexCount * VVertexCount;

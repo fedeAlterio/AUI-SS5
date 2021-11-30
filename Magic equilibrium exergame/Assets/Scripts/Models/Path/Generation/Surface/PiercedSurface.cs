@@ -50,6 +50,9 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
         public float VMax { get; }
         public float ULength => UMax - UMin;
         public float VLength => VMax - VMin;
+        public float UMiddle => (UMin + UMax) / 2;
+        public float VMiddle => (VMin + VMax) / 2;
+
 
 
         // Public

@@ -20,11 +20,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_2292778021d3457991786f9c1ecd9372:
-        m_Texture: {fileID: 2800000, guid: a4b557146001b3e43a5d30deb27c739f, type: 3}
+        m_Texture: {fileID: 2800000, guid: f04169bf5f65bfb4f8145252a0e4aeb5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_c7b3890e1bc44069b5df7b4a204b0414:
-        m_Texture: {fileID: 2800000, guid: a4b557146001b3e43a5d30deb27c739f, type: 3}
+        m_Texture: {fileID: 2800000, guid: f04169bf5f65bfb4f8145252a0e4aeb5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -40,18 +40,18 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_5a28dbc55c5c49b69da2f3d9ad2854ad: 0
+    - Vector1_5a28dbc55c5c49b69da2f3d9ad2854ad: 1.4
     - Vector1_840fb9bf770e4b09a436a59b9ca647ac: 0
-    - Vector1_8b982c5faed84164b1b7dd8388d67eb9: 0.093
-    - Vector1_958014a35676409fba42b2e272ef3d67: 1.15
+    - Vector1_8b982c5faed84164b1b7dd8388d67eb9: 0.472
+    - Vector1_958014a35676409fba42b2e272ef3d67: 0.452
     - Vector1_c1b5b2fe862c48219d9c1237b3ce76a9: 0.2
     - Vector1_edfb9b5cda4145e09ea75539a528b6fb: 1
     - Vector1_f72e8c47576e4ce7af2b30a48a68f30c: 0
     - Vector1_f9fa906f41e7483386cc9ec3bf1d22f2: 0.1
     m_Colors:
-    - Color_271ff14556de4116800f2ab47ae97fd8: {r: 0, g: 0.81219816, b: 1, a: 0.27450982}
+    - Color_271ff14556de4116800f2ab47ae97fd8: {r: 0.041384827, g: 0.5648243, b: 0.5849056, a: 0.27450982}
     - Color_28b29017d808491791ca523dbaf238bb: {r: 1, g: 0.049295776, b: 0, a: 0}
-    - Color_bfe9ca33240640c8a6d1b01f67a6ea3f: {r: 0, g: 0.44333336, b: 0.95, a: 0.5882353}
+    - Color_bfe9ca33240640c8a6d1b01f67a6ea3f: {r: 0, g: 0.18706681, b: 0.4716981, a: 0.5882353}
     - Vector2_f4fa29845b684ae487267b314e4c4daa: {r: 1, g: 1, b: 0, a: 0}
-    - Vector2_fe93d7771b65407f8a9422b280ff5587: {r: 50, g: 50, b: 0, a: 0}
+    - Vector2_fe93d7771b65407f8a9422b280ff5587: {r: 57.63, g: 50, b: -2.1, a: 0}
   m_BuildTextureStacks: []

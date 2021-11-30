@@ -16,11 +16,11 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
         private List<Vector3> _normals = new List<Vector3>();
 
 
-        
+
         // Initialization
         public CurveSurface(DiscreteCurve curve, float thickness, float height) : base(Surfaces.FromCurve(curve.Curve, thickness))
         {
-            Height = height; 
+            Height = height;
             Curve = curve.Curve;
             Thickness = thickness;
             UVertexCount = curve.VertexCount;
@@ -44,6 +44,18 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
 
 
+        // Public Methods
+        public Vector3 GetTopPosition(float t, float n, float topOffset = 0)
+        {
+            Surface.TryGetPointAt(t, n, out var point);
+            var tangent = Curve.TangentAt(Curve.MinT);
+            var right = Curve.NormalAt(Curve.MinT);
+            var top = Vector3.Cross(tangent, right);
+
+            return point + (1f * Height + topOffset) * top;
+        }
+
+
 
         // Mesh Building
         public override Mesh BuildMesh()
@@ -61,7 +73,6 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
         protected override Vector3[] BuildVertices()
         {
-
             return _vertices.ToArray();
         }
 
@@ -91,10 +102,10 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
 
             // Normals
-            foreach(var (i,j) in VertexIndices())
+            foreach (var (i, j) in VertexIndices())
             {
-                var (u,v) = UVFromIndices(i,j);
-                var topNormal = Surface.GetNormalAt(u,v);
+                var (u, v) = UVFromIndices(i, j);
+                var topNormal = Surface.GetNormalAt(u, v);
                 _normals.Add(new Vector3(topNormal.x, -topNormal.y, topNormal.z));
             }
         }
@@ -102,16 +113,16 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
         // Top face
         private void BuildTopFace()
-        {            
+        {
             // Vertices
             var totVertices = _vertices.Count;
-            for(var i=0; i < totVertices; i++)
-                _vertices.Add(_vertices[i] + Vector3.up * Height);            
+            for (var i = 0; i < totVertices; i++)
+                _vertices.Add(_vertices[i] + Vector3.up * Height);
 
 
             // Indices
             var totIndices = _indices.Count;
-            for(int i=0; i < totIndices; i++)
+            for (int i = 0; i < totIndices; i++)
                 _indices.Add(_indices[i] + totVertices);
             for (var i = totIndices; i < _indices.Count; i += 3)
                 (_indices[i], _indices[i + 2]) = (_indices[i + 2], _indices[i]);
@@ -130,11 +141,11 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
         private void AddTriangle(int index1, int index2, int index3, bool clockWiseNormals = true)
         {
             // Vertices
-            var vertices = new[] {index1, index2, index3}.Select(i => _vertices[i]).ToList();
-            _vertices.AddRange(vertices);            
+            var vertices = new[] { index1, index2, index3 }.Select(i => _vertices[i]).ToList();
+            _vertices.AddRange(vertices);
 
             // Indices
-            _indices.AddRange(new[] {_vertices.Count - 1, _vertices.Count - 2, _vertices.Count - 3});
+            _indices.AddRange(new[] { _vertices.Count - 1, _vertices.Count - 2, _vertices.Count - 3 });
 
             // Normals
             var du = vertices[2] - vertices[1];
@@ -204,8 +215,8 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
                 {
                     var (b1, b2) = (rightIndices[j], rightIndices[j + 1]);
                     var (t1, t2) = (b1 + base.TotVertices, b2 + base.TotVertices);
-                   AddTriangle(b2, t1, b1);
-                   AddTriangle(t2, t1, b2);
+                    AddTriangle(b2, t1, b1);
+                    AddTriangle(t2, t1, b2);
                 }
                 skipCount++;
                 rightIndices = RightBordersIndices(skipCount).ToList();
@@ -328,7 +339,7 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
         protected override Vector2[] BuildUvs()
         {
             var uvs = new List<Vector2>();
-            
+
             // Bottom map
             for (var i = 0; i < TotVertices; i++)
                 uvs.Add(new Vector2(0, 0));
@@ -340,10 +351,10 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
 
             // Borders map
-            for (var i = 2* TotVertices; i < _vertices.Count; i++)
+            for (var i = 2 * TotVertices; i < _vertices.Count; i++)
                 uvs.Add(new Vector2(0, 0));
             return uvs.ToArray();
-        }        
+        }
 
 
         private IEnumerable<Vector2> TextureUVMap()

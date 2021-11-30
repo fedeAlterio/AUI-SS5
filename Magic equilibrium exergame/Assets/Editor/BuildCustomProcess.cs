@@ -45,7 +45,7 @@ public class BuildCustomProcess
                 {
                     File.Delete(zipPath + pathComponents.Last().Replace(".exe", "") + ".zip");
                 }
-                System.IO.Compression.ZipFile.CreateFromDirectory(folderpath, zipPath + pathComponents.Last().Replace(".exe", "") + ".zip");
+                //System.IO.Compression.ZipFile.CreateFromDirectory(folderpath, zipPath + pathComponents.Last().Replace(".exe", "") + ".zip");
                 Debug.Log("Zip succesfully created in " + zipPath + " with name " + pathComponents.Last().Replace(".exe", "") + ".zip");
             }
             catch

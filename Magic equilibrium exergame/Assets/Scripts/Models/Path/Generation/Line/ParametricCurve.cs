@@ -37,9 +37,19 @@ namespace Assets.Scripts.Models.Path.Generation.Line
         public Vector3 FirstPoint => PointAt(MinT);
 
 
-
         // Public Methods
+        public (Vector3 t, Vector3 n) GetLocalBasis(float t) => (TangentAt(t), NormalAt(t));
+
+        public IEnumerable<float> QuantizedDomain(int totPieces, bool bordersNotIncluded)
+        {
+            var du = (MaxT - MinT) / (totPieces + (bordersNotIncluded ? 1 : - 1));
+            var start = bordersNotIncluded ? MinT + du : MinT;
+            for(var i=0; i < totPieces; i++)
+                yield return start + i * du;
+        }
+
         public Vector3 PointAt(float t) => _equation.Invoke(t);
+        
         public virtual Vector3 TangentAt(float t)
         {
             return VelocityAt(t).normalized;

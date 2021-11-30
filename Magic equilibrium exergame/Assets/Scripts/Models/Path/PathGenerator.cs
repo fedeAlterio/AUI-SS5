@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CheckPointSystem;
 using Assets.Scripts.Models.Path.Blocks;
+using Assets.Scripts.Models.Path.BuildingStrategies;
 using Assets.Scripts.Models.Path.Generation;
 using Assets.Scripts.Models.Path.Generation.Surface;
 using System;
@@ -22,12 +23,18 @@ namespace Assets.Scripts.Models.Path
 
 
         // Private fields
+        private BuildingStrategyManager _strategies;
         private readonly List<CurveBlock> _blocks = new List<CurveBlock>();
         private int _checkpointId;
 
 
 
         // Initialization
+        private void Awake()
+        {
+            _strategies = FindObjectOfType<BuildingStrategyManager>();
+        }
+
         private void Start()
         {
         }
@@ -69,27 +76,24 @@ namespace Assets.Scripts.Models.Path
         // Public
         public void GenerateLine()
         {            
-            _pathManager.Clear();
+            _pathManager.Clear();            
 
             var blocks = PathBuilder<CurveBlock>
                 .New(mapper: BlockFromSurface)
                 .WithDimensions(CurveSize, PathThickness, PathHeight)
                 .WithTextureScaleFactor(TextureScale)
                 .Start(Vector3.zero, Vector3.forward)
-                .Go(Vector3.forward * 5)
-                .With(NewCheckpoint)
+                .Go(Vector3.forward * 20)
+                .With(NewCheckpoint)                
                 .GoWithHole(Vector3.forward * 2, 0f, 0.3f)
-                .With(NewCheckpoint)
                 .GoWithHole(new Vector3(0, 1, 3).normalized, 0f, 0.3f)
-                .With(NewCheckpoint)
                 .Go(new Vector3(0, -1, 3).normalized)
+                .Go(Vector3.forward * 20)
                 .With(NewCheckpoint)
+                .With(_strategies.CoinsPath)
                 .Go(new Vector3(0, -1, 3).normalized)
-                .With(NewCheckpoint)
                 .Go(new Vector3(0, 1, 3).normalized)
-                .With(NewCheckpoint)
                 .Go(Vector3.right * 10)
-                .With(NewCheckpoint)
                 .Build();
 
             foreach (var block in blocks)
@@ -101,14 +105,11 @@ namespace Assets.Scripts.Models.Path
         // Block strategy
         private void NewCheckpoint(CurveBlock curveBlock)
         {
-            var curve = curveBlock.Curve;
-            var tangent = curve.TangentAt(curve.MinT);
-            var right = curve.NormalAt(curve.MinT);
-            var top = Vector3.Cross(tangent, right);
-            
             var checkpoint = curveBlock.gameObject.AddComponent<CheckPoint>();
             curveBlock.gameObject.AddComponent<CheckPointColorManager>();
-            var spawnPosition = curveBlock.Curve.FirstPoint + top * PathHeight*4f;            
+
+            var surface = curveBlock.CurveSurface;            
+            var spawnPosition = surface.GetTopPosition(surface.Surface.UMin, surface.Surface.VMiddle, topOffset: 0.5f);            
             checkpoint.spawnPosition = spawnPosition;
             checkpoint.Initialize(_checkpointId++);
         }

@@ -941,8 +941,8 @@
     },
     "m_FragmentContext": {
         "m_Position": {
-            "x": -155.20001220703126,
-            "y": 200.79998779296876
+            "x": -475.00006103515627,
+            "y": 616.0
         },
         "m_Blocks": [
             {
@@ -1021,7 +1021,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": -25.0,
+        "x": -40.0,
         "y": 2.0,
         "z": 2.0,
         "w": 2.0
@@ -2952,7 +2952,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 50.0,
+        "x": 100.0,
         "y": 2.0,
         "z": 2.0,
         "w": 2.0
@@ -5045,9 +5045,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -695.0,
-            "y": 310.0,
-            "width": 120.00000762939453,
+            "x": -758.0001220703125,
+            "y": 440.0000305175781,
+            "width": 120.0,
             "height": 149.0
         }
     },

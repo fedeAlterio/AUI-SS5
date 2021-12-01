@@ -25,11 +25,18 @@ namespace Assets.Scripts.Models.Path.BuildingStrategies
             var totCoins = 4;
             var coins = new List<Coin>();
 
+            var normalOffset = 0.2f;
+            var (nMin, nMax) = (block.CurveSurface.Surface.VMin, block.CurveSurface.Surface.VMax);
+            var (left, right) = (Mathf.Lerp(nMin, nMax, normalOffset), Mathf.Lerp(nMax, nMin, normalOffset));
+            bool isLeft = true;
             foreach(var t in curve.QuantizedDomain(totCoins, bordersNotIncluded: true))
             {
+                var (_, normalVersor) = block.Curve.GetLocalBasis(t);
                 var center = block.CurveSurface.GetTopPosition(t, surface.VMiddle, topOffset: _coinPrefab.transform.localScale.y);
-                var coin = BuildCoin(block, center);
+                var coinPosition = center + (isLeft ? left : right) * normalVersor;
+                var coin = BuildCoin(block, coinPosition);
                 coins.Add(coin);
+                isLeft = !isLeft;
             }
 
             var position = block.CurveSurface.GetTopPosition(curve.MaxT, surface.VMiddle, topOffset: 2);

@@ -6567,6 +6567,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
+      propertyPath: <PathThickness>k__BackingField
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4778083217790617220, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
       propertyPath: m_RootOrder
       value: 2

@@ -1021,7 +1021,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": -40.0,
+        "x": -80.0,
         "y": 2.0,
         "z": 2.0,
         "w": 2.0
@@ -3903,7 +3903,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Smoothness",
     "m_StageCapability": 2,
-    "m_Value": 0.9800000190734863,
+    "m_Value": 0.9700000286102295,
     "m_DefaultValue": 0.5,
     "m_Labels": []
 }

@@ -1,61 +1,81 @@
+using Assets.Scripts.Animations;
 using Assets.Scripts.Models;
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingBlock : MonoBehaviour
 {
-    public Vector3 startingPosition;
-    public Vector3 target;
-    public const float speed = 0.5f;
-    public Vector3 step;
-    public Rigidbody rb;
-    private bool moving;
+    // Editor fields
+    [SerializeField] private Vector3 _deltaPosition;
+    [SerializeField] private float _speed;
 
-    private void Start()
+
+
+    // Private fields
+    private bool _isPlayerOver;
+    private Vector3 _startPosition;
+    private Vector3 _endPosition;
+    private Vector3 _movementDirection;
+    private Vector3 _middlePoint;
+    private AsyncOperationManager _delayStartMovement;
+
+
+
+    // Initialization
+    private void Awake()
     {
-        startingPosition = gameObject.transform.position;
-
-        rb = GetComponent<Rigidbody>();
-
-        moving = false;
-
-        step = new Vector3(0, 0, speed);
-
-        DeathManager.instance.playerDeathEvent.AddListener(ResetPosition);
+        _startPosition = transform.parent.localPosition;
+        _endPosition = _startPosition + _deltaPosition;
+        _movementDirection = _endPosition - _startPosition;
+        _delayStartMovement = new AsyncOperationManager(this);
+        _middlePoint = (_startPosition + _endPosition) / 2;
     }
 
-    private void Update()
-    {
-        if(moving)
-        {
-            rb.velocity = step;
-        }
 
-        // Check if the block has reached its destination, if it has then stop moving
-        if(Vector3.Distance(gameObject.transform.position, target) < 0.001f)
-        {
-            VelocityInput.instance.modifierZ = VelocityInput.instance.modifierZ - speed;
-            moving = false;
-            rb.velocity = Vector3.zero;
-        }
+
+    
+    // Events
+    private void FixedUpdate()
+    {                
+        var target = _isPlayerOver ? _endPosition : _startPosition;     
+        var direction = _movementDirection * (_isPlayerOver ? 1 : -1);
+        var currentPosition = transform.parent.localPosition;
+        var newPosition = currentPosition + _speed * Time.fixedDeltaTime * direction;        
+
+        if (Vector3.Dot(target - newPosition, target - _middlePoint) < 0)
+            return;
+        transform.parent.localPosition = newPosition;
     }
 
-    // Start moving this block when the player gets on top of it
-    private void OnTriggerEnter(Collider other)
+
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if(other.gameObject.CompareTag(UnityTag.Player))
-        {
-            VelocityInput.instance.modifierZ = VelocityInput.instance.modifierZ + speed;
-            moving = true;
-        }
+        if (!collision.gameObject.CompareTag(UnityTag.Player))
+            return;
+
+        collision.gameObject.transform.parent = transform.parent;
+        var newIsPlayerOver = true;
+        _delayStartMovement.New(manager => ChangePlayerIsOver(manager, newIsPlayerOver));
     }
 
-    // Reset position of the platform when the player dies
-    private void ResetPosition()
+
+    private void OnCollisionExit(Collision collision)
     {
-        moving = false;
-        VelocityInput.instance.modifierZ = VelocityInput.instance.modifierZ - speed;
-        gameObject.transform.position = startingPosition;
+        if (!collision.gameObject.CompareTag(UnityTag.Player))
+            return;
+
+        collision.gameObject.transform.parent = null;
+        var newIsPlayerOver = false;
+        _delayStartMovement.New(manager => ChangePlayerIsOver(manager, newIsPlayerOver));
+    }
+
+
+    private async UniTask ChangePlayerIsOver(IAsyncOperationManager manager, bool isPlayerOver)
+    {
+        await manager.Delay(300);
+        _isPlayerOver = isPlayerOver;
     }
 }

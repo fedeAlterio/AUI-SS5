@@ -159,6 +159,8 @@ namespace Assets.Scripts.Animations
                 await NextFrame();
                 time += DeltaTime;
             }
+            if (Cancelled)
+                throw new OperationCanceledException();
         }
 
 

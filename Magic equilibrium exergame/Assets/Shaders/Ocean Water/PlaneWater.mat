@@ -56,10 +56,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_2d000bdaf3c043089a25cfe8f5c9084a: 0.05
     - Vector1_5a28dbc55c5c49b69da2f3d9ad2854ad: 1.4
     - Vector1_840fb9bf770e4b09a436a59b9ca647ac: 0
     - Vector1_8b982c5faed84164b1b7dd8388d67eb9: 0.472
     - Vector1_958014a35676409fba42b2e272ef3d67: 0.452
+    - Vector1_98d995b4ae9846b989f384be7238834c: 0.7
+    - Vector1_bf95d8f806914ac6853d441e55ad144a: 0
     - Vector1_c1b5b2fe862c48219d9c1237b3ce76a9: 0.2
     - Vector1_edfb9b5cda4145e09ea75539a528b6fb: 1
     - Vector1_f72e8c47576e4ce7af2b30a48a68f30c: 0
@@ -82,6 +85,9 @@ Material:
     - _FlipbookBlending: 0
     - _FlipbookMode: 0
     - _Glossiness: 0
+    - _HoleHeight: 0
+    - _HoleMaxHeight: 0.6
+    - _HoleRadius: 0.023
     - _Metallic: 0
     - _Mode: 0
     - _QueueOffset: 0
@@ -104,5 +110,6 @@ Material:
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _HoleCenter: {r: 0, g: 0, b: 0, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

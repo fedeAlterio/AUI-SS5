@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.24647538, g: 0.28234535, b: 0.3457032, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -182,6 +182,10 @@ PrefabInstance:
       propertyPath: m_LightProbeUsage
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9138256464716148821, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
     - target: {fileID: 9138256466594254362, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -261,8 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bbd12459931aaf4ba9ffe618e0a5c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkPoints:
-  - {fileID: 1325046052}
+  orderedCheckPoints: []
 --- !u!4 &116352381
 Transform:
   m_ObjectHideFlags: 0
@@ -690,7 +693,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431a8b39c184a9840bb16e99aa7a41be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkPointPosition: {x: 0, y: 1, z: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
+  iD: 0
+  checkpointHit: 0
 --- !u!4 &1325046053
 Transform:
   m_ObjectHideFlags: 0
@@ -732,6 +737,7 @@ GameObject:
   - component: {fileID: 1409971573}
   - component: {fileID: 1409971577}
   - component: {fileID: 1409971572}
+  - component: {fileID: 1409971579}
   m_Layer: 0
   m_Name: Avatar
   m_TagString: Player
@@ -751,11 +757,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d87a472e67fc8b44caaf06a97d4bc652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseVelocity: 5
   slope: 0
   collisionCount: 0
   x: 0
   y: 0
   z: 0
+  m_slope: 0
 --- !u!135 &1409971573
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -843,11 +851,28 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 64
   m_CollisionDetection: 0
+--- !u!114 &1409971579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409971571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46d05bb34d106ba4796e8b95e558c587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerVelocity: {fileID: 1409971572}
+  modifierZ: 0
+  modifierX: 0
+  inputX: 0
+  inputZ: 0
 --- !u!1 &1479816329
 GameObject:
   m_ObjectHideFlags: 0

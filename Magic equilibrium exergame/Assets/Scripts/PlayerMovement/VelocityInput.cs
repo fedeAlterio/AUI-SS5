@@ -5,7 +5,7 @@ using UnityEngine;
 public class VelocityInput : MonoBehaviour
 {
     public static VelocityInput instance;
-    public PlayerVelocity playerVelocity;
+    private PlayerVelocity playerVelocity;
 
     public float modifierZ;
     public float modifierX;
@@ -18,6 +18,7 @@ public class VelocityInput : MonoBehaviour
 
     private void Awake()
     {
+        playerVelocity = GetComponent<PlayerVelocity>();
         if(instance == null)
         {
             instance = this;

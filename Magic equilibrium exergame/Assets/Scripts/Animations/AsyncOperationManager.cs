@@ -159,6 +159,8 @@ namespace Assets.Scripts.Animations
                 await NextFrame();
                 time += DeltaTime;
             }
+            if (Cancelled)
+                throw new OperationCanceledException();
         }
 
 
@@ -172,7 +174,7 @@ namespace Assets.Scripts.Animations
                 var deltaTime = DeltaTime;
                 current = smooth
                     ? Mathf.Lerp(current, to, deltaTime * speed * SpeedScale)
-                    : Mathf.MoveTowards(current, to, speed * SpeedScale * DeltaTime);
+                    : Mathf.Clamp(current + speed * deltaTime, from, to);
 
                 callback.Invoke(current);
                 await NextFrame();

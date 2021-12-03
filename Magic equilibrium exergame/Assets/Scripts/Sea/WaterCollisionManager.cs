@@ -119,7 +119,11 @@ namespace Assets.Scripts.Sea
             var newEmitter = Instantiate(_splashEmitter, parent: transform.parent);
             newEmitter.transform.position = new Vector3(HoleCenter.x, transform.parent.position.y, HoleCenter.z);
             newEmitter.Stop();
-            newEmitter.Play();            
+            newEmitter.Play();
+            await UniTask.Delay(Mathf.RoundToInt((newEmitter.main.startLifetime.constantMax + newEmitter.main.duration) * 1000 + 1),
+                cancellationToken: this.GetCancellationTokenOnDestroy());
+            Destroy(newEmitter.gameObject);
+
         }
 
 

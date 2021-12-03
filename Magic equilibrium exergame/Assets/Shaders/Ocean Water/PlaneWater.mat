@@ -87,7 +87,7 @@ Material:
     - _Glossiness: 0
     - _HoleHeight: 0
     - _HoleMaxHeight: 0.6
-    - _HoleRadius: 0.023
+    - _HoleRadius: 0.03
     - _Metallic: 0
     - _Mode: 0
     - _QueueOffset: 0

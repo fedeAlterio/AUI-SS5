@@ -12,15 +12,21 @@ namespace Assets.Scripts.Sea
 {
     public class WaterCollisionManager : MonoBehaviour
     {
+        // Editor fields
+        [SerializeField] private MeshRenderer _meshRenderer;
+        [SerializeField] private ParticleSystem _splashEmitter;
+
+
+
         // Private fields
         private AsyncOperationManager _collisionManager;
-        [SerializeField] MeshRenderer _meshRenderer;
         private Vector3 _holePosition;
         private GameObject _gameObject;
         private MeshRenderer meshRenderer;
         private float _startRadius;
         private float _startHeight;
 
+        private float _yOffset;
 
 
         // Initialization
@@ -52,7 +58,6 @@ namespace Assets.Scripts.Sea
             set => _meshRenderer.material.SetFloat("_" + nameof(HoleHeight), value);
         }
 
-        private float yOffset;
 
         public Vector3 HoleCenter
         {
@@ -73,21 +78,21 @@ namespace Assets.Scripts.Sea
             if(collider.gameObject.tag != UnityTag.Player)
                 return;
 
+            _collisionManager.Stop();
+
             _holePosition = collider.gameObject.transform.position;
             _gameObject = collider.gameObject;
             meshRenderer = _gameObject.GetComponent<MeshRenderer>();
-            HoleCenter = _gameObject.transform.position - yOffset * Vector3.up;
-            HoleRadius = _startRadius;
+            HoleCenter = _gameObject.transform.position - 2*_yOffset * Vector3.up;
             HoleHeight = _startHeight;
+            HoleRadius = _startRadius;
+            BindHoleHeight();
+            EmitSplash().Forget();
         }
 
         private void OnTriggerStay(Collider collision)
         {
-            yOffset = meshRenderer.bounds.extents.y;
-            HoleCenter = Vector3.MoveTowards(HoleCenter, _gameObject.transform.position - yOffset * Vector3.up, 0.08f);  
-            var deltaY = _holePosition.y - _gameObject.transform.position.y - yOffset * 0.5f;
-            HoleHeight = deltaY;
-            Debug.Log(HoleHeight);
+            BindHoleHeight();
         }
 
         private void OnTriggerExit(Collider other)
@@ -99,7 +104,26 @@ namespace Assets.Scripts.Sea
         }
 
 
+        // Utils
+        private void BindHoleHeight()
+        {
+            _yOffset = meshRenderer.bounds.extents.y;
+            HoleHeight = _holePosition.y - _gameObject.transform.position.y + _yOffset;
+        }
+
+
+
         // Animations
+        private async UniTaskVoid EmitSplash()
+        {
+            var newEmitter = Instantiate(_splashEmitter, parent: transform.parent);
+            newEmitter.transform.position = new Vector3(HoleCenter.x, transform.parent.position.y, HoleCenter.z);
+            newEmitter.Stop();
+            newEmitter.Play();            
+        }
+
+
+
         private async UniTask CloseHoleAnimation(IAsyncOperationManager manager)
         {
             var closingSpeed = Mathf.PI * 1.5f;

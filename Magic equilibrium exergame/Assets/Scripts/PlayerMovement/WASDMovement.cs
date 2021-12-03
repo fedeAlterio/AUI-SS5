@@ -9,6 +9,11 @@ namespace Assets.Scripts.PlayerMovement
 {
     public class WASDMovement : MonoBehaviour
     {
+        // Editor fields
+        [SerializeField] private float _speed = 5;
+
+
+
         // Private fields
         private VelocityInput _velocityInput;
         private Rigidbody _rigidbody;
@@ -29,7 +34,7 @@ namespace Assets.Scripts.PlayerMovement
         {
             var horizontalAxis = Input.GetAxis("Horizontal");
             var verticalAxis = Input.GetAxis("Vertical");
-            _rigidbody.velocity = new Vector3(5*horizontalAxis, _rigidbody.velocity.y, 5*verticalAxis);
+            _rigidbody.velocity = new Vector3(_speed * horizontalAxis, _rigidbody.velocity.y, _speed * verticalAxis);
         }
     }
 }

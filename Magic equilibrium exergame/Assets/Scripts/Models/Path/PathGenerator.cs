@@ -83,7 +83,7 @@ namespace Assets.Scripts.Models.Path
                 .WithDimensions(CurveSize, PathThickness, PathHeight)
                 .WithTextureScaleFactor(TextureScale)
                 .Start(Vector3.zero, Vector3.forward)
-                .Go(Vector3.forward * 20)
+                .Go(Vector3.forward * 400)
                 .With(NewCheckpoint)                
                 //.GoWithHole(Vector3.forward * 2, 0f, 0.3f)
                 //.GoWithHole(new Vector3(0, 1, 3).normalized, 0f, 0.3f)

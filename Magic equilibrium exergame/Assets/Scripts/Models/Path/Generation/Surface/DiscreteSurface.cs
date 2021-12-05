@@ -110,19 +110,45 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
             return indices.ToArray();
         }
 
-        public virtual Mesh BuildMesh()
+        public virtual MeshData BuildMeshData()
+        {
+            var ret = new MeshData
+            {
+                Vertices = BuildVertices(),
+                Triangles = BuildIndices(),
+                Uv = BuildUvs(),
+                Normals = BuildNormals(),
+            };
+            return ret;
+        }
+
+        public Mesh BuildMesh()
+        {
+            var meshData = BuildMeshData();
+            return BuildMesh(meshData);
+        }
+
+        public Mesh BuildMesh(MeshData meshData)
         {
             var mesh = new Mesh
             {
-                vertices = BuildVertices(),
-                triangles = BuildIndices(),
-                uv = BuildUvs()
+                vertices = meshData.Vertices,
+                triangles = meshData.Triangles,
+                uv = meshData.Uv
             };
-            if(ComputeNormals)
-                mesh.normals = BuildNormals();
-            else 
+            if (ComputeNormals)
+                mesh.normals = meshData.Normals;
+            else
                 mesh.RecalculateNormals();
             return mesh;
+        } 
+
+        public class MeshData
+        {
+            public Vector3[] Vertices { get; set; }
+            public int[] Triangles { get; set; }
+            public Vector2[] Uv { get; set; }
+            public Vector3[] Normals { get; set; }
         }
     }
 }

@@ -58,7 +58,7 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
 
         // Mesh Building
-        public override Mesh BuildMesh()
+        public override MeshData BuildMeshData()
         {
             ComputeNormals = true;
             BuildBottomFace();
@@ -68,7 +68,7 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
             BuildBackFace();
             BuildFrontFace();
 
-            return base.BuildMesh();
+            return base.BuildMeshData();
         }
 
         protected override Vector3[] BuildVertices()

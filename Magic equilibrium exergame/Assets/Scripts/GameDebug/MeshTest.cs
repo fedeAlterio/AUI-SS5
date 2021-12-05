@@ -14,22 +14,34 @@ namespace Assets.Scripts.GameDebug
     [RequireComponent(typeof(MeshFilter))]
     public class MeshTest : MonoBehaviour
     {
+        [SerializeField] public int VertexCount;
+        private int _oldVertexCount;
 
 
         private void Start()
         {
-            var meshFilter = GetComponent<MeshFilter>();
-            var plane = Surfaces.Plane();
-            var discretePlane = new DiscreteSurface(plane);
-            discretePlane.UVertexCount = 350;            
-            discretePlane.VVertexCount = 350;            
-            meshFilter.mesh = discretePlane.BuildMesh();            
+                     
         }
 
 
         private void Update()
         {
-            
+            if(_oldVertexCount != VertexCount)
+            {
+                _oldVertexCount = VertexCount;
+                BuildMesh();
+            }    
+        }
+
+
+        public void BuildMesh()
+        {
+            var meshFilter = GetComponent<MeshFilter>();
+            var plane = Surfaces.Plane();
+            var discretePlane = new DiscreteSurface(plane);
+            discretePlane.UVertexCount = VertexCount;
+            discretePlane.VVertexCount = VertexCount;
+            meshFilter.mesh = discretePlane.BuildMesh();
         }
     }
 }

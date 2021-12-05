@@ -123,14 +123,13 @@ namespace Assets.Scripts.Sea
             await UniTask.Delay(Mathf.RoundToInt((newEmitter.main.startLifetime.constantMax + newEmitter.main.duration) * 1000 + 1),
                 cancellationToken: this.GetCancellationTokenOnDestroy());
             Destroy(newEmitter.gameObject);
-
         }
 
 
 
         private async UniTask CloseHoleAnimation(IAsyncOperationManager manager)
         {
-            var closingSpeed = Mathf.PI * 1.5f;
+            var closingSpeed = Mathf.PI * 0.5f;
             //var closeHoleHorizontally = manager.Lerp(HoleRadius, 0.5f * _startRadius, val => HoleRadius = val, speed: closingSpeed);
             var closeHoleVertically = manager.Lerp(0, Mathf.PI * 4, t => HoleHeight = OscillatingHeight(t, HoleMaxHeight), speed: closingSpeed, smooth: false);
             var closeHorizontally = manager.Lerp(HoleRadius, _startRadius * 0.6f, val => HoleRadius = val, speed: closingSpeed);

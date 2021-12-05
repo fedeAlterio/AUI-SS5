@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e48ea1e5a1d1c4eab9943bdd40c0ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 20
+  _speed: 5
 --- !u!1 &302115656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1774,11 +1774,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4223380472464793184, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
       propertyPath: _rows
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4223380472464793184, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
       propertyPath: _columns
-      value: 15
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4223380472464793184, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
       propertyPath: _vertexCount

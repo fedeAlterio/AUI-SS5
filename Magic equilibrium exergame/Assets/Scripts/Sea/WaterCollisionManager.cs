@@ -129,7 +129,7 @@ namespace Assets.Scripts.Sea
 
         private async UniTask CloseHoleAnimation(IAsyncOperationManager manager)
         {
-            var closingSpeed = Mathf.PI * 0.5f;
+            var closingSpeed = Mathf.PI * 0.2f;
             //var closeHoleHorizontally = manager.Lerp(HoleRadius, 0.5f * _startRadius, val => HoleRadius = val, speed: closingSpeed);
             var closeHoleVertically = manager.Lerp(0, Mathf.PI * 4, t => HoleHeight = OscillatingHeight(t, HoleMaxHeight), speed: closingSpeed, smooth: false);
             var closeHorizontally = manager.Lerp(HoleRadius, _startRadius * 0.6f, val => HoleRadius = val, speed: closingSpeed);

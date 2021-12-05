@@ -1790,7 +1790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4223380472464793184, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
       propertyPath: _closePlayerVertexCount
-      value: 240
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 4223380472464793185, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
       propertyPath: m_RootOrder

@@ -1062,8 +1062,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98040a88776126549a92b4cc313b3b39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deltaPosition: {x: 100, y: 100, z: 100}
-  _speed: 0.05
+  <DeltaPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  <Speed>k__BackingField: 0
 --- !u!65 &1572395682
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1754,7 +1754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 234611505}
-  smoothingSpeed: 0.125
+  smoothingSpeed: 6
   offset: {x: 0, y: 3, z: -5}
 --- !u!1001 &675763901797651646
 PrefabInstance:

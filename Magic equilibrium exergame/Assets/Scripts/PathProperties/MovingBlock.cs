@@ -42,7 +42,7 @@ public class MovingBlock : MonoBehaviour
 
         var direction = movementDirection.normalized * (_isPlayerOver ? 1 : -1);
         var currentPosition = transform.parent.localPosition;
-        var newPosition = currentPosition + Speed * Time.fixedDeltaTime * direction;
+        var newPosition = currentPosition + Speed * Time.smoothDeltaTime * direction;
         var hasGoneTooFar = Vector3.Dot(target - newPosition, target - middlePoint) <= 0; // Dot product < 0 -> opposite directions
 
         transform.parent.localPosition = hasGoneTooFar ? target : newPosition;
@@ -51,7 +51,7 @@ public class MovingBlock : MonoBehaviour
 
 
     // Events
-    private void FixedUpdate()
+    private void Update()
     {
         MoveTowardsTarget();
     }

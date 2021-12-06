@@ -38,7 +38,13 @@ namespace Assets.Scripts.Models.Path.Generation.Line
 
 
         // Public Methods
-        public (Vector3 t, Vector3 n) GetLocalBasis(float t) => (TangentAt(t), NormalAt(t));
+        public (Vector3 t, Vector3 n, Vector3 up) GetLocalBasis(float t)
+        {
+            var tangent = TangentAt(t);
+            var normal = NormalAt(t);
+            var up = Vector3.Cross(tangent, normal).normalized;
+            return (tangent, normal, up);
+        }
 
         public IEnumerable<float> QuantizedDomain(int totPieces, bool bordersNotIncluded)
         {

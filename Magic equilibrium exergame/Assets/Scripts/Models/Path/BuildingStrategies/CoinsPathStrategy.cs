@@ -31,17 +31,28 @@ namespace Assets.Scripts.Models.Path.BuildingStrategies
             bool isLeft = true;
             foreach(var t in curve.QuantizedDomain(totCoins, bordersNotIncluded: true))
             {
-                var (_, normalVersor) = block.Curve.GetLocalBasis(t);
+                var (tangentVersor, normalVersor, upVersor) = block.Curve.GetLocalBasis(t);
                 var center = block.CurveSurface.GetTopPosition(t, surface.VMiddle, topOffset: 0.1f);
                 var coinPosition = center + (isLeft ? left : right) * normalVersor;
                 var coin = BuildCoin(block, coinPosition);
+                coin.transform.localRotation = ChangeOfBasis(normalVersor, upVersor, tangentVersor) * coin.transform.localRotation;
                 coins.Add(coin);
                 isLeft = !isLeft;
             }
 
             var position = block.CurveSurface.GetTopPosition(curve.MaxT, surface.VMiddle, topOffset: 2);
-            var gate = BuildGate(block, position);
+            var gate = BuildGate(block, position);            
+            var (f, n, u) = block.Curve.GetLocalBasis(curve.MaxT);
+            gate.transform.localRotation *= ChangeOfBasis(n, u, f);
             gate.Initialize(coins);
+        }
+
+        private Quaternion ChangeOfBasis(Vector3 right, Vector3 up, Vector3 forward)
+        {
+            Debug.Log((right, forward, up));
+            var ret = Quaternion.identity;
+            ret.SetLookRotation(forward, up);
+            return ret;
         }
 
 

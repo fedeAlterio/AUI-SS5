@@ -262,8 +262,8 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
                 {
                     var (b1, b2) = (backIndices[j], backIndices[j + 1]);
                     var (t1, t2) = (b1 + base.TotVertices, b2 + base.TotVertices);
-                    AddTriangle(b2, t1, b1);
-                    AddTriangle(t2, t1, b2);
+                    AddTriangle(b2, t1, b1, false);
+                    AddTriangle(t2, t1, b2, false);
                 }
                 skipCount++;
                 backIndices = BackBorderIndices(skipCount).ToList();

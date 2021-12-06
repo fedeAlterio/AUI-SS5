@@ -78,6 +78,7 @@ namespace Assets.Scripts.Models.Path.Generation
         }
 
 
+
         // Line Builder
         public ILineBuilder<T> With(Func<T, T> map)
         {            
@@ -105,6 +106,13 @@ namespace Assets.Scripts.Models.Path.Generation
                 curve => curveWithHole ? CurveWithHole(curve, startPercentage, width) : NormalCurve(curve));
         }
 
+        public ILineBuilder<T> GoWithThinPath(Vector3 nextPointDeltaPos, float width, bool thinCurve)
+        {
+            return MoveOf(nextPointDeltaPos,
+                segment => ThinSegment(segment, width),
+                curve => thinCurve ? ThinCurve(curve, width) : NormalCurve(curve));
+        }
+
 
         public IReadOnlyList<T> Build()
         {
@@ -126,7 +134,7 @@ namespace Assets.Scripts.Models.Path.Generation
 
 
 
-        // Segment
+        // Segment        
         private CurveSurface NormalSegment(ParametricCurve segment)
         {
             var discreteCurve = new DiscreteCurve(segment) { VertexCount = SegmentVertexCount };
@@ -136,6 +144,14 @@ namespace Assets.Scripts.Models.Path.Generation
         private CurveSurface SegmentWithHole(ParametricCurve segment, float nStart, float width)
         {
             var ret = PathWithHole(segment, nStart, width);
+            ret.UVertexCount = SegmentVertexCount;
+            ret.VVertexCount = CurveVertexCount;
+            return ret;
+        }
+
+        private CurveSurface ThinSegment(ParametricCurve segment, float width)
+        {
+            var ret = ThinPath(segment, width);
             ret.UVertexCount = SegmentVertexCount;
             ret.VVertexCount = CurveVertexCount;
             return ret;
@@ -159,9 +175,34 @@ namespace Assets.Scripts.Models.Path.Generation
             return ret;
         }
 
+        private CurveSurface ThinCurve(ParametricCurve curve, float width)
+        {
+            var ret = ThinPath(curve, width);
+            ret.UVertexCount = CurveVertexCount;
+            ret.VVertexCount = CurveVertexCount;
+            return ret;
+        }
+
 
 
         // Generic
+        private CurveSurface ThinPath(ParametricCurve curve, float width)
+        {
+            var surface = Surfaces.FromCurve(curve, Thickness);
+            var deltaN = surface.VMax - surface.VMin;
+            var startN = surface.VMin + (deltaN - width * deltaN) / 2;
+            var endN = startN + width * deltaN;
+
+            bool TryGetPointAt(float s, float n, out Vector3 point)
+            {
+                point = surface.PointAt(s, n);
+                return n > startN && n < endN;
+            }
+            var piercedSurface = PiercedSurface.FromParametricSurface(surface, TryGetPointAt);
+            var curveSurface = new CurveSurface(piercedSurface, curve, Thickness, PathHeight);
+            return curveSurface;
+        }
+
         private CurveSurface PathWithHole(ParametricCurve curve, float nStart, float width)
         {
             var surface = Surfaces.FromCurve(curve, Thickness);
@@ -252,8 +293,6 @@ namespace Assets.Scripts.Models.Path.Generation
 
             return direction.x * x + direction.y * y + direction.z * z;
         }
-
-
     }
     public interface IBuilderStep1<T> where T : ILineBlock
     {

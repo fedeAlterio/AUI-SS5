@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.24647538, g: 0.28234535, b: 0.3457032, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -430,10 +430,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98040a88776126549a92b4cc313b3b39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingPosition: {x: 0, y: 0, z: 0}
-  target: {x: 0, y: 0, z: 10}
-  step: {x: 0, y: 0, z: 0}
-  rb: {fileID: 0}
+  <DeltaPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  <Speed>k__BackingField: 0
 --- !u!65 &439172697
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -868,7 +866,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d05bb34d106ba4796e8b95e558c587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVelocity: {fileID: 1409971572}
   modifierZ: 0
   modifierX: 0
   inputX: 0
@@ -902,7 +899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d05bb34d106ba4796e8b95e558c587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVelocity: {fileID: 1409971572}
   modifierZ: 0
   modifierX: 0
   inputX: 0
@@ -953,6 +949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae451de3dc9ad1d489e5a400238a282c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitDelay: 0
 --- !u!64 &1590855974
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1030,3 +1027,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1714221191
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}
+      propertyPath: m_Name
+      value: Gate
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 60a8a0ad41774b844a94ade399f1d1a2, type: 3}

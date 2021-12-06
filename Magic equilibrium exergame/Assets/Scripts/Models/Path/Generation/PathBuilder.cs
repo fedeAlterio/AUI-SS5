@@ -9,15 +9,16 @@ using UnityEngine;
 
 namespace Assets.Scripts.Models.Path.Generation
 {
-    public class PathBuilder<T> : ILineBuilder<T>, IBuilderStep1<T>, IBuilderStep2<T>, IBuilderStep3<T> where T : class
+    public class PathBuilder<T> : ILineBuilder<T>, IBuilderStep1<T>, IBuilderStep2<T>, IBuilderStep3<T> where T : class, ILineBlock
     {
         // Private fields
         private readonly List<T> _surfaces = new List<T>();
         private readonly Func<CurveSurface, T> _mapper;
-        private Vector3 _currentPosition;
-        private Vector3 _currentDirection;
-        private T _currentCurve;
-        private T _currentSegment;
+        private Vector3 _startPosition;
+        private Vector3 _starttDirection;
+
+        private bool _currentLineHasCurve;
+
 
 
 
@@ -53,28 +54,35 @@ namespace Assets.Scripts.Models.Path.Generation
 
         public ILineBuilder<T> Start(Vector3 startPosition, Vector3 startDirection)
         {
-            _currentPosition = startPosition;
-            _currentDirection = startDirection.normalized;
+            _startPosition = startPosition;
+            _starttDirection = startDirection.normalized;
             return this;
         }
 
 
 
         // Properties
+        private Vector3 CurrentPosition => _surfaces.Any() ? _surfaces[_surfaces.Count - 1].ExitPosition : _startPosition;
+        private Vector3 CurrentDirection => _surfaces.Any() ? _surfaces[_surfaces.Count - 1].ExitDirection : _starttDirection;
         public int SegmentVertexCount { get; set; } = 3;
         public int CurveVertexCount { get; set; } = 40;
         public float CurveSize { get; set; } = 3;
         public float Thickness { get; set; } = 4;
         public float TextureScaleFactor { get; set; } = 0.25f;
-        public float PathHeight { get; set; } = 0.1f;        
-
+        public float PathHeight { get; set; } = 0.1f;
+        private T CurrentCurve => _currentLineHasCurve ? _surfaces[_surfaces.Count - 2] : null;
+        private T CurrentSegment
+        {
+            get => _surfaces[_surfaces.Count - 1];
+            set => _surfaces[_surfaces.Count - 1] = value;
+        }
 
 
         // Line Builder
-        public ILineBuilder<T> With(Action<T> map)
-        {
-            if (_currentSegment != null)
-                map(_currentSegment);
+        public ILineBuilder<T> With(Func<T, T> map)
+        {            
+            if (CurrentSegment != null)
+                CurrentSegment = map(CurrentSegment);
 
             //if(_currentCurve != null)
             //    map(_currentCurve);
@@ -210,35 +218,28 @@ namespace Assets.Scripts.Models.Path.Generation
         private ILineBuilder<T> MoveOf(Vector3 nextPointRelativePosition, 
             Func<ParametricCurve, CurveSurface> segmentToSurface, Func<QuadraticBezier, CurveSurface> bezierToSurface)
         {
-            var deltaPos = ToPathTangentCoordinates(_currentDirection, nextPointRelativePosition);
-            _currentCurve = null;
-            _currentSegment = null;
+            var deltaPos = ToPathTangentCoordinates(CurrentDirection, nextPointRelativePosition);
+            _currentLineHasCurve = false;
 
             // If it does not change position do not create a cruve
-            if(Vector3.Angle(deltaPos, _currentDirection) > Mathf.Epsilon)
+            if(Vector3.Angle(deltaPos, CurrentDirection) > Mathf.Epsilon)
             {
                 // Creating curve
 
-                var bezierMiddle = _currentPosition + _currentDirection * CurveSize;
+                var bezierMiddle = CurrentPosition + CurrentDirection * CurveSize;
                 var bezierEnd = bezierMiddle + deltaPos.normalized * CurveSize;
-                var bezier = new QuadraticBezier(_currentPosition, bezierMiddle, bezierEnd);
+                var bezier = new QuadraticBezier(CurrentPosition, bezierMiddle, bezierEnd);
                 var bezierSurface = bezierToSurface?.Invoke(bezier);
-                _currentPosition = bezierEnd;
-                _currentCurve = AddSurface(bezierSurface);                
+                AddSurface(bezierSurface);
+                _currentLineHasCurve = true;
             }
 
 
             // Segment Creation
-            var nextPoint = _currentPosition + deltaPos;
-            var forwardLine = Curves.Line(_currentPosition, nextPoint);
+            var nextPoint = CurrentPosition + deltaPos;
+            var forwardLine = Curves.Line(CurrentPosition, nextPoint);
             var segmentSurface = segmentToSurface?.Invoke(forwardLine);
-            _currentSegment = AddSurface(segmentSurface);
-
-
-            // Next point setup
-            _currentPosition = nextPoint;
-            _currentDirection = forwardLine.TangentAt(forwardLine.MaxT).normalized;
-
+            AddSurface(segmentSurface);
             return this;
         }        
 
@@ -254,18 +255,18 @@ namespace Assets.Scripts.Models.Path.Generation
 
 
     }
-    public interface IBuilderStep1<T>
+    public interface IBuilderStep1<T> where T : ILineBlock
     {
         public IBuilderStep2<T> WithDimensions(float curveWidth, float pathThickenss, float pathHeight);
     }
    
 
-    public interface IBuilderStep2<T>
+    public interface IBuilderStep2<T> where T : ILineBlock
     {
         IBuilderStep3<T> WithTextureScaleFactor(float textureScale);
     }
 
-    public interface IBuilderStep3<T>
+    public interface IBuilderStep3<T> where T : ILineBlock
     {
         ILineBuilder<T> Start(Vector3 startPosition, Vector3 startDirection);
     }

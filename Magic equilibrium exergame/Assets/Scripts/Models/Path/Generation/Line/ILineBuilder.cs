@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Models.Path.Generation.Line
 {
-    public interface ILineBuilder<T>
+    public interface ILineBuilder<T> where T : ILineBlock
     {
-        ILineBuilder<T> With(Action<T> map);
+        ILineBuilder<T> With(Func<T, T> map);
         ILineBuilder<T> Go(Vector3 nextPointDeltaPos);
         ILineBuilder<T> GoWithHole(Vector3 nextPointDeltaPos, float start, float width, bool curveWithHole = true);
         IReadOnlyList<T> Build();

@@ -19,6 +19,7 @@ namespace Assets.Scripts.Models.Path
         [SerializeField] private List<BaseBlock> _blocksPrefabs = new List<BaseBlock>();
         [SerializeField] private CurveBlock _curveBlock;
         [SerializeField] private Material _pathMaterial;
+        [SerializeField] private MovingCurveBlock _movingCurveBlock;
 
 
 
@@ -76,15 +77,24 @@ namespace Assets.Scripts.Models.Path
         // Public
         public void GenerateLine()
         {            
-            _pathManager.Clear();            
+            _pathManager.Clear();
 
             var blocks = PathBuilder<CurveBlock>
                 .New(mapper: BlockFromSurface)
                 .WithDimensions(CurveSize, PathThickness, PathHeight)
                 .WithTextureScaleFactor(TextureScale)
                 .Start(Vector3.zero, Vector3.forward)
-                .Go(Vector3.forward * 400)
-                .With(NewCheckpoint)                
+                .Go(Vector3.forward * 10)
+                .With(NewCheckpoint)
+                .Go(Vector3.forward * 4)
+                .With(NewCheckpoint)
+                .With(curve => NewMovingPlatform(curve, Vector3.one.normalized * 5))
+                .Go(Vector3.forward * 5)
+                .With(curve => NewMovingPlatform(curve, new Vector3(-1,-1,1).normalized * 5))
+                .Go(Vector3.forward * 5)
+                .With(curve => NewMovingPlatform(curve, Vector3.forward * 5))
+                .Go(new Vector3(1,0,3).normalized * 10)
+                .With(_strategies.CoinsPath)
                 //.GoWithHole(Vector3.forward * 2, 0f, 0.3f)
                 //.GoWithHole(new Vector3(0, 1, 3).normalized, 0f, 0.3f)
                 //.Go(new Vector3(0, -1, 3).normalized)
@@ -103,15 +113,27 @@ namespace Assets.Scripts.Models.Path
 
 
         // Block strategy
-        private void NewCheckpoint(CurveBlock curveBlock)
+        private CurveBlock NewCheckpoint(CurveBlock curveBlock)
         {
             var checkpoint = curveBlock.gameObject.AddComponent<CheckPoint>();
             curveBlock.gameObject.AddComponent<CheckPointColorManager>();
 
             var surface = curveBlock.CurveSurface;            
-            var spawnPosition = surface.GetTopPosition(surface.Surface.UMin, surface.Surface.VMiddle, topOffset: 0.5f);            
+            var spawnPosition = surface.GetTopPosition(surface.Surface.UMin, surface.Surface.VMiddle, topOffset: 0.4f);            
             checkpoint.spawnPosition = spawnPosition;
             checkpoint.Initialize(_checkpointId++);
+            return curveBlock;
+        }
+
+        private CurveBlock NewMovingPlatform(CurveBlock curveBlock, Vector3 deltaPos, float speed = 5f)
+        {            
+            var movingBlock = curveBlock.gameObject.AddComponent<MovingBlock>();
+            movingBlock.DeltaPosition = deltaPos;
+            movingBlock.Speed = speed;
+
+            var movingCurveBlock = Instantiate(_movingCurveBlock);
+            movingCurveBlock.Initialize(curveBlock);
+            return movingCurveBlock;
         }
 
 

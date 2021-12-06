@@ -24,9 +24,10 @@ namespace Assets.Scripts.Models.Path.BuildingStrategies
 
 
         // Strategies
-        public void CoinsPath(CurveBlock curve)
+        public CurveBlock CoinsPath(CurveBlock curve)
         {
             _coinsPathStrategy.CoinsPath(curve);
+            return curve;
         }
     }
 }

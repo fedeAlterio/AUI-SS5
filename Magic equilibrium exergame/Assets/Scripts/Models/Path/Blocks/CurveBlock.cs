@@ -12,7 +12,7 @@ namespace Assets.Scripts.Models.Path.Blocks
 {
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
-    public class CurveBlock : BaseBlock
+    public class CurveBlock : BaseBlock, ILineBlock
     {
         // Private fields;
         private MeshFilter _meshFilter;
@@ -35,7 +35,7 @@ namespace Assets.Scripts.Models.Path.Blocks
         public override Vector3 Position => transform.position;
         public override Vector3 EntryDirection => Curve.TangentAt(Curve.MinT);
         public override Vector3 ExitDirection => Curve.TangentAt(Curve.MaxT);
-        public CurveSurface CurveSurface { get; private set; }
+        public CurveSurface CurveSurface { get; protected set; }
         public ParametricCurve Curve => CurveSurface.Curve;
 
 

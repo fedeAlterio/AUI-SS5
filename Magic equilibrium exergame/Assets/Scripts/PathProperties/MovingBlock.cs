@@ -7,18 +7,9 @@ using UnityEngine;
 
 public class MovingBlock : MonoBehaviour
 {
-    // Editor fields
-    [SerializeField] private Vector3 _deltaPosition;
-    [SerializeField] private float _speed;
-
-
-
     // Private fields
     private bool _isPlayerOver;
     private Vector3 _startPosition;
-    private Vector3 _endPosition;
-    private Vector3 _movementDirection;
-    private Vector3 _middlePoint;
     private AsyncOperationManager _delayStartMovement;
 
 
@@ -27,26 +18,42 @@ public class MovingBlock : MonoBehaviour
     private void Awake()
     {
         _startPosition = transform.parent.localPosition;
-        _endPosition = _startPosition + _deltaPosition;
-        _movementDirection = _endPosition - _startPosition;
         _delayStartMovement = new AsyncOperationManager(this);
-        _middlePoint = (_startPosition + _endPosition) / 2;
     }
 
 
 
-    
+    // Properties
+    [field:SerializeField] public Vector3 DeltaPosition { get; set; }
+    [field:SerializeField] public float Speed { get; set; }
+
+
+
+    // Core
+    private void MoveTowardsTarget()
+    {
+        var endPosition = _startPosition + DeltaPosition;
+        var movementDirection = endPosition - _startPosition;
+        var middlePoint = (_startPosition + endPosition) / 2;
+        var target = _isPlayerOver ? endPosition : _startPosition;
+        if (Vector3.Distance(transform.parent.localPosition, target) < float.Epsilon)
+            return;
+
+
+        var direction = movementDirection.normalized * (_isPlayerOver ? 1 : -1);
+        var currentPosition = transform.parent.localPosition;
+        var newPosition = currentPosition + Speed * Time.fixedDeltaTime * direction;
+        var hasGoneTooFar = Vector3.Dot(target - newPosition, target - middlePoint) <= 0; // Dot product < 0 -> opposite directions
+
+        transform.parent.localPosition = hasGoneTooFar ? target : newPosition;
+    }
+
+
+
     // Events
     private void FixedUpdate()
-    {                
-        var target = _isPlayerOver ? _endPosition : _startPosition;     
-        var direction = _movementDirection * (_isPlayerOver ? 1 : -1);
-        var currentPosition = transform.parent.localPosition;
-        var newPosition = currentPosition + _speed * Time.fixedDeltaTime * direction;        
-
-        if (Vector3.Dot(target - newPosition, target - _middlePoint) < 0)
-            return;
-        transform.parent.localPosition = newPosition;
+    {
+        MoveTowardsTarget();
     }
 
 
@@ -67,11 +74,11 @@ public class MovingBlock : MonoBehaviour
         if (!collision.gameObject.CompareTag(UnityTag.Player))
             return;
 
-        collision.gameObject.transform.parent = null;
+        if(collision.gameObject.transform.parent == transform.parent)
+            collision.gameObject.transform.parent = null;
         var newIsPlayerOver = false;
         _delayStartMovement.New(manager => ChangePlayerIsOver(manager, newIsPlayerOver));
     }
-
 
     private async UniTask ChangePlayerIsOver(IAsyncOperationManager manager, bool isPlayerOver)
     {

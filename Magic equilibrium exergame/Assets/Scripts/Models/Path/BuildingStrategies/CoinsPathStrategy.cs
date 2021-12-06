@@ -32,7 +32,7 @@ namespace Assets.Scripts.Models.Path.BuildingStrategies
             foreach(var t in curve.QuantizedDomain(totCoins, bordersNotIncluded: true))
             {
                 var (_, normalVersor) = block.Curve.GetLocalBasis(t);
-                var center = block.CurveSurface.GetTopPosition(t, surface.VMiddle, topOffset: _coinPrefab.transform.localScale.y);
+                var center = block.CurveSurface.GetTopPosition(t, surface.VMiddle, topOffset: 0.1f);
                 var coinPosition = center + (isLeft ? left : right) * normalVersor;
                 var coin = BuildCoin(block, coinPosition);
                 coins.Add(coin);

@@ -32,7 +32,7 @@ namespace Assets.Scripts.Models.Path.BuildingStrategies
             foreach(var t in curve.QuantizedDomain(totCoins, bordersNotIncluded: true))
             {
                 var (tangentVersor, normalVersor, upVersor) = block.Curve.GetLocalBasis(t);
-                var center = block.CurveSurface.GetTopPosition(t, surface.VMiddle, topOffset: 0.1f);
+                var center = block.CurveSurface.GetTopPosition(t, surface.VMiddle, topOffset: 0.5f);
                 var coinPosition = center + (isLeft ? left : right) * normalVersor;
                 var coin = BuildCoin(block, coinPosition);
                 coin.transform.localRotation = ChangeOfBasis(normalVersor, upVersor, tangentVersor) * coin.transform.localRotation;

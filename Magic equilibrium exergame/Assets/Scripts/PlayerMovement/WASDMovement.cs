@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.PlayerMovement
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class WASDMovement : MonoBehaviour
     {
         // Editor fields

@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2454306525419045652}
+  - component: {fileID: 4778083218884636633}
+  - component: {fileID: 4778083218884636634}
   m_Layer: 0
   m_Name: Building Strategies
   m_TagString: Untagged
@@ -30,6 +32,32 @@ Transform:
   m_Father: {fileID: 4778083217790617220}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4778083218884636633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4527734329911136083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75006796e655e414bb3100132f03edbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinPrefab: {fileID: 1911571213, guid: 0385a864b3073834faf74f49d5246ad1, type: 3}
+  _gatePrefab: {fileID: 675763901022118915, guid: 18c213afd7b1fd348a35684a00f9ff5c, type: 3}
+--- !u!114 &4778083218884636634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4527734329911136083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4a55cc352d00c4fbe469519500bb38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4778083217790617221
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +122,8 @@ MonoBehaviour:
   - {fileID: 7671901524135293782, guid: f39e1c5216bab1d429d46147ca9bd252, type: 3}
   _curveBlock: {fileID: 2378569183709152381, guid: 0e22dad0e48692f4a80bacc61af9d741, type: 3}
   _pathMaterial: {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
-  <PathThickness>k__BackingField: 2.51
+  _movingCurveBlock: {fileID: 3310802437808607274, guid: 49aceebae957fc7459ccb1237ed950e6, type: 3}
+  <PathThickness>k__BackingField: 4
   <CurveSize>k__BackingField: 4
   <TextureScale>k__BackingField: 0.25
   <PathHeight>k__BackingField: 0.2

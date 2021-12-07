@@ -43,8 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773785ea5f2c8784ea728f2c944890bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _seaBlockPrefab: {fileID: 4662042845399913347, guid: be420168d3580db4e9462454096f60b1, type: 3}
+  _seaBlockPrefab: {fileID: 7478107345160231046, guid: e9dc333389356f04fa0defadb7da1d56, type: 3}
   _rows: 4
   _columns: 4
-  _vertexCount: 100
   _seaBlocks: []
+  _closePlayerVertexCount: 20
+  _farPlayerVertexCount: 20

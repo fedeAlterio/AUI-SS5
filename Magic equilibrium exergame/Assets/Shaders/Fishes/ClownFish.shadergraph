@@ -1299,7 +1299,7 @@
     },
     "m_Name": "WaveTime",
     "m_DefaultReferenceName": "Vector1_33370a8e4a0e4b5ba2469d63915fa6e2",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "_WaveTime",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,

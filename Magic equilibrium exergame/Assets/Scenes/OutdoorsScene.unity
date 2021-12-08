@@ -501,6 +501,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &525396243 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6176805570496846191, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}
+  m_PrefabInstance: {fileID: 6176805571351704508}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &690344332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1192,8 +1197,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Speed>k__BackingField: 1
   <ForwardDirection>k__BackingField: {x: 0, y: 0, z: 1}
-  _direction: {x: 1, y: 0, z: 0}
-  _segmentLength: 20
+  _direction: {x: 1, y: 1, z: 1}
+  _radiusLength: 5
+--- !u!114 &1987085567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987085565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a7f825ca7c797b40925cf097f61b9b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _meshFilter: {fileID: 525396243}
+  _swimAnimationSpeed: 3
 --- !u!1 &2013410473
 GameObject:
   m_ObjectHideFlags: 1
@@ -1347,16 +1366,28 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 697067443495102456, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 697067443495102456, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 697067443495102456, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 697067443495102456, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.4
+      value: -4.08
       objectReference: {fileID: 0}
     - target: {fileID: 697067443495102456, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9
+      value: -1.19
       objectReference: {fileID: 0}
     - target: {fileID: 697067443495102456, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 97.4
+      value: 12.76
       objectReference: {fileID: 0}
     - target: {fileID: 697067443495102456, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1389,14 +1420,6 @@ PrefabInstance:
     - target: {fileID: 2840837861483566833, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}
       propertyPath: m_Name
       value: ClownFish
-      objectReference: {fileID: 0}
-    - target: {fileID: 6176805570496846185, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6176805570496846185, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c8ee5bbb5a03054d996bd1a88fd1720, type: 3}

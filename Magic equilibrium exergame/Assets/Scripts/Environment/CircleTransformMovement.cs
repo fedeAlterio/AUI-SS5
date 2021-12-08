@@ -8,18 +8,19 @@ using UnityEngine;
 
 namespace Assets.Scripts.Environment
 {
-    public class SegmentTransformMovement : TransformMovement
+    public class CircleTransformMovement : TransformMovement
     {
         // Editor fields    
         [SerializeField] private Vector3 _direction;
-        [SerializeField] private float _segmentLength;
+        [SerializeField] private float _radiusLength;
 
 
 
         // Initialization
         private void Start()
         {
-            StartMovement(Curves.Line(Vector3.zero, _direction * _segmentLength));
+            var center = _direction * _radiusLength;
+            StartMovement(Curves.Circle(center, _radiusLength));
         }
     }
 }

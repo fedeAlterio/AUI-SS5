@@ -55,8 +55,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_076904cb1d3940748fdb475e124e8ee4: 1.6
-    - Vector1_33370a8e4a0e4b5ba2469d63915fa6e2: -1
+    - Vector1_076904cb1d3940748fdb475e124e8ee4: 1.8
+    - Vector1_33370a8e4a0e4b5ba2469d63915fa6e2: 0
     - _AddPrecomputedVelocity: 0
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
@@ -100,6 +100,7 @@ Material:
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
     - _UseShadowThreshold: 0
+    - _WaveTime: 0
     - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4

@@ -10,8 +10,7 @@ namespace Assets.Scripts.Environment
 {
     public class CircleTransformMovement : TransformMovement
     {
-        // Editor fields    
-        [SerializeField] private Vector3 _direction;
+        // Editor fields            
         [SerializeField] private float _radiusLength;
 
 
@@ -19,7 +18,7 @@ namespace Assets.Scripts.Environment
         // Initialization
         private void Start()
         {
-            var center = _direction * _radiusLength;
+            var center = Vector3.forward * _radiusLength;
             StartMovement(Curves.Circle(center, _radiusLength));
         }
     }

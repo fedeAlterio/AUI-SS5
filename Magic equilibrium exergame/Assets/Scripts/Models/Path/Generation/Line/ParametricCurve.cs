@@ -32,9 +32,11 @@ namespace Assets.Scripts.Models.Path.Generation.Line
         // Properties
         public float MinT { get; protected set; }
         public float MaxT { get; protected set; }
+        public float DeltaTime => MaxT - MinT;
         public Vector3 UpDirection { get; set; } = Vector3.up;
         public Vector3 LastPoint => PointAt(MaxT);
         public Vector3 FirstPoint => PointAt(MinT);
+
 
 
         // Public Methods
@@ -89,6 +91,13 @@ namespace Assets.Scripts.Models.Path.Generation.Line
             CurveEquation equation = t => t < a.MaxT
                 ? a.PointAt(t)
                 : b.PointAt(t - a.MaxT);
+            return new ParametricCurve(equation, minT, maxT);
+        }
+
+        public static ParametricCurve operator + (ParametricCurve curve, Vector3 v)
+        {
+            var (minT, maxT) = (curve.MinT, curve.MaxT);
+            CurveEquation equation = t => v + curve.PointAt(t);
             return new ParametricCurve(equation, minT, maxT);
         }
 

@@ -40,8 +40,20 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_21dd89a847e54da6989307c1c56b4cff:
+        m_Texture: {fileID: 2800000, guid: 1847c427ebed2b7469dd22667fe6e4e0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_63c647f91cda4a7fa2590f348083a67d:
+        m_Texture: {fileID: 2800000, guid: 25fd4376f156aa843964ce73e403189a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_9a4e5757feda4329b33dc4264e4a6039:
         m_Texture: {fileID: 2800000, guid: 3afdb81398c65e442ad73ba29ccac4ba, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_a1ec44af83634715ac91014e8c741f18:
+        m_Texture: {fileID: 2800000, guid: 7eaa0539081f347448e6ae580e9cdaa9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -62,9 +74,10 @@ Material:
     - Vector1_5a8ac47331b8493ea180abb3536f09a3: 1
     - Vector1_641b1c6f0d604c169ac40d1873b9a765: 1
     - Vector1_7118aecb348b4bffa4f5ced84ab9905f: 0.27
-    - Vector1_9976cd62a3094c2a81bc5b11a58966a2: 0.06
+    - Vector1_9976cd62a3094c2a81bc5b11a58966a2: 0.43
+    - Vector1_e001594e278f4e238c49628ed802a607: 1
     - Vector1_f2dc4a58c3544809a1e9b4d8113ba64e: 0.05
-    - Vector1_f39361804ea74d1eb84f4ffd0a8a8742: 48.77
+    - Vector1_f39361804ea74d1eb84f4ffd0a8a8742: 0.98
     - _AddPrecomputedVelocity: 0
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 10
@@ -115,6 +128,7 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - Color_50c97a2c12f548bc9a225f06f82b4cfc: {r: 0.31372547, g: 0.59289694, b: 0.85882354, a: 0}
+    - Color_878c72e726a343e9976cf76cc52b3fb9: {r: 1, g: 1, b: 1, a: 0}
     - Color_96e8a329c37243ec8ee034c42cbffcf1: {r: 0.37210748, g: 0.6379929, b: 0.6981132, a: 0}
     - Vector2_96ef409781184d3c945c6dc0dbc21c85: {r: 7.15, g: 3.61, b: 2.79, a: 5.95}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}

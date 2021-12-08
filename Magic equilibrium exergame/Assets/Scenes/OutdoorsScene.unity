@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 39.38073, g: 35.45932, b: 36.22296, a: 1}
+  m_IndirectSpecularColor: {r: 39.48368, g: 35.219116, b: 35.797546, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -510,23 +510,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4223380472464793184, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
       propertyPath: _rows
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4223380472464793184, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
       propertyPath: _columns
-      value: 30
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4223380472464793184, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
       propertyPath: _tileSize
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4223380472464793184, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
       propertyPath: _farPlayerVertexCount
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4223380472464793184, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
       propertyPath: _closePlayerVertexCount
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4223380472464793185, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
       propertyPath: m_RootOrder

@@ -13,7 +13,7 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
         public static ParametricSurface Plane()
         {
             SurfaceEquation equation = (u, v) => new Vector3(-u, 0, v);
-            return new ParametricSurface(equation, -1, 1, -1, 1);
+            return new ParametricSurface(equation, -100, 100, -100, 100);
         }
 
         public static ParametricSurface Sphere()

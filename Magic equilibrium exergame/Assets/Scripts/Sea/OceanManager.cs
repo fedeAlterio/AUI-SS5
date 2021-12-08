@@ -35,7 +35,7 @@ namespace Assets.Scripts.Sea
             foreach (var sea in _seaBlocks)
                 Destroy(sea);
 
-            //SeaBlock.InitializeBlocks(_farPlayerVertexCount, _closePlayerVertexCount);
+            SeaBlock.InitializeBlocks(_farPlayerVertexCount, _closePlayerVertexCount);
             var seaScale = _seaBlockPrefab.transform.localScale;
             for(var i = 0; i < _rows; i++)
                 for(var j = 0; j < _columns; j++)

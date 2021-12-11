@@ -9,6 +9,12 @@ namespace Assets.Scripts.Gate
 {
     public class GateManager : MonoBehaviour
     {
+        // Editor fields
+        [SerializeField] private GameObject _door;
+
+
+
+        // Private fields
         private List<Coin> _coins = new List<Coin>();
         private List<Coin> _coinsTaken = new List<Coin>();
         private DeathManager _deathManager;
@@ -49,7 +55,7 @@ namespace Assets.Scripts.Gate
         // Events
         private void Update()
         {
-            transform.gameObject.SetActive(!IsOpen);
+            _door.SetActive(!IsOpen);
         }
 
 

@@ -18,6 +18,8 @@ namespace Assets.Scripts.PlayerMovement
         // Private fields
         private VelocityInput _velocityInput;
         private Rigidbody _rigidbody;
+        private float _horizontalAxis;
+        private float _verticalAxis;
 
 
 
@@ -29,13 +31,17 @@ namespace Assets.Scripts.PlayerMovement
         }
 
 
+        private void Update()
+        {
+            _horizontalAxis = Input.GetAxis("Horizontal");
+            _verticalAxis = Input.GetAxis("Vertical");            
+        }
+
 
         // Events
         private void FixedUpdate()
         {
-            var horizontalAxis = Input.GetAxis("Horizontal");
-            var verticalAxis = Input.GetAxis("Vertical");
-            _rigidbody.velocity = new Vector3(_speed * horizontalAxis, _rigidbody.velocity.y, _speed * verticalAxis);
+            _rigidbody.velocity = new Vector3(_speed * _horizontalAxis, _rigidbody.velocity.y, _speed * _verticalAxis);
         }
     }
 }

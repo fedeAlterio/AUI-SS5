@@ -27,7 +27,7 @@ namespace Assets.Scripts.Environment
         public void StartMovement(ParametricCurve curve)
         {
             Trajectory = curve + transform.localPosition;
-            _currentTime = Trajectory.MinT;
+            _currentTime = UnityEngine.Random.Range(Trajectory.MinT, Trajectory.MaxT);
         }
 
 

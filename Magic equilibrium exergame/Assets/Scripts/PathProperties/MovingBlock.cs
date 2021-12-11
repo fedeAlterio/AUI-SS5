@@ -11,7 +11,7 @@ public class MovingBlock : MonoBehaviour
     private bool _isPlayerOver;
     private Vector3 _startPosition;
     private AsyncOperationManager _delayStartMovement;
-
+    private Vector3 _nextPosition;
 
 
     // Initialization
@@ -51,6 +51,11 @@ public class MovingBlock : MonoBehaviour
 
 
     // Events
+    private void Update()
+    {
+        
+    }
+
     private void FixedUpdate()
     {
         MoveTowardsTarget();

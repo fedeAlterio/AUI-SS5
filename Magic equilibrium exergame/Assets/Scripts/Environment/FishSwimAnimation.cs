@@ -23,7 +23,7 @@ namespace Assets.Scripts.Environment
         // Initialization
         private void Start()
         {
-            WaveTime = 0;
+            WaveTime = UnityEngine.Random.Range(-1f, 1f);
         }
 
 

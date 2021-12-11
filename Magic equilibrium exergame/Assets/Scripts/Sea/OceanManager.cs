@@ -17,6 +17,7 @@ namespace Assets.Scripts.Sea
         [SerializeField] private List<GameObject> _seaBlocks = new List<GameObject>();
         [SerializeField] private int _closePlayerVertexCount;
         [SerializeField] private int _farPlayerVertexCount;
+        [SerializeField] private int _tileSize;
 
 
 
@@ -42,9 +43,9 @@ namespace Assets.Scripts.Sea
                     var sea = Instantiate(_seaBlockPrefab);
                     _seaBlocks.Add(sea.gameObject);
                     sea.transform.parent = transform;
-                    sea.transform.localPosition = new Vector3(j * seaScale.x * 2, transform.position.y, i * seaScale.z * 2);
+                    sea.transform.localPosition = new Vector3(j * _tileSize, transform.position.y, i * _tileSize);
                 }
-            transform.position = new Vector3(-_columns * seaScale.x, transform.position.y, transform.position.z);
+            transform.position = new Vector3(-_columns * _tileSize/2, transform.position.y, transform.position.z);
         }
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.PlayerMovement
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class WASDMovement : MonoBehaviour
     {
         // Editor fields
@@ -17,6 +18,8 @@ namespace Assets.Scripts.PlayerMovement
         // Private fields
         private VelocityInput _velocityInput;
         private Rigidbody _rigidbody;
+        private float _horizontalAxis;
+        private float _verticalAxis;
 
 
 
@@ -28,13 +31,17 @@ namespace Assets.Scripts.PlayerMovement
         }
 
 
-
-        // Events
         private void Update()
         {
-            var horizontalAxis = Input.GetAxis("Horizontal");
-            var verticalAxis = Input.GetAxis("Vertical");
-            _rigidbody.velocity = new Vector3(_speed * horizontalAxis, _rigidbody.velocity.y, _speed * verticalAxis);
+            _horizontalAxis = Input.GetAxis("Horizontal");
+            _verticalAxis = Input.GetAxis("Vertical");            
+        }
+
+
+        // Events
+        private void FixedUpdate()
+        {
+            _rigidbody.velocity = new Vector3(_speed * _horizontalAxis, _rigidbody.velocity.y, _speed * _verticalAxis);
         }
     }
 }

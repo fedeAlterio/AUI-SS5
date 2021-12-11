@@ -10,12 +10,12 @@ public class CameraManager : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Vector3 desiredPosition = target.position + offset;
 
         //Get to the desired position slowly so to avoid jittering movement
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothingSpeed * Time.smoothDeltaTime);
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothingSpeed);
         transform.position = smoothedPosition;
     }
 }

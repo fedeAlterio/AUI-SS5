@@ -215,8 +215,8 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
                 {
                     var (b1, b2) = (rightIndices[j], rightIndices[j + 1]);
                     var (t1, t2) = (b1 + base.TotVertices, b2 + base.TotVertices);
-                    AddTriangle(b2, t1, b1);
-                    AddTriangle(t2, t1, b2);
+                    AddTriangle(b2, t1, b1, clockWiseNormals: false);
+                    AddTriangle(t2, t1, b2, clockWiseNormals: false);
                 }
                 skipCount++;
                 rightIndices = RightBordersIndices(skipCount).ToList();

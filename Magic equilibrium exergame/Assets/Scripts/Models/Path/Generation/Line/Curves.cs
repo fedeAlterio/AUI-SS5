@@ -17,10 +17,11 @@ namespace Assets.Scripts.Models.Path.Generation.Line
         }
 
 
-        public static ParametricCurve Circle()
+        public static ParametricCurve Circle(Vector3 center, float radius, float speed = 1)
         {
-            CurveEquation equation = t => new Vector3(-Mathf.Cos(t), 0, -Mathf.Sin(t));
-            return new ParametricCurve(equation, 0, 2 * Mathf.PI);
+            var w = speed / radius;
+            CurveEquation equation = t => radius * new Vector3(Mathf.Cos(w*t), 0, Mathf.Sin(w*t)) + center;
+            return new ParametricCurve(equation, 0, 2 * Mathf.PI / w);
         }
 
 

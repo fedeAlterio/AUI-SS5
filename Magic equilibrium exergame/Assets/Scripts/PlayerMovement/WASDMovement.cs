@@ -31,7 +31,7 @@ namespace Assets.Scripts.PlayerMovement
 
 
         // Events
-        private void Update()
+        private void FixedUpdate()
         {
             var horizontalAxis = Input.GetAxis("Horizontal");
             var verticalAxis = Input.GetAxis("Vertical");

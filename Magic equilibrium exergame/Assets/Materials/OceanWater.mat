@@ -22,11 +22,11 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: OceanWater
   m_Shader: {fileID: -6465566751694194690, guid: 5e84dae8c6376cf478a6bd4df5da61e8, type: 3}
-  m_ShaderKeywords: _DISABLE_DECALS _DISABLE_SSR_TRANSPARENT _DOUBLESIDED_ON _ENABLE_FOG_ON_TRANSPARENT
+  m_ShaderKeywords: _DISABLE_DECALS _DISABLE_SSR_TRANSPARENT _ENABLE_FOG_ON_TRANSPARENT
     _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 1
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
   stringTagMap:
     MotionVector: User
@@ -70,7 +70,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_207b0ee0669d40c492bb974e25820ace: 7
-    - Vector1_569fb4faa7f84b08884544ebce30963d: 1
+    - Vector1_569fb4faa7f84b08884544ebce30963d: 2.3
     - Vector1_5a8ac47331b8493ea180abb3536f09a3: 1
     - Vector1_641b1c6f0d604c169ac40d1873b9a765: 1
     - Vector1_7118aecb348b4bffa4f5ced84ab9905f: 0.27
@@ -85,11 +85,11 @@ Material:
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
     - _BlendMode: 0
-    - _CullMode: 0
-    - _CullModeForward: 0
+    - _CullMode: 2
+    - _CullModeForward: 2
     - _DepthOffsetEnable: 0
     - _DiffusionProfileHash: 0
-    - _DoubleSidedEnable: 1
+    - _DoubleSidedEnable: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 10
     - _EnableBlendModePreserveSpecularLighting: 1

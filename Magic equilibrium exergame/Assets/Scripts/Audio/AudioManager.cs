@@ -12,6 +12,9 @@ public class AudioManager : MonoBehaviour
     [Range(0.1f, 1f)]
     public float soundVolume = 1f;
 
+    [Range(0f, 1f)]
+    public float spatialBlend = 0f;
+
     public void Awake()
     {
         if(instance == null)
@@ -32,6 +35,7 @@ public class AudioManager : MonoBehaviour
             s.source.clip = s.clip;
             s.source.volume = soundVolume;
             s.source.loop = s.loop;
+            s.source.spatialBlend = spatialBlend;
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +13,12 @@ namespace Assets.Scripts.Models.Path.Generation.Line
     {
         // Private fields
         protected CurveEquation _equation;
+        
 
 
 
         // Initialization
-        public static ParametricCurve Zero => new ParametricCurve(t => Vector3.zero, 0, 0);
-
         protected ParametricCurve() { }
-
         public ParametricCurve(CurveEquation equation, float minT, float maxT)
         {
             _equation = equation;
@@ -50,14 +49,55 @@ namespace Assets.Scripts.Models.Path.Generation.Line
 
         public IEnumerable<float> QuantizedDomain(int totPieces, bool bordersNotIncluded)
         {
-            var du = (MaxT - MinT) / (totPieces + (bordersNotIncluded ? 1 : - 1));
+            var du = (MaxT - MinT) / (totPieces + (bordersNotIncluded ? 1 : -1));
             var start = bordersNotIncluded ? MinT + du : MinT;
-            for(var i=0; i < totPieces; i++)
+            for (var i = 0; i < totPieces; i++)
                 yield return start + i * du;
         }
 
+        public IEnumerable<float> QuantizedDomainByTimeDistance(float dt)
+        {
+            for(var t = MinT; t <= MaxT; t+=dt)
+                yield return t;
+        }
+
         public Vector3 PointAt(float t) => _equation.Invoke(t);
-        
+        public float Length(int precision = 100)
+        {
+            var length = QuantizedDomain(precision, false)
+                    .Select(x => PointAt(x))
+                    .ToPairs()
+                    .Select(x => Vector3.Distance(x.a, x.b))
+                    .Sum();
+            return length;            
+        }
+
+
+        /// <summary>
+        /// Very Expensive. To use only on level initialization or debug
+        /// </summary>
+        public IEnumerable<float> SpaceQuantizedDomain(float deltaSpace, float dt = 0.01f)
+        {
+            var currentTime = MinT;
+            yield return currentTime;
+            var points = QuantizedDomainByTimeDistance(dt)
+                .Select(t => PointAt(t))
+                .ToPairs();
+            var deltaS = 0f;
+            foreach (var (x1,x2) in points)
+            {
+                deltaS += Vector3.Distance(x1, x2);
+                currentTime += dt;
+                if(deltaS >= deltaSpace)
+                {
+                    deltaS %= deltaSpace; 
+                    yield return currentTime;
+                }
+            }
+        }
+
+
+
         public virtual Vector3 TangentAt(float t)
         {
             return VelocityAt(t).normalized;
@@ -94,7 +134,7 @@ namespace Assets.Scripts.Models.Path.Generation.Line
             return new ParametricCurve(equation, minT, maxT);
         }
 
-        public static ParametricCurve operator + (ParametricCurve curve, Vector3 v)
+        public static ParametricCurve operator +(ParametricCurve curve, Vector3 v)
         {
             var (minT, maxT) = (curve.MinT, curve.MaxT);
             CurveEquation equation = t => v + curve.PointAt(t);

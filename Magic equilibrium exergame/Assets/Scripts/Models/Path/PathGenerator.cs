@@ -2,6 +2,7 @@
 using Assets.Scripts.Models.Path.Blocks;
 using Assets.Scripts.Models.Path.BuildingStrategies;
 using Assets.Scripts.Models.Path.Generation;
+using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Models.Path.Generation.Surface;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,11 @@ namespace Assets.Scripts.Models.Path
 {
     public class PathGenerator : MonoBehaviour
     {
+        // Events
+        public event Action<ParametricCurve> PathGenerated;
+
+
+
         // Editor fields
         [SerializeField] private PathManager _pathManager;
         [SerializeField] private List<BaseBlock> _blocksPrefabs = new List<BaseBlock>();
@@ -45,7 +51,7 @@ namespace Assets.Scripts.Models.Path
         // Events
         private void Update()
         {
-            if(_oldPathThickness != PathThickness || _oldCurveSize != CurveSize  || _oldTextureScale != TextureScale || _oldPathHeight != PathHeight)
+            if (_oldPathThickness != PathThickness || _oldCurveSize != CurveSize || _oldTextureScale != TextureScale || _oldPathHeight != PathHeight)
             {
                 _oldPathHeight = PathHeight;
                 _oldPathThickness = PathThickness;
@@ -58,7 +64,7 @@ namespace Assets.Scripts.Models.Path
 
         // Properties
         private float _oldPathThickness;
-        [field:SerializeField] public float PathThickness { get; set; } = 4;
+        [field: SerializeField] public float PathThickness { get; set; } = 4;
 
 
         private float _oldCurveSize;
@@ -74,9 +80,12 @@ namespace Assets.Scripts.Models.Path
         [field: SerializeField] public float PathHeight { get; set; } = 0.1f;
 
 
+        public ParametricCurve PathCurve { get; private set; }
+
+
         // Public
         public void GenerateLine()
-        {            
+        {
             _pathManager.Clear();
 
             var blocks = PathBuilder<CurveBlock>
@@ -85,31 +94,19 @@ namespace Assets.Scripts.Models.Path
                 .WithTextureScaleFactor(TextureScale)
                 .Start(Vector3.zero, Vector3.forward)
                 .Go(Vector3.forward * 10)
-                .With(_strategies.CoinsPath)
                 .With(NewCheckpoint)
-                .GoWithThinPath(new Vector3(0,1,2) * 10, 0.5f)
-                .Go(Vector3.forward * 4)
-                .With(NewCheckpoint)
-                .With(curve => NewMovingPlatform(curve, Vector3.one.normalized * 5))
-                .GoWithHole(Vector3.forward * 5, 0.3f, 0.4f)
-                .With(curve => NewMovingPlatform(curve, new Vector3(-1, -1, 1).normalized * 5))
-                .Go(Vector3.forward * 20)
-                .With(_strategies.CoinsPath)
-                .Go(Vector3.right * 10)
-                .With(_strategies.CoinsPath)
-                //.GoWithHole(Vector3.forward * 2, 0f, 0.3f)
-                //.GoWithHole(new Vector3(0, 1, 3).normalized, 0f, 0.3f)
-                //.Go(new Vector3(0, -1, 3).normalized)
-                //.Go(Vector3.forward * 20)
-                //.With(NewCheckpoint)
-                //.With(_strategies.CoinsPath)
-                //.Go(new Vector3(0, -1, 3).normalized)
-                //.Go(new Vector3(0, 1, 3).normalized)
-                //.Go(Vector3.right * 10)
+                .Go(new Vector3(1,0,3)*2)
+                .Go(new Vector3(-1, 0, 3) * 2)
+                .Go(new Vector3(0,1,2).normalized * 1)
+                .Go(new Vector3(0, -1, 2).normalized * 1)
+                .Go(new Vector3(0, -1, 2).normalized * 1)
+                .Go(new Vector3(0, 1, 2).normalized * 1)
                 .Build();
+            PathCurve = new CurvesUnion(blocks.Select(x => x.Curve));
 
             foreach (var block in blocks)
                 _pathManager.Add(block, autoRotation: false);
+            PathGenerated?.Invoke(PathCurve);
         }
 
 
@@ -120,15 +117,15 @@ namespace Assets.Scripts.Models.Path
             var checkpoint = curveBlock.gameObject.AddComponent<CheckPoint>();
             curveBlock.gameObject.AddComponent<CheckPointColorManager>();
 
-            var surface = curveBlock.CurveSurface;            
-            var spawnPosition = surface.GetTopPosition(surface.Surface.UMin, surface.Surface.VMiddle, topOffset: 0.4f);            
+            var surface = curveBlock.CurveSurface;
+            var spawnPosition = surface.GetTopPosition(surface.Surface.UMin, surface.Surface.VMiddle, topOffset: 0.4f);
             checkpoint.spawnPosition = spawnPosition;
             checkpoint.Initialize(_checkpointId++);
             return curveBlock;
         }
 
         private CurveBlock NewMovingPlatform(CurveBlock curveBlock, Vector3 deltaPos, float speed = 5f)
-        {            
+        {
             var movingBlock = curveBlock.gameObject.AddComponent<MovingBlock>();
             movingBlock.DeltaPosition = deltaPos;
             movingBlock.Speed = speed;

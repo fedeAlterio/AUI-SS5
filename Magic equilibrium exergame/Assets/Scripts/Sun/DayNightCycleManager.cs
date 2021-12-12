@@ -58,7 +58,10 @@ namespace Assets.Scripts.Sun
 
         private void Start()
         {
+            _sun.gameObject.SetActive(false);
+            _moon.gameObject.SetActive(true);
             _moonIntensity = _moon.intensity;
+            _moon.intensity = 0;
             _sunMovement.New(DayNightCycle);
             _updateSunMovement.New(UpdateSunPosition);
             CurrentTime = _startDayPercentage * DayLength;
@@ -87,19 +90,15 @@ namespace Assets.Scripts.Sun
             IsNightTime = true;
             _sun.gameObject.SetActive(false);
             _moon.gameObject.SetActive(true);
-            manager.Lerp(0, _moonIntensity, val => _moon.intensity = val, smooth:false, speed: _fadeAnimationSpeed).Forget();
+            _moon.intensity = 0;
             CurrentTime = 0;
         }
 
 
         private async UniTask TransitionToDay(IAsyncOperationManager manager)
         {
-            if(_moon.gameObject.activeSelf)
-            {
-                _moonIntensity = _moon.intensity;
-                await manager.Lerp(_moon.intensity, 0, val => _moon.intensity = val, smooth: false, speed: _fadeAnimationSpeed);
-                _moon.gameObject.SetActive(false);
-            }
+            
+            _moon.gameObject.SetActive(false);
             _sun.gameObject.SetActive(true);
             _sun.transform.localRotation = Quaternion.Euler(SunTrajectory(0));
             IsNightTime = false;
@@ -115,7 +114,8 @@ namespace Assets.Scripts.Sun
             while (CurrentTime < NightLength)
             {
                 await manager.NextFrame();
-                _moon.intensity = startIntensity * (1 - CurrentTime / NightLength);
+                var moonIntensity = (CurrentTime < NightLength / 2f ? CurrentTime : (NightLength - CurrentTime)) * 2f / NightLength;
+                _moon.intensity = startIntensity * moonIntensity;
             }
         }
 

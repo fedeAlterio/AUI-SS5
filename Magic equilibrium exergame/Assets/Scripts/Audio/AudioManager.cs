@@ -8,9 +8,13 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     public Sound[] soundClips;
+    public Sound[] musicClips;
 
     [Range(0.1f, 1f)]
     public float soundVolume = 1f;
+
+    [Range(0.1f, 1f)]
+    public float musicVolume = 0.5f;
 
     [Range(0f, 1f)]
     public float spatialBlend = 0f;
@@ -37,6 +41,22 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
             s.source.spatialBlend = spatialBlend;
         }
+
+        foreach(Sound s in musicClips)
+        {
+            s.source = gameObject.AddComponent<AudioSource>();
+            s.source.clip = s.clip;
+            s.source.volume = musicVolume;
+            s.source.loop = s.loop;
+            s.source.spatialBlend = spatialBlend;
+        }
+    }
+
+    public void Start()
+    {
+        Sound s = Array.Find(musicClips, sound => sound.name == "LevelTheme");
+
+        s.source.Play();
     }
 
     public void PlayClip(string name)

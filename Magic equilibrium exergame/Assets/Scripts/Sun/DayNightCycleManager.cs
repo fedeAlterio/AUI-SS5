@@ -111,8 +111,12 @@ namespace Assets.Scripts.Sun
         private async UniTask MoonMovement(IAsyncOperationManager manager)
         {
             CurrentTime = 0;
+            var startIntensity = _moonIntensity;
             while (CurrentTime < NightLength)
+            {
                 await manager.NextFrame();
+                _moon.intensity = startIntensity * (1 - CurrentTime / NightLength);
+            }
         }
 
 

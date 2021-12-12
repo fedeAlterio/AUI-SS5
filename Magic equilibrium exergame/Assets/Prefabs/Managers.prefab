@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 8953964640900969514}
   - component: {fileID: 8953964640900969517}
   - component: {fileID: 8953964640900969515}
+  - component: {fileID: 4770324563419065982}
+  - component: {fileID: 850643064}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -60,3 +62,41 @@ MonoBehaviour:
   playerDeathEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4770324563419065982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8953964640900969516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aa7db13bb36d149ac44f9df868017a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lightPrefab: {fileID: 5784727619884066732, guid: 84214f30f60392a4092de703e402bc5f, type: 3}
+  _lightsParent: {fileID: 0}
+  _lightsHeight: 3
+  _lightsDistance: 10
+--- !u!114 &850643064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8953964640900969516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f37abd7d3288640801392169be656d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sunTransform: {fileID: 0}
+  _sunPositionUpdatePeriodMs: 60
+  _sun: {fileID: 7168137561870748595, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
+  _moon: {fileID: 6879312694545419684, guid: cc4b619a48615724e825ebb120000d81, type: 3}
+  <DawnRotation>k__BackingField: -2
+  <SunsetRotation>k__BackingField: 190
+  <SunHorizontalAngle>k__BackingField: 214
+  <DayLength>k__BackingField: 60
+  <NightLength>k__BackingField: 60
+  <CurrentTime>k__BackingField: 0

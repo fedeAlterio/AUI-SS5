@@ -119,7 +119,6 @@ namespace Assets.Scripts.Animations
             }
             catch (Exception e)
             {
-                Debug.Log(e);
             }
             finally
             {

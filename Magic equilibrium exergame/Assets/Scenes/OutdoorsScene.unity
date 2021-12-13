@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 6.027382, g: 13.319824, b: 7.1957703, a: 1}
+  m_IndirectSpecularColor: {r: 42.197174, g: 179.75006, b: 155.02197, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -138,6 +138,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6879312694545419685, guid: cc4b619a48615724e825ebb120000d81, type: 3}
+      propertyPath: m_Intensity
+      value: 3707.2173
+      objectReference: {fileID: 0}
     - target: {fileID: 6879312694545419686, guid: cc4b619a48615724e825ebb120000d81, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -191,6 +195,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
+      propertyPath: <PathHeight>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778083217790617218, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
+      propertyPath: <PathThickness>k__BackingField
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4778083217790617220, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -268,12 +280,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 642606203}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: _startDayPercentage
-      value: 0.123
+      value: 0.69
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: <DayLength>k__BackingField
-      value: 1000000
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: <CurrentTime>k__BackingField
@@ -281,24 +297,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: <NightLength>k__BackingField
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: <DawnRotation>k__BackingField
-      value: -10
+      value: 185
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: <SunsetRotation>k__BackingField
-      value: 185
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: <SunHorizontalAngle>k__BackingField
       value: 225.82
       objectReference: {fileID: 0}
     - target: {fileID: 4770324563419065982, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
+      propertyPath: _lightsHeight
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770324563419065982, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: _lightsParent
       value: 
       objectReference: {fileID: 2082969402}
+    - target: {fileID: 4770324563419065982, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
+      propertyPath: _lightsDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8953964640900969514, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -1159,6 +1183,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1365340006, guid: cafba8de3d09b1c478f8acfef55ff496, type: 3}
+      propertyPath: baseVelocity
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4783318018221494449, guid: cafba8de3d09b1c478f8acfef55ff496, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1303,27 +1331,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7168137561870748593, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.12262295
+      value: 0.032846455
       objectReference: {fileID: 0}
     - target: {fileID: 7168137561870748593, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.89552903
+      value: 0.03783813
       objectReference: {fileID: 0}
     - target: {fileID: 7168137561870748593, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.21409209
+      value: -0.7020912
       objectReference: {fileID: 0}
     - target: {fileID: 7168137561870748593, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.37034586
+      value: 0.710322
       objectReference: {fileID: 0}
     - target: {fileID: 7168137561870748593, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 3.5
+      value: 89.22
       objectReference: {fileID: 0}
     - target: {fileID: 7168137561870748593, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 225.82
+      value: 394.1
       objectReference: {fileID: 0}
     - target: {fileID: 7168137561870748593, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1332,6 +1360,10 @@ PrefabInstance:
     - target: {fileID: 7168137561870748594, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
       propertyPath: m_Intensity
       value: 4087.518
+      objectReference: {fileID: 0}
+    - target: {fileID: 7168137561870748594, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
+      propertyPath: m_ColorTemperature
+      value: 4022
       objectReference: {fileID: 0}
     - target: {fileID: 7168137561870748595, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
       propertyPath: m_Name

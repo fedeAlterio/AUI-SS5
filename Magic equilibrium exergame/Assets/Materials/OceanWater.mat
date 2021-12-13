@@ -127,9 +127,9 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
-    - Color_50c97a2c12f548bc9a225f06f82b4cfc: {r: 0.31372547, g: 0.59289694, b: 0.85882354, a: 0}
+    - Color_50c97a2c12f548bc9a225f06f82b4cfc: {r: 0.06550375, g: 0.34324113, b: 0.6037736, a: 0}
     - Color_878c72e726a343e9976cf76cc52b3fb9: {r: 1, g: 1, b: 1, a: 0}
-    - Color_96e8a329c37243ec8ee034c42cbffcf1: {r: 0.37210748, g: 0.6379929, b: 0.6981132, a: 0}
+    - Color_96e8a329c37243ec8ee034c42cbffcf1: {r: 0.1742168, g: 0.4245283, b: 0.379998, a: 0}
     - Vector2_96ef409781184d3c945c6dc0dbc21c85: {r: 7.15, g: 3.61, b: 2.79, a: 5.95}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}

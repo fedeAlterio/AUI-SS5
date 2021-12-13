@@ -16,12 +16,13 @@ namespace Assets.Scripts.Environment.ObjectSpawner
         [SerializeField] private Transform _lightsParent;
         [SerializeField] private int _lightsHeight;
         [SerializeField] private float _lightsDistance;
+        [SerializeField] private GameObject _sea;
 
 
 
         // Private fields
         private PathGenerator _pathGenerator;
-        private List<GameObject> _lights = new List<GameObject>();
+        private List<GameObject> _lights = new List<GameObject>();        
 
 
 
@@ -29,33 +30,50 @@ namespace Assets.Scripts.Environment.ObjectSpawner
         private void Awake()
         {
             _pathGenerator = FindObjectOfType<PathGenerator>();
-            _pathGenerator.PathGenerated += OnPathGenerated;
+            _pathGenerator.PathGenerated += OnPathGenerated;            
         }
 
 
 
         // Events
         private void OnPathGenerated(ParametricCurve path)
-        {           
+        {
+            AddLightsOnPath(path);
+            AddLightsOnSea();
+        }
+
+
+
+
+
+
+        // Core
+        private void AddLightsOnSea()
+        {
+        }
+
+
+        private void AddLightsOnPath(ParametricCurve path)
+        {
             ClearLights();
             if (_lightsParent == null)
                 _lightsParent = transform;
 
             var deltaX = _pathGenerator.PathThickness / 2;
-            foreach(var t in path.SpaceQuantizedDomain(deltaSpace: _lightsDistance))
+            foreach (var t in path.SpaceQuantizedDomain(deltaSpace: _lightsDistance))
             {
-                var(z, x, y) = path.GetLocalBasis(t);
-                var top = path.PointAt(t) + y * _pathGenerator.PathHeight;
-                var lightL = top - x * deltaX + _lightsHeight * y;
-                var lightR = top + x * deltaX + _lightsHeight * y;
-                AddLight(lightL);
-                AddLight(lightR);
+                var (z, x, y) = path.GetLocalBasis(t);
+                var top = path.PointAt(t) + y * _pathGenerator.PathHeight + _lightsHeight * y; ;
+                AddLight(top);
+                for (var i = 1; i < 3; i++)
+                {
+                    AddLight(top - (top.y - 5) * Vector3.up - x * i * 15);
+                    AddLight(top - (top.y - 5) * Vector3.up + x * i * 15);
+                }
             }
         }
 
 
-
-        // Core
         private void ClearLights()
         {
             foreach (var light in _lights)

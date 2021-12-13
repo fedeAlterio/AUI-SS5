@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8953964640900969515}
   - component: {fileID: 4770324563419065982}
   - component: {fileID: 850643064}
+  - component: {fileID: 1516233701}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -94,11 +95,36 @@ MonoBehaviour:
   _moon: {fileID: 0}
   _darkFactor: 0.2
   _fadeAnimationSpeed: 4
-  _startDayPercentage: 0.832
+  _startDayPercentage: 0.382
   _updateSunTimePeriod: 60
   <DawnRotation>k__BackingField: 185
   <SunsetRotation>k__BackingField: -10
-  <SunHorizontalAngle>k__BackingField: 214
+  <SunHorizontalAngle>k__BackingField: 214.45
   <DayLength>k__BackingField: 150
   <NightLength>k__BackingField: 60
   <CurrentTime>k__BackingField: 0
+--- !u!114 &1516233701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8953964640900969516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ac9367198380f047855249080ecddb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundClips:
+  - name: CoinTaken
+    clip: {fileID: 8300000, guid: 9ffb5d67dcd9b394793f4b72878be86e, type: 3}
+    loop: 0
+    source: {fileID: 0}
+  musicClips:
+  - name: LevelTheme
+    clip: {fileID: 8300000, guid: b81b8f2411f04064e93389e72dc48498, type: 3}
+    loop: 1
+    source: {fileID: 0}
+  soundVolume: 1
+  musicVolume: 0.5
+  spatialBlend: 0

@@ -95,12 +95,9 @@ namespace Assets.Scripts.Models.Path
                 .Start(Vector3.zero, Vector3.forward)
                 .Go(Vector3.forward * 10)
                 .With(NewCheckpoint)
-                .Go(new Vector3(1,0,3)*2)
-                .Go(new Vector3(-1, 0, 3) * 2)
-                .Go(new Vector3(0,1,2).normalized * 1)
-                .Go(new Vector3(0, -1, 2).normalized * 1)
-                .Go(new Vector3(0, -1, 2).normalized * 1)
-                .Go(new Vector3(0, 1, 2).normalized * 1)
+                .Go(new Vector3(1,0,2).normalized * 10)
+                .With(NewCheckpoint)
+                .With(_strategies.CoinsPath)
                 .Build();
             PathCurve = new CurvesUnion(blocks.Select(x => x.Curve));
 

@@ -33,7 +33,9 @@ namespace Assets.Scripts.Models.Path
         private BuildingStrategyManager _strategies;
         private readonly List<CurveBlock> _blocks = new List<CurveBlock>();
         private int _checkpointId;
-
+        private Vector3 _lastPathEndPoint;
+        private Vector3 _lastPathEndDirection = Vector3.forward;
+        private List<CurveBlock> _currentPathBlocks = new List<CurveBlock>();
 
 
         // Initialization
@@ -57,7 +59,7 @@ namespace Assets.Scripts.Models.Path
                 _oldPathThickness = PathThickness;
                 _oldCurveSize = CurveSize;
                 _oldTextureScale = TextureScale;
-                GenerateLine();
+                GenerateLevel();
             }
         }
 
@@ -79,32 +81,81 @@ namespace Assets.Scripts.Models.Path
         private float _oldPathHeight;
         [field: SerializeField] public float PathHeight { get; set; } = 0.1f;
 
-
         public ParametricCurve PathCurve { get; private set; }
 
 
+
         // Public
-        public void GenerateLine()
+        public void GenerateLevel()
         {
             _pathManager.Clear();
 
-            var blocks = PathBuilder<CurveBlock>
+            foreach (var line in CreateLevel())
+                AddLine(line);
+
+            PathCurve = new CurvesUnion(_currentPathBlocks.Select(x => x.Curve));
+            PathGenerated?.Invoke(PathCurve);
+        }
+
+        private void AddLine(ILineBuilder<CurveBlock> line)
+        {
+            var blocks = line.Build();
+            var lastCurve = blocks.Last().Curve;
+            _lastPathEndPoint = lastCurve.LastPoint;
+            _lastPathEndDirection = lastCurve.TangentAt(lastCurve.MaxT);
+            if (Mathf.Abs(_lastPathEndDirection.magnitude) < float.Epsilon)
+                _lastPathEndDirection = Vector3.forward;
+
+            _currentPathBlocks.AddRange(blocks);
+            foreach (var block in blocks)
+                _pathManager.Add(block, autoRotation: false);
+        }
+
+
+        private ILineBuilder<CurveBlock> NewLine()
+        {
+            return PathBuilder<CurveBlock>
                 .New(mapper: BlockFromSurface)
                 .WithDimensions(CurveSize, PathThickness, PathHeight)
                 .WithTextureScaleFactor(TextureScale)
-                .Start(Vector3.zero, Vector3.forward)
+                .Start(_lastPathEndPoint, _lastPathEndDirection);
+        }
+
+
+
+        // Levels
+        private IEnumerable<ILineBuilder<CurveBlock>> CreateLevel()
+        {
+            yield return NewLine()
                 .Go(Vector3.forward * 10)
                 .With(NewCheckpoint)
-                .Go(new Vector3(1,0,2).normalized * 10)
-                .With(NewCheckpoint)
-                .With(_strategies.CoinsPath)
-                .Build();
-            PathCurve = new CurvesUnion(blocks.Select(x => x.Curve));
+                .Go(new Vector3(0, 1, 2).normalized * 3)
+                .Go(new Vector3(0, -1, 2).normalized * 3)
+                .GoWithHole(Vector3.forward * 3, 1 / 3.0f, 1 / 3.0f)
+                .GoWithHole(new Vector3(-1, 0, 2).normalized * 5, 1 / 3.0f, 2 / 3.0f)
+                .GoWithHole(new Vector3(1, 0, 2).normalized * 5, 1 / 3.0f, 2 / 3.0f)
+                .Go(Vector3.forward * 5)
+                .Go(Vector3.forward * 13)
+                .With(_strategies.CoinsPath);
 
-            foreach (var block in blocks)
-                _pathManager.Add(block, autoRotation: false);
-            PathGenerated?.Invoke(PathCurve);
+
+            yield return NewLine()
+                 .Go(Vector3.forward * 3)
+                 .Go(new Vector3(0, 1, 2).normalized)
+                 .Go(new Vector3(0, -1, 2).normalized)
+                 .With(NewCheckpoint)
+                 .Go(Vector3.forward * 3)
+                 .With(block => NewMovingPlatform(block, 5 * new Vector3(0, -1, 2)))
+                 .GoWithThinPath(Vector3.forward * 5, 0.4f)
+                 .With(block => NewMovingPlatform(block, 5 * new Vector3(-1, 0, 2)))
+                 .Go(Vector3.forward * 3)
+                 .Go(new Vector3(0, 1, 2).normalized * 20)
+                 .With(_strategies.CoinsPath)
+                 .GoWithThinPath(new Vector3(0, -1, 3).normalized * 5, 0.4f)
+                 .GoWithThinPath(new Vector3(-1, 0, 3).normalized * 5, 0.4f)
+                 .GoWithThinPath(new Vector3(1, 0, 3).normalized * 10, 0.4f);
         }
+
 
 
 
@@ -121,7 +172,7 @@ namespace Assets.Scripts.Models.Path
             return curveBlock;
         }
 
-        private CurveBlock NewMovingPlatform(CurveBlock curveBlock, Vector3 deltaPos, float speed = 5f)
+        private CurveBlock NewMovingPlatform(CurveBlock curveBlock, Vector3 deltaPos, float speed = 8f)
         {
             var movingBlock = curveBlock.gameObject.AddComponent<MovingBlock>();
             movingBlock.DeltaPosition = deltaPos;

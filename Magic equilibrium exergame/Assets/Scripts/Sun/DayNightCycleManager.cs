@@ -90,14 +90,14 @@ namespace Assets.Scripts.Sun
             IsNightTime = true;
             _sun.gameObject.SetActive(false);
             _moon.gameObject.SetActive(true);
-            await manager.Lerp(_moon.intensity, 1f, val => _moon.intensity = val, smooth: false, speed: 0.5f);
+            await manager.Lerp(_moon.intensity, 1f, val => _moon.intensity = val, smooth: false, speed: 0.25f);
             CurrentTime = 0;
         }
 
 
         private async UniTask TransitionToDay(IAsyncOperationManager manager)
         {
-            await manager.Lerp(_moon.intensity, 0 , val => _moon.intensity = val);
+            await manager.Lerp(_moon.intensity, 0 , val => _moon.intensity = val, smooth: false, speed: 0.25f);
             _moon.gameObject.SetActive(false);
             _sun.gameObject.SetActive(true);
             _sun.transform.localRotation = Quaternion.Euler(SunTrajectory(0));

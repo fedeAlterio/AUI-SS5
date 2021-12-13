@@ -168,12 +168,14 @@ namespace Assets.Scripts.Animations
         {
             var cancellationToken = _cancellationTokenSource.Token;
             var current = from;
+            var direction = Mathf.Sign(to - from);
+            var (min, max) = from < to ? (from, to) : (to, from);
             while (Math.Abs(current - to) > _precision && !cancellationToken.IsCancellationRequested)
             {
                 var deltaTime = DeltaTime;
                 current = smooth
                     ? Mathf.Lerp(current, to, deltaTime * speed * SpeedScale)
-                    : Mathf.Clamp(current + speed * deltaTime, from, to);
+                    : Mathf.Clamp(current + direction * speed * deltaTime, min, max);
 
                 callback.Invoke(current);
                 await NextFrame();

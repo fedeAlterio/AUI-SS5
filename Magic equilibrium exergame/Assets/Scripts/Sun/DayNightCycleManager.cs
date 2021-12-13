@@ -78,9 +78,9 @@ namespace Assets.Scripts.Sun
             while(true)
             {                
                 await TransitionToDay(manager);
-                await SunMovement(manager);
+                await WhileDay(manager);
                 await TransitionToNight(manager);
-                await MoonMovement(manager);
+                await WhileNight(manager);                
             }
         }
 
@@ -97,7 +97,8 @@ namespace Assets.Scripts.Sun
 
         private async UniTask TransitionToDay(IAsyncOperationManager manager)
         {
-            await manager.Lerp(_moon.intensity, 0 , val => _moon.intensity = val, smooth: false, speed: 0.25f);
+            Debug.Log("Transition to day");
+            await manager.Lerp(_moon.intensity, 0, val => _moon.intensity = val, smooth: false, speed: 0.25f);
             _moon.gameObject.SetActive(false);
             _sun.gameObject.SetActive(true);
             _sun.transform.localRotation = Quaternion.Euler(SunTrajectory(0));
@@ -106,7 +107,7 @@ namespace Assets.Scripts.Sun
 
 
 
-        private async UniTask MoonMovement(IAsyncOperationManager manager)
+        private async UniTask WhileNight(IAsyncOperationManager manager)
         {
             CurrentTime = 0;
             var highMoonIntensity = _moonIntensity;
@@ -114,18 +115,20 @@ namespace Assets.Scripts.Sun
             while (CurrentTime < NightLength)
             {
                 await manager.NextFrame();
-                var moonIntensity = (CurrentTime < NightLength / 2f ? CurrentTime : (NightLength - CurrentTime)) * 2f / NightLength;
+                var moonIntensity = (CurrentTime < NightLength / 2f ? CurrentTime : Mathf.Abs(NightLength - CurrentTime)) * 2f / NightLength;
                 _moon.intensity = startIntensity + highMoonIntensity * moonIntensity;
             }
         }
 
 
-        private async UniTask SunMovement(IAsyncOperationManager manager)
+        private async UniTask WhileDay(IAsyncOperationManager manager)
         {
             CurrentTime = 0;
             while(CurrentTime < DayLength)
                 await manager.NextFrame();
         }
+
+
 
         private void UpdateSunPosition()
         {

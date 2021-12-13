@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 3.1919918, g: 5.6026993, b: 2.475525, a: 1}
+  m_IndirectSpecularColor: {r: 0.036354333, g: 0.19158888, b: 0.35955, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -136,11 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6879312694545419684, guid: cc4b619a48615724e825ebb120000d81, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6879312694545419685, guid: cc4b619a48615724e825ebb120000d81, type: 3}
       propertyPath: m_Intensity
-      value: 40.01265
+      value: 58.60645
       objectReference: {fileID: 0}
     - target: {fileID: 6879312694545419686, guid: cc4b619a48615724e825ebb120000d81, type: 3}
       propertyPath: m_RootOrder
@@ -188,7 +188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6879312694545419687, guid: cc4b619a48615724e825ebb120000d81, type: 3}
       propertyPath: m_Intensity
-      value: 40.01265
+      value: 58.60645
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc4b619a48615724e825ebb120000d81, type: 3}
@@ -294,7 +294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: _startDayPercentage
-      value: 0.977
+      value: 0.832
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: _updateSunTimePeriod
@@ -302,7 +302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: <DayLength>k__BackingField
-      value: 250
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: <NightLength>k__BackingField
@@ -1316,13 +1316,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -151.63
       objectReference: {fileID: 0}
+    - target: {fileID: 7168137561870748594, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
+      propertyPath: m_Intensity
+      value: 1226.3549
+      objectReference: {fileID: 0}
     - target: {fileID: 7168137561870748595, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
       propertyPath: m_Name
       value: Sun
       objectReference: {fileID: 0}
     - target: {fileID: 7168137561870748595, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}

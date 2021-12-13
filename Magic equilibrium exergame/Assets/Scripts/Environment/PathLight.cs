@@ -57,7 +57,6 @@ namespace Assets.Scripts.Environment
         // Animations
         private async UniTask ChangeLightStatus(IAsyncOperationManager manager)
         {
-            Debug.Log("Change");
             var startIntensity = _light.intensity;
             var endIntensity = _isDark ? _intensity : 0;
             await manager.Lerp(startIntensity, endIntensity, val => _light.intensity = val, smooth: false, speed: 8000f);

@@ -63,7 +63,7 @@ namespace Assets.Scripts.Sun
             _moonIntensity = _moon.intensity;
             _moon.intensity = 0;
             _sunMovement.New(DayNightCycle);
-            _updateSunMovement.New(UpdateSunPosition);
+            _updateSunMovement.New(UpdateTime);
             CurrentTime = _startDayPercentage * DayLength;
         }
 
@@ -90,19 +90,18 @@ namespace Assets.Scripts.Sun
             IsNightTime = true;
             _sun.gameObject.SetActive(false);
             _moon.gameObject.SetActive(true);
-            _moon.intensity = 0;
+            await manager.Lerp(_moon.intensity, 1f, val => _moon.intensity = val, smooth: false, speed: 0.5f);
             CurrentTime = 0;
         }
 
 
         private async UniTask TransitionToDay(IAsyncOperationManager manager)
         {
-            
+            await manager.Lerp(_moon.intensity, 0 , val => _moon.intensity = val);
             _moon.gameObject.SetActive(false);
             _sun.gameObject.SetActive(true);
             _sun.transform.localRotation = Quaternion.Euler(SunTrajectory(0));
             IsNightTime = false;
-            CurrentTime = 0;
         }
 
 
@@ -110,12 +109,13 @@ namespace Assets.Scripts.Sun
         private async UniTask MoonMovement(IAsyncOperationManager manager)
         {
             CurrentTime = 0;
-            var startIntensity = _moonIntensity;
+            var highMoonIntensity = _moonIntensity;
+            var startIntensity = _moon.intensity;
             while (CurrentTime < NightLength)
             {
                 await manager.NextFrame();
                 var moonIntensity = (CurrentTime < NightLength / 2f ? CurrentTime : (NightLength - CurrentTime)) * 2f / NightLength;
-                _moon.intensity = startIntensity * moonIntensity;
+                _moon.intensity = startIntensity + highMoonIntensity * moonIntensity;
             }
         }
 
@@ -137,7 +137,7 @@ namespace Assets.Scripts.Sun
         }
 
 
-        private async UniTask UpdateSunPosition(IAsyncOperationManager manager)
+        private async UniTask UpdateTime(IAsyncOperationManager manager)
         {            
             while(true)
             {

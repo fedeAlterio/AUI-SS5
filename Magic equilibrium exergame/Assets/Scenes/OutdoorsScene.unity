@@ -138,6 +138,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6879312694545419685, guid: cc4b619a48615724e825ebb120000d81, type: 3}
+      propertyPath: m_Intensity
+      value: 40.01265
+      objectReference: {fileID: 0}
     - target: {fileID: 6879312694545419686, guid: cc4b619a48615724e825ebb120000d81, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -181,6 +185,10 @@ PrefabInstance:
     - target: {fileID: 6879312694545419686, guid: cc4b619a48615724e825ebb120000d81, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -151.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879312694545419687, guid: cc4b619a48615724e825ebb120000d81, type: 3}
+      propertyPath: m_Intensity
+      value: 40.01265
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc4b619a48615724e825ebb120000d81, type: 3}
@@ -286,7 +294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: _startDayPercentage
-      value: 0.998
+      value: 0.977
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: _updateSunTimePeriod
@@ -302,7 +310,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: <DawnRotation>k__BackingField
-      value: 181
+      value: 185
       objectReference: {fileID: 0}
     - target: {fileID: 850643064, guid: 7049ae71f58e4f14ca1f7b087d5a5fc7, type: 3}
       propertyPath: <SunsetRotation>k__BackingField

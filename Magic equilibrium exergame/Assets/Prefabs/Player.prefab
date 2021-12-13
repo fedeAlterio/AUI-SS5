@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4783318018221494463}
   - component: {fileID: 4783318018221494462}
   - component: {fileID: -7158725574742501665}
+  - component: {fileID: 1365340006}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4e38fab93ac89f74f998431bad17748d, type: 2}
+  - {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -139,4 +140,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8b0599a3df35244bfdfc9000057c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVelocity: {fileID: 0}
+  playerVelocity: {fileID: 1365340006}
+--- !u!114 &1365340006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4783318018221494449}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d87a472e67fc8b44caaf06a97d4bc652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseVelocity: 5
+  slope: 0
+  collisionCount: 0
+  x: 0
+  y: 0
+  z: 0
+  m_slope: 0

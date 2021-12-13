@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lightPrefab: {fileID: 5784727619884066732, guid: 84214f30f60392a4092de703e402bc5f, type: 3}
   _lightsParent: {fileID: 0}
-  _lightsHeight: 3
+  _lightsHeight: 2
   _lightsDistance: 10
 --- !u!114 &850643064
 MonoBehaviour:
@@ -90,13 +90,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f37abd7d3288640801392169be656d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sunTransform: {fileID: 0}
-  _sunPositionUpdatePeriodMs: 60
-  _sun: {fileID: 7168137561870748595, guid: caca2ef8f9d20d549bee228321581a5a, type: 3}
-  _moon: {fileID: 6879312694545419684, guid: cc4b619a48615724e825ebb120000d81, type: 3}
-  <DawnRotation>k__BackingField: -2
-  <SunsetRotation>k__BackingField: 190
+  _sun: {fileID: 0}
+  _moon: {fileID: 0}
+  _darkFactor: 0.2
+  _fadeAnimationSpeed: 4
+  _startDayPercentage: 0.832
+  _updateSunTimePeriod: 60
+  <DawnRotation>k__BackingField: 185
+  <SunsetRotation>k__BackingField: -10
   <SunHorizontalAngle>k__BackingField: 214
-  <DayLength>k__BackingField: 60
+  <DayLength>k__BackingField: 150
   <NightLength>k__BackingField: 60
   <CurrentTime>k__BackingField: 0

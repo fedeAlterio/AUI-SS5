@@ -431,7 +431,7 @@ Transform:
   m_GameObject: {fileID: 2073814386625153628}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 3257722991442608911}
   m_Father: {fileID: 0}
@@ -451,7 +451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Speed>k__BackingField: 1
   <ForwardDirection>k__BackingField: {x: 0, y: 0, z: 1}
-  _radiusLength: 2
+  _radiusLength: 8
 --- !u!1 &3005940126878165393
 GameObject:
   m_ObjectHideFlags: 0

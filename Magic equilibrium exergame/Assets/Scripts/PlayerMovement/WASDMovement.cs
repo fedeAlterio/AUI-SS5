@@ -41,7 +41,8 @@ namespace Assets.Scripts.PlayerMovement
         // Events
         private void FixedUpdate()
         {
-            _rigidbody.velocity = new Vector3(_speed * _horizontalAxis, _rigidbody.velocity.y, _speed * _verticalAxis);
+            _velocityInput.inputX = _horizontalAxis * 5;
+            _velocityInput.inputZ = _verticalAxis * 5;
         }
     }
 }

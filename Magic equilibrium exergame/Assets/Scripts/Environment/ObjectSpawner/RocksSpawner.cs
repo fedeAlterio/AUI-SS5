@@ -47,8 +47,8 @@ namespace Assets.Scripts.Environment.ObjectSpawner
                 
                 for(var i=1; i <=_rocksColumns; i++)
                 {
-                    AddRock(top - x *( i * _horizontalOffset + 0.5f * _horizontalOffset* UnityEngine.Random.Range(-0.5f,0.5f)));
-                    AddRock(top + x * (i * _horizontalOffset + 0.5f * _horizontalOffset * UnityEngine.Random.Range(-0.5f, 0.5f)));
+                    AddRock(top - x *( i * _horizontalOffset + 0.5f * _horizontalOffset* UnityEngine.Random.Range(0,1f)));
+                    AddRock(top + x * (i * _horizontalOffset + 0.5f * _horizontalOffset * UnityEngine.Random.Range(0f, 1f)));
                 }
             }
         }

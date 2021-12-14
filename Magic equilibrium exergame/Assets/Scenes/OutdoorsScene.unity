@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 41.047104, g: 174.1344, b: 149.86304, a: 1}
+  m_IndirectSpecularColor: {r: 41.074326, g: 174.26727, b: 149.99536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -401,11 +401,6 @@ MonoBehaviour:
   _horizontalOffset: 3
   _rocksParent: {fileID: 1320971780}
   _rocksColumns: 1
---- !u!4 &450762239 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4778083217790617220, guid: 0a1d971d1e88cec4a8f7efb79f67b5ee, type: 3}
-  m_PrefabInstance: {fileID: 54404558}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &508144443 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4783318018221494449, guid: cafba8de3d09b1c478f8acfef55ff496, type: 3}
@@ -539,6 +534,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
+--- !u!4 &690344333 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4223380472464793185, guid: cb31eac08b4773145af110909cfa1dd7, type: 3}
+  m_PrefabInstance: {fileID: 690344332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &984270059 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4512551476669447897, guid: e7e4323e13dc432438a9ce274f9b299b, type: 3}
@@ -582,11 +582,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320971779}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 450762239}
+  m_Father: {fileID: 690344333}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1365340009 stripped

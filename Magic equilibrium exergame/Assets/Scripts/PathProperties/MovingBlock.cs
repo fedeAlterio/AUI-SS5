@@ -21,6 +21,12 @@ public class MovingBlock : MonoBehaviour
         _delayStartMovement = new AsyncOperationManager(this);
     }
 
+    private void Start()
+    {
+        var material = GetComponent<MeshRenderer>().material;
+        material.SetColor("_" + nameof(Color), Color.yellow);
+    }
+
 
 
     // Properties

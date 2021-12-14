@@ -10,6 +10,9 @@ public static class AttritionCalculator
     // Returns the deceleration/acceleration to be applied to player based on the ramp's slope
     public static float SlopeAttrition(float angleDegrees)
     {
+        if ( Mathf.Abs(angleDegrees) > 60)
+            return 0;
+
         float acceleration = angleDegrees / maxSlope;
         return acceleration;
     }

@@ -7,12 +7,12 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     // Editor fields
-    [SerializeField] private int _hitDelay;
-
+    [SerializeField] private int _hitDelay;    
 
 
     // Private fields
     private AsyncOperationManager _deathNotifyOperation;
+
 
 
     // Initialization
@@ -20,6 +20,15 @@ public class Enemy : MonoBehaviour
     {
         _deathNotifyOperation = new AsyncOperationManager(this);
     }
+
+
+
+
+    // Properties
+    [field: SerializeField] public bool IsEnabled { get; set; } = true;
+
+
+
 
     // Call this method when something collides with this enemy
     // Check if the colliding object is a Player, in which case call Manager
@@ -43,6 +52,8 @@ public class Enemy : MonoBehaviour
 
     private async UniTask InvokeDeath(IAsyncOperationManager manager)
     {
+        if (!IsEnabled)
+            return;
         await manager.Delay(_hitDelay);
         DeathManager.instance.PlayerDeath();
     }

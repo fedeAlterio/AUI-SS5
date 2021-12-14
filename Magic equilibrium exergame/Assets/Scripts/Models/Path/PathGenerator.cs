@@ -33,9 +33,10 @@ namespace Assets.Scripts.Models.Path
         private BuildingStrategyManager _strategies;
         private readonly List<CurveBlock> _blocks = new List<CurveBlock>();
         private int _checkpointId;
-        private Vector3 _lastPathEndPoint;
+        private Vector3 _lastPathEndPoint = new Vector3(0, 1, 0);
         private Vector3 _lastPathEndDirection = Vector3.forward;
         private List<CurveBlock> _currentPathBlocks = new List<CurveBlock>();
+
 
 
         // Initialization

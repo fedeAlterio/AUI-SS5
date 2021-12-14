@@ -50,6 +50,7 @@ namespace Assets.Scripts.Environment.ObjectSpawner
         // Core
         private void AddLightsOnSea()
         {
+            
         }
 
 
@@ -65,7 +66,7 @@ namespace Assets.Scripts.Environment.ObjectSpawner
                 var (z, x, y) = path.GetLocalBasis(t);
                 var top = path.PointAt(t) + y * _pathGenerator.PathHeight + _lightsHeight * y; ;
                 AddLight(top);
-                for (var i = 1; i < 3; i++)
+                for (var i = 1; i < 2; i++)
                 {
                     AddLight(top - (top.y - 5) * Vector3.up - x * i * 15);
                     AddLight(top - (top.y - 5) * Vector3.up + x * i * 15);

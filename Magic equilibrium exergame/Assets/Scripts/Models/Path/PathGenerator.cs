@@ -145,7 +145,7 @@ namespace Assets.Scripts.Models.Path
                 .GoWithThinPath(new Vector3(-1, 0, 2).normalized * 5, 1 / 3.0f)
                 .GoWithThinPath(new Vector3(1, 0, 2).normalized * 5, 1 / 3.0f)
                 .Go(Vector3.forward * 6)
-                .With(NewCheckpoint)
+                //.With(NewCheckpoint)
                 .GoWithHole(Vector3.forward * 3, 0, 0.6f)
                 .Go(Vector3.forward * 6)
                 .GoWithHole(Vector3.forward * 3, 0.4f, 0.6f)
@@ -160,7 +160,7 @@ namespace Assets.Scripts.Models.Path
 
             yield return NewLine()
                  .Go(Vector3.forward * 3)
-                 .With(NewCheckpoint)
+                 //.With(NewCheckpoint)
                  .Go(new Vector3(0, 1, 2).normalized)
                  .Go(new Vector3(0, -1, 2).normalized)
                  .Go(Vector3.forward * 3)
@@ -171,7 +171,7 @@ namespace Assets.Scripts.Models.Path
                  .Go(new Vector3(0, 1, 2).normalized * 10)
                  .With(_strategies.CoinsPath)
                  .Go(new Vector3(1, -2, 3).normalized * 10)
-                 .With(NewCheckpoint)
+                 //.With(NewCheckpoint)
                  ;
 
             var (end, direction) = (Vector3.zero, Vector3.zero);

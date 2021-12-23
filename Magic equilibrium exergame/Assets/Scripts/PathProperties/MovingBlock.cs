@@ -17,7 +17,7 @@ public class MovingBlock : MonoBehaviour
     // Initialization
     private void Awake()
     {
-        _startPosition = transform.parent.localPosition;
+        _startPosition = transform.localPosition;
         _delayStartMovement = new AsyncOperationManager(this);
     }
 
@@ -42,16 +42,16 @@ public class MovingBlock : MonoBehaviour
         var movementDirection = endPosition - _startPosition;
         var middlePoint = (_startPosition + endPosition) / 2;
         var target = _isPlayerOver ? endPosition : _startPosition;
-        if (Vector3.Distance(transform.parent.localPosition, target) < float.Epsilon)
+        if (Vector3.Distance(transform.localPosition, target) < float.Epsilon)
             return;
 
 
         var direction = movementDirection.normalized * (_isPlayerOver ? 1 : -1);
-        var currentPosition = transform.parent.localPosition;
+        var currentPosition = transform.localPosition;
         var newPosition = currentPosition + Speed * direction / 60;
         var hasGoneTooFar = Vector3.Dot(target - newPosition, target - middlePoint) <= 0; // Dot product < 0 -> opposite directions
 
-        transform.parent.localPosition = hasGoneTooFar ? target : newPosition;
+        transform.localPosition = hasGoneTooFar ? target : newPosition;
     }
 
 
@@ -74,7 +74,7 @@ public class MovingBlock : MonoBehaviour
         if (!collision.gameObject.CompareTag(UnityTag.Player))
             return;
 
-        collision.gameObject.transform.parent = transform.parent;
+        collision.gameObject.transform.parent = transform;
         var newIsPlayerOver = true;
         _delayStartMovement.New(manager => ChangePlayerIsOver(manager, newIsPlayerOver));
     }
@@ -85,7 +85,7 @@ public class MovingBlock : MonoBehaviour
         if (!collision.gameObject.CompareTag(UnityTag.Player))
             return;
 
-        if(collision.gameObject.transform.parent == transform.parent)
+        if(collision.gameObject.transform.parent == transform)
             collision.gameObject.transform.parent = null;
         var newIsPlayerOver = false;
         _delayStartMovement.New(manager => ChangePlayerIsOver(manager, newIsPlayerOver));

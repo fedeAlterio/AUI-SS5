@@ -36,11 +36,12 @@ public class MenuGenerator : MonoBehaviour
 
     private void Start()
     {
+        hastheme = false;
         if (GameSetting.instance != null)
         {
             GameSetting.instance.configuration = (GameConfiguration)Activator.CreateInstance(Type.GetType(configurationname));
             configurationschema = GameSetting.instance.configuration;
-            ThemeManager.allowOnlyFullThemes = allowOnlyCompleteThemes;
+            //ThemeManager.allowOnlyFullThemes = allowOnlyCompleteThemes;
         }
         else
         {
@@ -61,6 +62,7 @@ public class MenuGenerator : MonoBehaviour
             }
         }
         setMinValues();
+        
     }
 
     private void setMinValues()
@@ -83,7 +85,7 @@ public class MenuGenerator : MonoBehaviour
                         }
                         if (a.GetType().ToString() == "PropertyDefaultValue")
                         {
-                            PropertyDefaultValue pdv = a as PropertyDefaultValue;
+                            PropertyDefaultValue pdv = a as PropertyDefaultValue;                            
                             if (p.PropertyType == typeof(int))
                             {
                                 p.SetValue(GameSetting.instance.configuration, pdv.intvalue);

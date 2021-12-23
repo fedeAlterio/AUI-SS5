@@ -39,18 +39,18 @@ namespace Assets.Scripts.Environment.ObjectSpawner
         // Events
         private void OnPathGenerated(ParametricCurve curve)
         {
-            foreach (var t in curve.SpaceQuantizedDomain(deltaSpace: _rocksDistance))
-            {
-                var (z, x, y) = curve.GetLocalBasis(t);
-                var top = curve.PointAt(t) + y * _pathGenerator.PathHeight;
-                top -= top.y * Vector3.up;
+            //foreach (var t in curve.SpaceQuantizedDomain(deltaSpace: _rocksDistance))
+            //{
+            //    var (z, x, y) = curve.GetLocalBasis(t);
+            //    var top = curve.PointAt(t) + y * _pathGenerator.PathHeight;
+            //    top -= top.y * Vector3.up;
                 
-                for(var i=1; i <=_rocksColumns; i++)
-                {
-                    AddRock(top - x *( i * _horizontalOffset + 0.5f * _horizontalOffset* UnityEngine.Random.Range(0,1f)));
-                    AddRock(top + x * (i * _horizontalOffset + 0.5f * _horizontalOffset * UnityEngine.Random.Range(0f, 1f)));
-                }
-            }
+            //    for(var i=1; i <=_rocksColumns; i++)
+            //    {
+            //        AddRock(top - x *( i * _horizontalOffset + 0.5f * _horizontalOffset* UnityEngine.Random.Range(0,1f)));
+            //        AddRock(top + x * (i * _horizontalOffset + 0.5f * _horizontalOffset * UnityEngine.Random.Range(0f, 1f)));
+            //    }
+            //}
         }
 
         private void AddRock(Vector3 position)

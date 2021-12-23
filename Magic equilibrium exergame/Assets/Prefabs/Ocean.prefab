@@ -368,6 +368,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SeaHD
       objectReference: {fileID: 0}
+    - target: {fileID: 7478107345160231046, guid: e9dc333389356f04fa0defadb7da1d56, type: 3}
+      propertyPath: m_TagString
+      value: Sea
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8847650438853926172, guid: e9dc333389356f04fa0defadb7da1d56, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e9dc333389356f04fa0defadb7da1d56, type: 3}

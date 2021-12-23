@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.Models
+namespace Assets.Scripts.Path.BuildingStrategies.Path
 {
-    public static class UnityTag
+    public class PathConfiguration
     {
-        public static string Player => nameof(Player);
     }
 }

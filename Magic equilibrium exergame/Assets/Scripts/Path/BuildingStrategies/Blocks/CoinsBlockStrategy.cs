@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Models.Path.BuildingStrategies
+namespace Assets.Scripts.Path.BuildingStrategies.Blocks
 {
-    public class CoinsPathStrategy : MonoBehaviour
+    public class CoinsBlockStrategy : BlockStrategy
     {
         // Editor fields
         [SerializeField] private Coin _coinPrefab;
@@ -17,14 +17,15 @@ namespace Assets.Scripts.Models.Path.BuildingStrategies
 
 
 
-        // Strategy
-        public void CoinsPath(CurveBlock block)
-        {
-            var coins = CreateCoins(block, 4);
-            var gate = CreateGate(block);
-            gate.Initialize(coins);
-        }
 
+        // Strategy
+        protected override CurveBlock ApplyStrategy(CurveBlock curveBlock)
+        {
+            var coins = CreateCoins(curveBlock, 4);
+            var gate = CreateGate(curveBlock);
+            gate.Initialize(coins);
+            return curveBlock;
+        }
 
 
 

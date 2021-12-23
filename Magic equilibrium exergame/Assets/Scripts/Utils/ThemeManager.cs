@@ -46,8 +46,8 @@ public class ThemeManager{
     public static void StartUp()
     {
         _listOfThemes = new Dictionary<string, ThemeSchema>();
-        Debug.LogError("theme directory " + MagicRoomManager.instance.systemConfiguration.resourcesPath);
-        string themedirectory = MagicRoomManager.instance.systemConfiguration.resourcesPath + "/Themes";// "C://LUDOMI/Themes";
+        //Debug.LogError("theme directory " + MagicRoomManager.instance.systemConfiguration.resourcesPath);
+        string themedirectory = /*MagicRoomManager.instance.systemConfiguration.resourcesPath + "/Themes";// */"C://LUDOMI/Themes";
         Debug.Log(themedirectory);
         if (Directory.Exists(themedirectory))
         {
@@ -60,7 +60,7 @@ public class ThemeManager{
             }
         }
         else {
-            themedirectory = MagicRoomManager.instance.systemConfiguration.resourcesPath + "/themes";// "C://LUDOMI/Themes";
+            themedirectory = /*MagicRoomManager.instance.systemConfiguration.resourcesPath + "/themes";// */"C://LUDOMI/Themes";
             Debug.Log(themedirectory);
             if (Directory.Exists(themedirectory))
             {
@@ -83,7 +83,7 @@ public class ThemeManager{
         {
             themeIndex = 0;
         }
-        activeTheme = _listOfThemes[_listOfThemes.Keys.ElementAt(themeIndex)];
+        //activeTheme = _listOfThemes[_listOfThemes.Keys.ElementAt(themeIndex)];
     }
 
     public static string[] getListOfThemes() {

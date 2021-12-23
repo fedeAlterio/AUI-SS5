@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Mud
+  - Sun
+  - Moon
+  - Sea
   layers:
   - Default
   - TransparentFX

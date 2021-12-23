@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
     {
         if (!IsEnabled)
             return;
-        await manager.Delay(_hitDelay);
+        //await manager.Delay(_hitDelay);
         DeathManager.instance.PlayerDeath();
     }
 }

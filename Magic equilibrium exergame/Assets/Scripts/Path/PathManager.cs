@@ -40,6 +40,12 @@ namespace Assets.Scripts.Models.Path
             _blocks.Add(pathBlock);
         }
 
+        public void AddRange(IEnumerable<BaseBlock> blocks, bool autorotation = false)
+        {
+            foreach (var block in blocks)
+                Add(block, autorotation);
+        }
+
         public void Remove(BaseBlock pathBlock)
         {            
             _blocks.Remove(pathBlock);

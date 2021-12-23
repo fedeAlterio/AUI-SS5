@@ -37,7 +37,6 @@ public class CheckPoint : MonoBehaviour
         if(collisionInfo.gameObject.CompareTag(UnityTag.Player))
         {
             checkpointHit = true;
-            Debug.Log("Checkpoint");    
             spawnPosition = collisionInfo.gameObject.transform.position;
             Taken?.Invoke(this);
         }        

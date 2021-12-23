@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Animations;
+using Assets.Scripts.Models;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
@@ -97,7 +98,6 @@ namespace Assets.Scripts.Sun
 
         private async UniTask TransitionToDay(IAsyncOperationManager manager)
         {
-            Debug.Log("Transition to day");
             await manager.Lerp(_moon.intensity, 0, val => _moon.intensity = val, smooth: false, speed: 0.25f);
             _moon.gameObject.SetActive(false);
             _sun.gameObject.SetActive(true);

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Models.Path.Blocks;
+using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Path.BuildingStrategies.Path;
 using System;
 using System.Collections.Generic;

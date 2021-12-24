@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Models.Path.Blocks;
+using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Path.BuildingStrategies.Blocks;
 using Assets.Scripts.Path.BuildingStrategies.Extensions;
 using Assets.Scripts.Path.BuildingStrategies.Path;
@@ -12,13 +13,13 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
 {
     public class DefaultLevelBuilder : LevelBuilder
     {
-        public override IEnumerable<CurveBlock> BuildLevel(PathConfiguration pathConfiguration)
+        protected override IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(PathConfiguration pathConfiguration)
         {
             var line = NewLine();
             var checkpoint = _blocksContainer.Get<CheckPointStrategy>();
             foreach (var strategy in _pathStrategiesContainer.Strategies.Values)
                 line = line.GoWith(strategy, pathConfiguration).With(checkpoint);
-            return line.Build();
+            yield return line;
         }
     }
 }

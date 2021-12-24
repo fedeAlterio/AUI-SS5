@@ -22,9 +22,6 @@ namespace Assets.Scripts.Path.BuildingStrategies
 
         public void SearchStrategies()
         {
-            if (!_searchStrategies)
-                return;
-            var type = typeof(T);
             _strategies = this.FindInstances<T>().ToList();
             _searchStrategies = false;
         }

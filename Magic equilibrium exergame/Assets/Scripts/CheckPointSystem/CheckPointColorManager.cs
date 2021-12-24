@@ -26,10 +26,6 @@ namespace Assets.Scripts.CheckPointSystem
             _checkPoint = GetComponent<CheckPoint>();
             _checkPoint.Taken += OnCheckpointTaken;
             _colorAnimation = new AsyncOperationManager(this);            
-        }
-
-        private void Start()
-        {
             _startColor = Color;
             Color = Color.green;
         }

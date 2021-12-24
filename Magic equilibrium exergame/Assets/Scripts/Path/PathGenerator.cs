@@ -44,7 +44,7 @@ namespace Assets.Scripts.Models.Path
         {
             _pathManager.Clear();
 
-            var blocks = _levelBuilder.BuildLevel(new PathConfiguration()).ToList();               
+            var blocks = _levelBuilder.BuildLevel(new PathConfiguration()).ToList();         
             PathCurve = new CurvesUnion(blocks.Select(x => x.Curve));            
             _pathManager.AddRange(blocks);
             PathGenerated?.Invoke(PathCurve);
@@ -154,7 +154,7 @@ namespace Assets.Scripts.Models.Path
         //private CurveBlock NewMovingPlatform(CurveBlock curveBlock, Vector3 deltaPosition, float speed = 8f)
         //{
         //    var movingBlock = curveBlock.gameObject.AddComponent<MovingBlock>();
-        //    var (z,x,y) = curveBlock.Curve.GetLocalBasis(curveBlock.Curve.MaxT);
+        //    var (z, x, y) = curveBlock.Curve.GetLocalBasis(curveBlock.Curve.MaxT);
         //    movingBlock.DeltaPosition = z * deltaPosition.z + x * deltaPosition.x + y * deltaPosition.y;
         //    movingBlock.Speed = speed;
 

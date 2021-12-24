@@ -12,7 +12,11 @@ namespace Assets.Scripts.Models.Path
     {
         // Editor fields
         [SerializeField] private Transform _pathTransform;
-        [SerializeField] private List<BaseBlock> _blocks = new List<BaseBlock>();
+
+
+
+        // Private fields
+        private List<BaseBlock> _blocks = new List<BaseBlock>();
 
 
 

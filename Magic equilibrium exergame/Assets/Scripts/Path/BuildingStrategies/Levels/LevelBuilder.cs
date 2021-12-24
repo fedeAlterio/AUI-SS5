@@ -21,7 +21,6 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
         [SerializeField] private Material _pathMaterial;
 
 
-        public abstract IEnumerable<CurveBlock> BuildLevel(PathConfiguration pathConfiguration);
 
 
 
@@ -30,21 +29,39 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
         [field: SerializeField] public float CurveSize { get; set; } = 4;
         [field: SerializeField] public float TextureScale { get; set; } = 0.25f;
         [field: SerializeField] public float PathHeight { get; set; } = 0.1f;
+        protected Vector3 CurrentEndPosition { get; set; }
+        protected Vector3 CurrentEndDirection { get; set; } = Vector3.forward;
+
+
+        // Core
+        public IEnumerable<CurveBlock> BuildLevel(PathConfiguration pathConfiguration)
+        {
+            foreach(var line in CreateLevel(pathConfiguration))
+            {
+                var blocks = line.Build();
+                CurrentEndPosition = blocks[blocks.Count - 1].ExitPosition;
+                CurrentEndDirection = blocks[blocks.Count - 1].ExitDirection;
+                foreach(var block in blocks)
+                    yield return block;
+            }
+        }
+
+        protected abstract IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(PathConfiguration pathConfiguration);
 
 
 
         // protected
         protected ILineBuilder<CurveBlock> NewLine()
         {
-            return NewLine(Vector3.zero, Vector3.forward);
+            return NewLine(CurrentEndPosition, CurrentEndDirection);
         }
 
-        private ILineBuilder<CurveBlock> NewLine(Vector3 start, Vector3 direction)
+        protected ILineBuilder<CurveBlock> NewLine(Vector3 start, Vector3 direction)
         {
             return PathBuilder<CurveBlock>
                 .New(mapper: BlockFromSurface)
                 .WithDimensions(CurveSize, PathThickness, PathHeight)
-                .WithTextureScaleFactor(TextureScale)
+                .WithTextureScaleFactor(TextureScale)                
                 .Start(start, direction);
         }
 

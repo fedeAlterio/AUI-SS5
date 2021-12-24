@@ -14,13 +14,20 @@ namespace Assets.Scripts.Path.BuildingStrategies.Blocks
 
         public CurveBlock Strategy(CurveBlock block)
         {
-            block.name += $" {Name}";
-            block.name.Trim();
+            AddName(block);
             block = ApplyStrategy(block);
             return block;
         }
 
         protected abstract CurveBlock ApplyStrategy(CurveBlock block);
+
+
+        protected void AddName(CurveBlock block) => AddName(block, Name);
+        protected void AddName(CurveBlock block, string name)
+        {
+            block.name += $" {name}";
+            block.name.Trim();
+        }
     }
 }
 

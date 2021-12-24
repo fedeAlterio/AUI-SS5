@@ -14,7 +14,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Extensions
     {
         public static ILineBuilder<CurveBlock> With(this ILineBuilder<CurveBlock> @this, BlockStrategy blockStrategy)
             => @this.With(blockStrategy.Strategy);
-        public static ILineBuilder<CurveBlock> GoWith(this ILineBuilder<CurveBlock> @this, IPathStrategy pathStrategy, PathConfiguration pathConfiguration)
-            => pathStrategy.Build(@this, pathConfiguration);
+        public static ILineBuilder<CurveBlock> GoWith(this ILineBuilder<CurveBlock> @this, IPathStrategy pathStrategy, PathConfiguration pathConfiguration = default)
+            => pathStrategy.Build(@this, pathConfiguration ?? new PathConfiguration());
     }
 }

@@ -10,7 +10,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
 {
     public interface IPathStrategy
     {
-        ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, PathConfiguration pathConfiguration);
+        ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration);
         string Name { get; }
     }
 }

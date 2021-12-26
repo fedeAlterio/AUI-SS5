@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Models.Path.Blocks;
+﻿using Assets.Scripts.DependencyInjection.Extensions;
+using Assets.Scripts.Models.Path.Blocks;
 using Assets.Scripts.Models.Path.Generation;
 using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Models.Path.Generation.Surface;
@@ -22,20 +23,17 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
 
 
 
-
-
         // Properties
-        [field: SerializeField] public float PathThickness { get; set; } = 4;
-        [field: SerializeField] public float CurveSize { get; set; } = 4;
-        [field: SerializeField] public float TextureScale { get; set; } = 0.25f;
-        [field: SerializeField] public float PathHeight { get; set; } = 0.1f;
         protected Vector3 CurrentEndPosition { get; set; }
         protected Vector3 CurrentEndDirection { get; set; } = Vector3.forward;
+        protected IPathConfiguration PathConfiguration { get; private set; }
+
 
 
         // Core
-        public IEnumerable<CurveBlock> BuildLevel(PathConfiguration pathConfiguration)
+        public IEnumerable<CurveBlock> BuildLevel(IPathConfiguration pathConfiguration)
         {
+            PathConfiguration = pathConfiguration;
             foreach(var line in CreateLevel(pathConfiguration))
             {
                 var blocks = line.Build();
@@ -46,7 +44,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
             }
         }
 
-        protected abstract IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(PathConfiguration pathConfiguration);
+        protected abstract IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(IPathConfiguration pathConfiguration);
 
 
 
@@ -60,8 +58,8 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
         {
             return PathBuilder<CurveBlock>
                 .New(mapper: BlockFromSurface)
-                .WithDimensions(CurveSize, PathThickness, PathHeight)
-                .WithTextureScaleFactor(TextureScale)                
+                .WithDimensions(PathConfiguration.CurveSize, PathConfiguration.PathThickness, PathConfiguration.PathHeight)
+                .WithTextureScaleFactor(PathConfiguration.TextureScale)                
                 .Start(start, direction);
         }
 

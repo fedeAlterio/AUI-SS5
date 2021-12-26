@@ -1,6 +1,8 @@
-﻿using Assets.Scripts.Models;
-using Assets.Scripts.Models.Path;
+﻿using Assets.Scripts.DependencyInjection.Extensions;
+using Assets.Scripts.Models;
 using Assets.Scripts.Models.Path.Generation.Line;
+using Assets.Scripts.Path.BuildingStrategies.Path;
+using Assets.Scripts.Path.Generation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,17 +25,20 @@ namespace Assets.Scripts.Environment.ObjectSpawner
         // Private fields
         private PathGenerator _pathGenerator;
         private List<GameObject> _lights = new List<GameObject>();        
-        private GameObject _sea;
 
 
 
         // Initialization
         private void Awake()
         {
-            _sea = GameObject.FindGameObjectWithTag(UnityTag.Sea);
             _pathGenerator = FindObjectOfType<PathGenerator>();
             _pathGenerator.PathGenerated += OnPathGenerated;            
-        }
+        }        
+
+
+
+        // Properties
+        private IPathConfiguration PathConfiguration => this.GetInstance<IPathConfiguration>();
 
 
 
@@ -58,22 +63,22 @@ namespace Assets.Scripts.Environment.ObjectSpawner
 
         private void AddLightsOnPath(ParametricCurve path)
         {
-            //ClearLights();
-            //if (_lightsParent == null)
-            //    _lightsParent = transform;
+            ClearLights();
+            if (_lightsParent == null)
+                _lightsParent = transform;
 
-            //var deltaX = _pathGenerator.PathThickness / 2;
-            //foreach (var t in path.SpaceQuantizedDomain(deltaSpace: _lightsDistance))
-            //{
-            //    var (z, x, y) = path.GetLocalBasis(t);
-            //    var top = path.PointAt(t) + y * _pathGenerator.PathHeight + _lightsHeight * y; ;
-            //    AddLight(top);
-            //    for (var i = 1; i < 2; i++)
-            //    {
-            //        AddLight(top - (top.y - 5) * Vector3.up - x * i * 15);
-            //        AddLight(top - (top.y - 5) * Vector3.up + x * i * 15);
-            //    }
-            //}
+            var deltaX = PathConfiguration.PathThickness / 2;
+            foreach (var t in path.SpaceQuantizedDomain(deltaSpace: _lightsDistance))
+            {
+                var (z, x, y) = path.GetLocalBasis(t);
+                var top = path.PointAt(t) + y * PathConfiguration.PathHeight + _lightsHeight * y; ;
+                AddLight(top);
+                for (var i = 1; i < 2; i++)
+                {
+                    AddLight(top - (top.y - 5) * Vector3.up - x * i * 15);
+                    AddLight(top - (top.y - 5) * Vector3.up + x * i * 15);
+                }
+            }
         }
 
 

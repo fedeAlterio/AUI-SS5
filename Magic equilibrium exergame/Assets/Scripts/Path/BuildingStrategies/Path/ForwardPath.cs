@@ -11,7 +11,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
 {
     public class ForwardPath : PathStrategy
     {
-        public override ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, PathConfiguration pathConfiguration)
+        public override ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration)
         {
             return line.Go(Vector3.forward * 10);
         }

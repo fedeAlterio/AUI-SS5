@@ -11,7 +11,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
 {
     public interface ILevelBuilder
     {
-        IEnumerable<CurveBlock> BuildLevel(PathConfiguration pathConfiguration);
+        IEnumerable<CurveBlock> BuildLevel(IPathConfiguration pathConfiguration);
     }
 }
 

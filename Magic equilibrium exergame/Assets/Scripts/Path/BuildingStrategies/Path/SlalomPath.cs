@@ -11,7 +11,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
 {
     public class SlalomPath : PathStrategy
     {
-        public override ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, PathConfiguration pathConfiguration)
+        public override ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration)
         {
             return line
                 .Go(new Vector3(1, 0, 2) * 10)

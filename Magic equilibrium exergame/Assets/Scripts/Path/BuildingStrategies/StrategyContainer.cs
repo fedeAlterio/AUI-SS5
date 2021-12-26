@@ -17,24 +17,29 @@ namespace Assets.Scripts.Path.BuildingStrategies
         // Initialization
         private void Start()
         {
-            Strategies = _strategies.ToDictionary(x => x.GetType(), x => x);
+            Strategies = _strategies.ToDictionary(x => x.GetType().Name, x => x);
         }
 
         public void SearchStrategies()
         {
             _strategies = this.FindInstances<T>().ToList();
+            Debug.Log("Searching in " + GetType());
             _searchStrategies = false;
         }
 
 
-        // Properties|
-        public IReadOnlyDictionary<Type, T> Strategies { get; private set; }
+
+        // Properties
+        public IReadOnlyDictionary<string, T> Strategies { get; private set; }        
 
 
 
         // Editor
         private void OnValidate()
         {
+            if (!_searchStrategies)
+                return;
+
             SearchStrategies();
         }
 
@@ -42,7 +47,7 @@ namespace Assets.Scripts.Path.BuildingStrategies
         // Public
         public V Get<V>() where V : class, T
         {
-            return Strategies.TryGetValue(typeof(V), out var pathBlock)
+            return Strategies.TryGetValue(typeof(V).Name, out var pathBlock)
                 ? pathBlock as V
                 : throw new InvalidOperationException($"Path block of type {typeof(V)} not found");
         }

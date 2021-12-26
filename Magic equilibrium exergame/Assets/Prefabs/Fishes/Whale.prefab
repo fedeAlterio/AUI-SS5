@@ -451,7 +451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Speed>k__BackingField: 1
   <ForwardDirection>k__BackingField: {x: 0, y: 0, z: 1}
-  _radiusLength: 8
+  _radiusLength: 6
 --- !u!1 &3005940126878165393
 GameObject:
   m_ObjectHideFlags: 0

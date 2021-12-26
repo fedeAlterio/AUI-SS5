@@ -30,10 +30,10 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
         public static ParametricSurface FromCurve(ParametricCurve curve, float thickness)
         {
-            Vector3 Equation(float s, float n)
+            Vector3 Equation(float t, float n)
             {
-                var center = curve.PointAt(s);
-                var normal = curve.NormalAt(s);
+                var center = curve.PointAt(t);
+                var normal = curve.NormalAt(t);
                 return center + normal * n;
             }
 

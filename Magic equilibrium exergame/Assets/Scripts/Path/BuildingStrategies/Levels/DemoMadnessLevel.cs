@@ -22,7 +22,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
 
 
         // Level
-        protected override IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(PathConfiguration pathConfiguration)
+        protected override IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(IPathConfiguration pathConfiguration)
         {
             yield return NewLine()
                 .Go(Vector3.forward * 10)

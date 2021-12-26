@@ -9,7 +9,8 @@ using UnityEngine;
 
 namespace Assets.Scripts.Models.Path.Generation
 {
-    public class PathBuilder<T> : ILineBuilder<T>, IBuilderStep1<T>, IBuilderStep2<T>, IBuilderStep3<T> where T : class, ILineBlock
+    public class PathBuilder<T> : ILineBuilder<T>,
+        IBuilderStep1<T>, IBuilderStep2<T>, IBuilderStep3<T> where T : class, ILineBlock
     {
         // Private fields
         private readonly List<T> _surfaces = new List<T>();
@@ -25,7 +26,7 @@ namespace Assets.Scripts.Models.Path.Generation
         // initialization
         protected PathBuilder(Func<CurveSurface, T> mapper)
         {
-            _mapper = mapper;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
 

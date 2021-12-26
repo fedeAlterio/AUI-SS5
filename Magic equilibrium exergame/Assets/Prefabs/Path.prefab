@@ -46,10 +46,6 @@ MonoBehaviour:
   _blocksContainer: {fileID: 2035993507548701762}
   _pathStrategiesContainer: {fileID: 2035993507047824801}
   _pathMaterial: {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
-  <PathThickness>k__BackingField: 4
-  <CurveSize>k__BackingField: 4
-  <TextureScale>k__BackingField: 0.25
-  <PathHeight>k__BackingField: 0.5
 --- !u!1 &1645255851
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,38 +245,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _searchStrategies: 0
   _strategies:
-  - {fileID: 0}
-  - {fileID: 0}
---- !u!1 &2035993507472482231
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2035993507472482224}
-  m_Layer: 0
-  m_Name: Path gameObjects
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2035993507472482224
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035993507472482231}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6777464517698409769}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  - {fileID: 2035993507497667771}
+  - {fileID: 2035993507497504940}
 --- !u!1 &2035993507497504930
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,9 +381,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _searchStrategies: 0
   _strategies:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2035993507933266331}
+  - {fileID: 2035993506920790001}
   <CurveBlockPrefab>k__BackingField: {fileID: 2378569183709152381, guid: 0e22dad0e48692f4a80bacc61af9d741, type: 3}
 --- !u!1 &2035993507810684714
 GameObject:
@@ -590,7 +555,6 @@ Transform:
   m_Children:
   - {fileID: 4489595727337918649}
   - {fileID: 2035993506177582231}
-  - {fileID: 2035993507472482224}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -606,7 +570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139f6947f810c1340a4743866b0a87bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pathTransform: {fileID: 2035993507472482224}
+  _pathTransform: {fileID: 0}
 --- !u!114 &6777464517698409775
 MonoBehaviour:
   m_ObjectHideFlags: 0

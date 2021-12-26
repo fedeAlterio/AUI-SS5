@@ -250,8 +250,8 @@ public class MenuGenerator : MonoBehaviour
                     g = GameObject.Instantiate(Resources.Load("UI/PropertyMenuBlockDropdown") as GameObject, transform.GetChild(0));
                     g.GetComponent<PropertyMenuBlockManager>().SetUp<System.Enum>(propertyname, (System.Enum)p.GetValue(configurationschema), generateAtRuntime, easyname);
                 }
-
-                blocks.Add(g.GetComponent<PropertyMenuBlockManager>());
+                if(g != null)
+                    blocks.Add(g.GetComponent<PropertyMenuBlockManager>());
             }
         }
 

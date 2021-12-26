@@ -14,7 +14,7 @@ namespace Assets.Scripts.Path.BuildingStrategies
         {
             var type = typeof(T);
             var instances = from t in type.Assembly.ExportedTypes
-                            where type.IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface
+                            where type.IsAssignableFrom(t) && typeof(MonoBehaviour).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface
                             let instance = GameObject.FindObjectOfType(t) as T
                             where instance != null
                             select instance;

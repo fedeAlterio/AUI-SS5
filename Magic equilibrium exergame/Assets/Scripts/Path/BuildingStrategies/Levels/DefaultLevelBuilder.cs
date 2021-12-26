@@ -13,7 +13,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
 {
     public class DefaultLevelBuilder : LevelBuilder
     {
-        protected override IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(PathConfiguration pathConfiguration)
+        protected override IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(IPathConfiguration pathConfiguration)
         {
             var line = NewLine();
             var checkpoint = _blocksContainer.Get<CheckPointStrategy>();

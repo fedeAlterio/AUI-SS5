@@ -38,9 +38,5 @@ namespace Assets.Scripts.Models.Path.Generation.Surface
 
         // Public methods
         public Vector3 PointAt(float u, float v) => _equation(u, v);
-        
-
-        // Operators
-
     }
 }

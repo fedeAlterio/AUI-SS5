@@ -11,8 +11,8 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
 {
     public abstract class PathStrategy : MonoBehaviour, IPathStrategy
     {    
-        public virtual string Name => GetType().Name;
-        public abstract ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, PathConfiguration pathConfiguration);
+        public string Name => GetType().Name;
+        public abstract ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration);
     }
 }
 

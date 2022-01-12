@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Path.BuildingStrategies.Path;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,9 +48,14 @@ namespace Assets.Scripts.Path.BuildingStrategies
         // Public
         public V Get<V>() where V : class, T
         {
-            return Strategies.TryGetValue(typeof(V).Name, out var pathBlock)
-                ? pathBlock as V
-                : throw new InvalidOperationException($"Path block of type {typeof(V)} not found");
+            return GetByName(typeof(V).Name) as V;
+        }
+
+        public T GetByName(string name)
+        {
+            return Strategies.TryGetValue(name, out var pathBlock)
+                ? pathBlock
+                : throw new InvalidOperationException($"Path block of type {typeof(T)} not found");
         }
     }
 }

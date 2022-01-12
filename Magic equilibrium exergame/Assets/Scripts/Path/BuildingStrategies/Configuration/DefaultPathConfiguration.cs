@@ -9,9 +9,17 @@ namespace Assets.Scripts.Path.BuildingStrategies.Configuration
 {
     public class DefaultPathConfiguration : IPathConfiguration
     {
+        // Initialization
+        public DefaultPathConfiguration(IEnumerable<string> allowedStrategiesNames)
+        {
+            PathStrategiesAllowed = allowedStrategiesNames.ToList();
+        }
+
+
+        // Properties
         public int Difficulty => 1;
         public int Length => 10;
-        public IReadOnlyList<string> PathStrategiesAllowed => new List<string>();
+        public IReadOnlyList<string> PathStrategiesAllowed { get; }
         public float PathThickness { get; } = 4;
         public float CurveSize { get; } = 4;
         public float TextureScale { get; } = 0.25f;

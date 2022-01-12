@@ -10,10 +10,18 @@ public class CheckPoint : MonoBehaviour
     public int iD;
     public bool checkpointHit;
     public event Action<CheckPoint> Taken;
+    private MeshFilter _meshRenderer;
 
 
 
     // Initialization
+    private void Awake()
+    {
+        _meshRenderer = GetComponent<MeshFilter>();
+        spawnPosition = _meshRenderer.mesh.bounds.center;
+    }
+
+
     private void Start()
     {
     }
@@ -36,8 +44,7 @@ public class CheckPoint : MonoBehaviour
 
         if(collisionInfo.gameObject.CompareTag(UnityTag.Player))
         {
-            checkpointHit = true;
-            spawnPosition = collisionInfo.gameObject.transform.position;
+            checkpointHit = true;            
             Taken?.Invoke(this);
         }        
     }

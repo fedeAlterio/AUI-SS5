@@ -17,7 +17,6 @@ namespace Assets.Scripts.Models.Path.Generation
         private readonly Func<CurveSurface, T> _mapper;
         private Vector3 _startPosition;
         private Vector3 _starttDirection;
-
         private bool _currentLineHasCurve;
 
 
@@ -63,8 +62,8 @@ namespace Assets.Scripts.Models.Path.Generation
 
 
         // Properties
-        private Vector3 CurrentPosition => _surfaces.Any() ? _surfaces[_surfaces.Count - 1].ExitPosition : _startPosition;
-        private Vector3 CurrentDirection => _surfaces.Any() ? _surfaces[_surfaces.Count - 1].ExitDirection : _starttDirection;
+        public Vector3 CurrentPosition => _surfaces.Any() ? _surfaces[_surfaces.Count - 1].ExitPosition : _startPosition;
+        public Vector3 CurrentDirection => _surfaces.Any() ? _surfaces[_surfaces.Count - 1].ExitDirection : _starttDirection;
         public int SegmentVertexCount { get; set; } = 3;
         public int CurveVertexCount { get; set; } = 40;
         public float CurveSize { get; set; } = 3;
@@ -93,23 +92,24 @@ namespace Assets.Scripts.Models.Path.Generation
         }
 
 
-        public ILineBuilder<T> Go(Vector3 nextPointRelativePosition)
+        public ILineBuilder<T> Go(Vector3 nextPointRelativePosition, bool isTangentSpace)
         {
-            return MoveOf(nextPointRelativePosition, NormalSegment, NormalCurve);
+            return MoveOf(nextPointRelativePosition, isTangentSpace, NormalSegment, NormalCurve);
         }
 
 
 
-        public ILineBuilder<T> GoWithHole(Vector3 nextPointDeltaPos, float startPercentage, float width, bool curveWithHole)
+        public ILineBuilder<T> GoWithHole(Vector3 nextPointDeltaPos, float startPercentage, float width, bool curveWithHole, bool isTangentSpace)
         {
-            return MoveOf(nextPointDeltaPos, 
+            return MoveOf(nextPointDeltaPos, isTangentSpace,
                 segment => SegmentWithHole(segment, startPercentage, width),
-                curve => curveWithHole ? CurveWithHole(curve, startPercentage, width) : NormalCurve(curve));
+                curve => curveWithHole ? CurveWithHole(curve, startPercentage, width) : NormalCurve(curve)
+                );
         }
 
-        public ILineBuilder<T> GoWithThinPath(Vector3 nextPointDeltaPos, float width, bool thinCurve)
+        public ILineBuilder<T> GoWithThinPath(Vector3 nextPointDeltaPos, float width, bool thinCurve, bool isTangentSpace)
         {
-            return MoveOf(nextPointDeltaPos,
+            return MoveOf(nextPointDeltaPos, isTangentSpace,
                 segment => ThinSegment(segment, width),
                 curve => thinCurve ? ThinCurve(curve, width) : NormalCurve(curve));
         }
@@ -129,7 +129,7 @@ namespace Assets.Scripts.Models.Path.Generation
         {
             var ret =_mapper.Invoke(curve);
             _surfaces.Add(ret);
-            curve.TextureScaleFactor = TextureScaleFactor;
+            curve.TextureScaleFactor = TextureScaleFactor;            
             return ret;
         }
 
@@ -257,10 +257,10 @@ namespace Assets.Scripts.Models.Path.Generation
 
 
         // Utils        
-        private ILineBuilder<T> MoveOf(Vector3 nextPointRelativePosition, 
+        private ILineBuilder<T> MoveOf(Vector3 nextPointRelativePosition, bool isTangentSpace,
             Func<ParametricCurve, CurveSurface> segmentToSurface, Func<QuadraticBezier, CurveSurface> bezierToSurface)
         {
-            var deltaPos = ToPathTangentCoordinates(CurrentDirection, nextPointRelativePosition);
+            var deltaPos = isTangentSpace ? ToPathTangentCoordinates(CurrentDirection, nextPointRelativePosition) : nextPointRelativePosition;
             _currentLineHasCurve = false;
 
             // If it does not change position do not create a cruve

@@ -16,8 +16,8 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
         protected override IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(IPathConfiguration pathConfiguration)
         {
             var line = NewLine();
-            var checkpoint = _blocksContainer.Get<CheckPointStrategy>();
-            foreach (var strategy in _pathStrategiesContainer.Strategies.Values)
+            var checkpoint = BlocksContainer.Get<CheckPointStrategy>();
+            foreach (var strategy in PathStrategyContainer.Strategies.Values)
                 line = line.GoWith(strategy, pathConfiguration).With(checkpoint);
             yield return line;
         }

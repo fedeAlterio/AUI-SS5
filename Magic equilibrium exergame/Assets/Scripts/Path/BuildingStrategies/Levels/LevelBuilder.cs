@@ -17,16 +17,24 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
     public abstract class LevelBuilder : MonoBehaviour, ILevelBuilder
     {
         // Editor fields
-        [SerializeField] [CannotBeNull] protected BlockContainer _blocksContainer;
-        [SerializeField] [CannotBeNull] protected PathStrategyContainer _pathStrategiesContainer;
         [SerializeField] private Material _pathMaterial;
 
+
+
+        // Initialization
+        private void Awake()
+        {
+            BlocksContainer = FindObjectOfType<BlockContainer>();
+            PathStrategyContainer = FindObjectOfType<PathStrategyContainer>();
+        }
 
 
         // Properties
         protected Vector3 CurrentEndPosition { get; set; }
         protected Vector3 CurrentEndDirection { get; set; } = Vector3.forward;
         protected IPathConfiguration PathConfiguration { get; private set; }
+        protected BlockContainer BlocksContainer { get; private set; }
+        protected PathStrategyContainer PathStrategyContainer { get; private set; }
 
 
 
@@ -68,7 +76,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
         // Private
         private CurveBlock BlockFromSurface(CurveSurface curveSurface)
         {
-            var curveBlockPrefab = _blocksContainer.CurveBlockPrefab;
+            var curveBlockPrefab = BlocksContainer.CurveBlockPrefab;
             var curveBlock = BlockFromPrefab(curveBlockPrefab);
             curveBlock.Initialize(curveSurface, _pathMaterial);
             return curveBlock;

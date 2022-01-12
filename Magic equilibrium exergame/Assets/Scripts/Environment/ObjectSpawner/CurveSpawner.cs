@@ -60,7 +60,7 @@ namespace Assets.Scripts.Environment.ObjectSpawner
         private void AddObject(Vector3 position)
         {
             var randomIndex = UnityEngine.Random.Range(0, _objectsToSpawn.Count);
-            //position += RandomOffset(_randomRange);
+            position += RandomOffset(_randomRange);
             var rock = _objectsToSpawn[randomIndex];
             var wrapper = new GameObject();
             wrapper.transform.parent = _objectsParent;

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Assets.Scripts.Menu
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class BindedToStrategyAttribute : Attribute
+    public class BindToStrategyAttribute : Attribute
     {
-        public BindedToStrategyAttribute(Type t) => Type = t;
+        public BindToStrategyAttribute(Type t) => Type = t;
         public Type Type { get; }
     }
 }

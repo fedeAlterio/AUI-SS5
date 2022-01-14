@@ -45,6 +45,9 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
             foreach(var line in CreateLevel(pathConfiguration))
             {
                 var blocks = line.Build();
+                if (!blocks.Any())
+                    break;
+
                 CurrentEndPosition = blocks[blocks.Count - 1].ExitPosition;
                 CurrentEndDirection = blocks[blocks.Count - 1].ExitDirection;
                 foreach(var block in blocks)

@@ -128,6 +128,13 @@ public abstract class GameConfiguration
 }
 
 
+[AttributeUsage(AttributeTargets.Property)]
+public class HiddenAttribute : Attribute
+{
+
+}
+
+
 [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Struct | System.AttributeTargets.Property)]
 public class PropertyRange : System.Attribute
 {

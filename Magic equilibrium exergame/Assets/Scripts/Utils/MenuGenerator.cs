@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Menu;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,11 +12,8 @@ using UnityEngine.UI;
 public class MenuGenerator : MonoBehaviour
 {
     public bool generateAtRuntime = false;
-
     public GameConfiguration configurationschema;
-
     public string configurationname;
-
     public string ThemePropertyName = "";
 
     [HideInInspector]
@@ -69,7 +67,7 @@ public class MenuGenerator : MonoBehaviour
     {
         if (GameSetting.instance != null)
         {
-            PropertyInfo[] props = GetProperties();
+            var props = GetProperties();
             foreach (PropertyInfo p in props)
             {
                 string propertyname = p.Name;
@@ -122,7 +120,12 @@ public class MenuGenerator : MonoBehaviour
 
     private void Update()
     {
+        if (Application.isPlaying)
+            return;
+
         var type = Type.GetType(configurationname);
+        if (type == null)
+            return;
         configurationschema = (GameConfiguration)Activator.CreateInstance(type);
         ThemeManager.allowOnlyFullThemes = allowOnlyCompleteThemes;
     }
@@ -137,8 +140,11 @@ public class MenuGenerator : MonoBehaviour
     private PropertyInfo[] GetProperties()
     {
         Type t = configurationschema.GetType();
-        return t.GetProperties();
+        return t.GetProperties().Where(p => !IsHiddenToMenu(p)).ToArray();
     }
+
+    private bool IsHiddenToMenu(PropertyInfo propertyInfo) 
+        => propertyInfo.GetCustomAttribute<HiddenAttribute>() != null;
 
     public void generateMenu()
     {
@@ -163,6 +169,7 @@ public class MenuGenerator : MonoBehaviour
 
         foreach (PropertyInfo p in props)
         {
+
             string propertyname = p.Name;
             string easyname = "";
             if (propertyname != ThemePropertyName)
@@ -276,6 +283,7 @@ public class MenuGenerator : MonoBehaviour
             PlayButton.GetComponentInChildren<Button>().onClick.AddListener(delegate { PlayGame(); });
         }
     }
+    
 
     public void OnClickPlayGame(GameObject sender)
     {
@@ -283,9 +291,10 @@ public class MenuGenerator : MonoBehaviour
     }
 
     public void PlayGame()
-    {
+    {                
         SceneManager.LoadSceneAsync(GameSceneIndex);
-        MagicRoomManager.instance.ExperienceManagerComunication.SendEvent("started");
+        if(MagicRoomManager.instance)
+            MagicRoomManager.instance.ExperienceManagerComunication.SendEvent("started");
     }
 
     public void resetGrid()

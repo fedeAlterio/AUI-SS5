@@ -22,8 +22,13 @@ namespace Assets.Scripts.DependencyInjection
 
         private void RegisterDependencies()
         {
-            Register<IPathConfiguration>(defaultBuilder: DefaultPathConfiguration);
+            var pathConfiguration = FindPathConfiguration();
+            Register(() => pathConfiguration);
         }
+
+
+        private IPathConfiguration FindPathConfiguration()
+            => MyConfig.Instance ?? DefaultPathConfiguration();
 
 
 
@@ -32,9 +37,9 @@ namespace Assets.Scripts.DependencyInjection
         {
             var instance = this.FindInstances<T>().FirstOrDefault() ?? defaultBuilder.Invoke();
             this.Register(instance);
-        }
+        }        
 
-        private DefaultPathConfiguration DefaultPathConfiguration()
+        private IPathConfiguration DefaultPathConfiguration()
         {
             var strategiesNames = this.FindInstances<IPathStrategy>().Select(s => s.Name).ToList();
             return new DefaultPathConfiguration(strategiesNames);

@@ -15,6 +15,5 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
         float CurveSize { get; } 
         float TextureScale { get; }
         float PathHeight { get; }
-
     }
 }

@@ -7,42 +7,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.PlayerMovement
 {
-    [RequireComponent(typeof(Rigidbody))]
-    public class WASDMovement : MonoBehaviour
+    public class WASDMovement : PlayerMovementAbstract
     {
-        // Editor fields
-        [SerializeField] private float _speed = 5;
-
-
-
-        // Private fields
-        private VelocityInput _velocityInput;
-        private Rigidbody _rigidbody;
-        private float _horizontalAxis;
-        private float _verticalAxis;
-
-
-
-        // Initialization
-        private void Awake()
-        {
-            _velocityInput = GetComponent<VelocityInput>();
-            _rigidbody = GetComponent<Rigidbody>();
-        }
-
-
-        private void Update()
-        {
-            _horizontalAxis = Input.GetAxis("Horizontal");
-            _verticalAxis = Input.GetAxis("Vertical");            
-        }
-
-
-        // Events
-        private void FixedUpdate()
-        {
-            _velocityInput.inputX = _horizontalAxis * 5;
-            _velocityInput.inputZ = _verticalAxis * 5;
-        }
+        public override float HorizontalAxis => Input.GetAxis("Horizontal");
+        public override float VerticalAxis => Input.GetAxis("Vertical");
     }
 }

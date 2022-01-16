@@ -15,7 +15,7 @@
 CRGB leds[NUM_LEDS];
 Adafruit_MPU6050 mpu;
 
-// Replace with your network credentials
+
 const char* ssid     = "ssid";
 const char* password = "pass";
 
@@ -50,6 +50,13 @@ char  ReplyBuffer[] = "come stai?\r\n";       // a string to send back
 WiFiUDP Udp;
 ESP8266WebServer httpRestServer(HTTP_REST_PORT);
 
+
+// Functions declarations
+void getAccelerometerAngles(float * xAngle, float * zAngle);
+
+
+
+//UDP
 void udpSendUdpPacket(WiFiUDP* Udp,char* data){
   // send a reply, to the IP address and port that sent us the packet we received
     Udp->beginPacket(Udp->remoteIP(), Udp->remotePort());
@@ -57,15 +64,36 @@ void udpSendUdpPacket(WiFiUDP* Udp,char* data){
     Udp->endPacket();
 }
 
+void sendUdp(){
+  int packetSize = Udp.parsePacket();
+  if (packetSize) {
+    Serial.printf("Received packet of size %d from %s:%d\n    (to %s:%d, free heap = %d B)\n",
+                  packetSize,
+                  Udp.remoteIP().toString().c_str(), Udp.remotePort(),
+                  Udp.destinationIP().toString().c_str(), Udp.localPort(),
+                  ESP.getFreeHeap());
+
+    // read the packet into packetBufffer
+    int n = Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
+    packetBuffer[n] = 0;
+    Serial.println("Contents:");
+    Serial.println(packetBuffer);
+
+    udpSendUdpPacket(&Udp,result); 
+  }
+}
 
 
 
+
+// REST
 DynamicJsonDocument GetStateChannelJson(){
    DynamicJsonDocument doc(124);
    doc["url"] = "192.168.0.24:57005";
    doc["frequency"] = 0;
    return doc;
 }
+
 
 DynamicJsonDocument GetEventChannel(){
    DynamicJsonDocument doc(50);
@@ -81,6 +109,7 @@ DynamicJsonDocument GetNetwork(){
      return doc;
 }
 
+
 DynamicJsonDocument GetDeviceStateJson(){
    DynamicJsonDocument doc(1024);
    doc["battery"] = 0;
@@ -92,6 +121,7 @@ DynamicJsonDocument GetDeviceStateJson(){
    availableCredentials.add("I3Lab");
    return doc;
 }
+
 
 DynamicJsonDocument GetSoftwareVersion()
 {
@@ -114,8 +144,6 @@ DynamicJsonDocument GetInformationJson(){
   doc["softwareVersion"] = GetSoftwareVersion();
   return doc;
 }
-
-
 
 
 DynamicJsonDocument GetSystemInfo(){
@@ -225,6 +253,18 @@ DynamicJsonDocument GetCapabilitiesJson()
 }
 
 
+// Rest accelertometer data
+DynamicJsonDocument GetAccelerometerDataAsJson(){
+  float xAngle, zAngle;
+  getAccelerometerAngles(&xAngle, &zAngle);
+
+  DynamicJsonDocument doc(100);
+  doc["xAngle"] = xAngle;
+  doc["zAngle"] = zAngle;
+  return doc;
+}
+
+
 String getRequestType(String header){
     String requestType = "requestType";
     unsigned int index = header.indexOf(requestType) + requestType.length() + 3;         
@@ -235,10 +275,6 @@ String getRequestType(String header){
 }
 
 
-void getState(){
-  httpRestServer.send(200, "text/json", "{\"name\": \"Hello world\"}");
-}
-
 DynamicJsonDocument getResponse(String requestType){
   if(requestType.indexOf("getState") >= 0)
     return GetStateJson();
@@ -248,12 +284,20 @@ DynamicJsonDocument getResponse(String requestType){
 
   if(requestType.indexOf("getCapabilities") >= 0)
     return GetCapabilitiesJson();   
-    
-  return DynamicJsonDocument(1);
+  
+  return GetAccelerometerDataAsJson();
+}
+
+String readHeader(WiFiClient client){
+  String header;
+  while(client.available())
+    header += (char) client.read();
+  return header;
 }
 
 
 
+// REST Routing
 void restServerRouting(){
     httpRestServer.on("/", HTTP_POST, []() {
         String header = httpRestServer.arg("plain");
@@ -266,9 +310,65 @@ void restServerRouting(){
   }
 
 
+  // Accelerometer
+  void printAccelerometerData(){
+    
+  /* Get new sensor events with the readings */
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+
+  /* Print out the values */
+  Serial.print("Acceleration X: ");
+  Serial.print(a.acceleration.x);
+  Serial.print(", Y: ");
+  Serial.print(a.acceleration.y);
+  Serial.print(", Z: ");
+  Serial.print(a.acceleration.z);
+  Serial.println(" m/s^2");
+
+  Serial.print("Rotation X: ");
+  Serial.print(g.gyro.x);
+  Serial.print(", Y: ");
+  Serial.print(g.gyro.y);
+  Serial.print(", Z: ");
+  Serial.print(g.gyro.z);
+  Serial.println(" rad/s");
+
+  Serial.print("Temperature: ");
+  Serial.print(temp.temperature);
+  Serial.println(" degC");
+
+  Serial.println("");
+
+  Serial.println("Horizontal Angle");
+  Serial.println(atan(- a.acceleration.x / a.acceleration.z) * 180 / 3.14);
+
+
+  Serial.println("");
+
+  Serial.println("Vertical Angle");
+  Serial.println(atan(- a.acceleration.y / a.acceleration.z) * 180 / 3.14);
+
+  delay(500);
+  }
+
+  void getAccelerometerAngles(float * xAngle, float * zAngle){
+     sensors_event_t a, g, temp;
+     mpu.getEvent(&a, &g, &temp);
+     *xAngle = atan(- a.acceleration.x / a.acceleration.z);
+     *zAngle = atan(- a.acceleration.y / a.acceleration.z);
+  }
+
+
+
+
+
+
+
+// Initialization
 void connectToWifi(){
   // Connect to Wi-Fi network with SSID and password
-  Serial.print("Connecting to ");
+  Serial.print("Connecting to A ");
   Serial.println(ssid);
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
@@ -284,6 +384,7 @@ void connectToWifi(){
   IP = WiFi.localIP().toString();
 }
 
+
 void initializeMPU(){
   if (!mpu.begin()) {
       Serial.println("Failed to find MPU6050 chip");
@@ -291,67 +392,36 @@ void initializeMPU(){
         delay(10);
       }
     }
-  Serial.println("MPU6050 Found!");
+  Serial.println("\nMPU6050 Found!");
 }
 
 
-
-
-String readHeader(WiFiClient client){
-  String header;
-  while(client.available())
-    header += (char) client.read();
-  return header;
-}
-
-
-void sendUdp(){
-  int packetSize = Udp.parsePacket();
-  if (packetSize) {
-    Serial.printf("Received packet of size %d from %s:%d\n    (to %s:%d, free heap = %d B)\n",
-                  packetSize,
-                  Udp.remoteIP().toString().c_str(), Udp.remotePort(),
-                  Udp.destinationIP().toString().c_str(), Udp.localPort(),
-                  ESP.getFreeHeap());
-
-    // read the packet into packetBufffer
-    int n = Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
-    packetBuffer[n] = 0;
-    Serial.println("Contents:");
-    Serial.println(packetBuffer);
-
-    udpSendUdpPacket(&Udp,result); 
-  }
-}
-
-void initializeUdp(){
+void initializeUdp() {
   Udp.begin(localPort);  
   Serial.printf("UDP server on port %d\n", localPort);
 }
 
 
-void initializeAccelerometer(){
+void initializeMpu(){
   mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+  mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+  mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
 }
 
 
-//
-//
-// Arduino main 
-//
-//
 
 
-
+// Arduino Setup
 void setup() {
   Serial.begin(115200);
 
+  Serial.println("dddd");
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
   
   initializeMPU();
   connectToWifi();
   initializeUdp();
-  
+  initializeMpu();
 
   
   
@@ -366,11 +436,13 @@ void setup() {
 
 void loop(){
 
+  Serial.println("dddd");
   MDNS.update();
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
 
   dtostrf(g.gyro.x, 2, 5, result);
   httpRestServer.handleClient();
+  printAccelerometerData();
 }
 

@@ -56,32 +56,7 @@ void getAccelerometerAngles(float * xAngle, float * zAngle);
 
 
 
-//UDP
-void udpSendUdpPacket(WiFiUDP* Udp,char* data){
-  // send a reply, to the IP address and port that sent us the packet we received
-    Udp->beginPacket(Udp->remoteIP(), Udp->remotePort());
-    Udp->write(data);
-    Udp->endPacket();
-}
 
-void sendUdp(){
-  int packetSize = Udp.parsePacket();
-  if (packetSize) {
-    Serial.printf("Received packet of size %d from %s:%d\n    (to %s:%d, free heap = %d B)\n",
-                  packetSize,
-                  Udp.remoteIP().toString().c_str(), Udp.remotePort(),
-                  Udp.destinationIP().toString().c_str(), Udp.localPort(),
-                  ESP.getFreeHeap());
-
-    // read the packet into packetBufffer
-    int n = Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
-    packetBuffer[n] = 0;
-    Serial.println("Contents:");
-    Serial.println(packetBuffer);
-
-    udpSendUdpPacket(&Udp,result); 
-  }
-}
 
 
 
@@ -356,9 +331,52 @@ void restServerRouting(){
      sensors_event_t a, g, temp;
      mpu.getEvent(&a, &g, &temp);
      *xAngle = atan(- a.acceleration.x / a.acceleration.z);
-     *zAngle = atan(- a.acceleration.y / a.acceleration.z);
+     *zAngle = atan(a.acceleration.y / a.acceleration.z);
   }
 
+
+
+//UDP
+void udpSendPacketTo(IPAddress ip, uint16_t port, const char * data)
+{
+  // send a reply, to the IP address and port that sent us the packet we received
+    Udp.beginPacket(ip, port);
+    Udp.write(data);
+    Udp.endPacket();
+}
+
+void udpSendUdpPacket(char* data){
+  udpSendPacketTo(Udp.remoteIP(), Udp.remotePort(), data);
+}
+
+
+void sendUdp(){
+  int packetSize = Udp.parsePacket();
+  if (packetSize) {
+    Serial.printf("Received packet of size %d from %s:%d\n    (to %s:%d, free heap = %d B)\n",
+                  packetSize,
+                  Udp.remoteIP().toString().c_str(), Udp.remotePort(),
+                  Udp.destinationIP().toString().c_str(), Udp.localPort(),
+                  ESP.getFreeHeap());
+
+    // read the packet into packetBufffer
+    int n = Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
+    packetBuffer[n] = 0;
+    Serial.println("Contents:");
+    Serial.println(packetBuffer);
+
+    udpSendUdpPacket(result); 
+  }
+}
+
+void SendAccelerometerDataThroughUdp(){
+  IPAddress ip;
+  ip.fromString("192.168.1.6");
+  DynamicJsonDocument data = GetAccelerometerDataAsJson();
+  String json;
+  serializeJson(data, json);
+  udpSendPacketTo(ip, 8000, json.c_str());
+}
 
 
 
@@ -436,13 +454,9 @@ void setup() {
 
 void loop(){
 
-  Serial.println("dddd");
   MDNS.update();
-  sensors_event_t a, g, temp;
-  mpu.getEvent(&a, &g, &temp);
-
-  dtostrf(g.gyro.x, 2, 5, result);
   httpRestServer.handleClient();
   printAccelerometerData();
+  SendAccelerometerDataThroughUdp();
 }
 

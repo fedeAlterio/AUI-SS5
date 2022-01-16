@@ -1,8 +1,13 @@
-﻿using Assets.Scripts.DependencyInjection.Extensions;
+﻿using Assets.Scripts.Abstractions;
+using Assets.Scripts.Communication;
+using Assets.Scripts.Communication.Udp;
+using Assets.Scripts.DependencyInjection.Extensions;
 using Assets.Scripts.Menu;
+using Assets.Scripts.Mock;
 using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.Path.BuildingStrategies.Configuration;
 using Assets.Scripts.Path.BuildingStrategies.Path;
+using Assets.Scripts.PlayerMovement.Smoothing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +17,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.DependencyInjection
 {
-    public class DependenciesInjecter : MonoBehaviour
+    public class DependenciesInjector : MonoBehaviour
     {
         // Initialization
         private void Awake()
@@ -24,6 +29,8 @@ namespace Assets.Scripts.DependencyInjection
         {
             var pathConfiguration = FindPathConfiguration();
             Register(() => pathConfiguration);
+                                    
+            Register<IWobbleboardService, UdpWobbleboardService>(defaultBuilder : () => new MockWobbleboardService());            
         }
 
 
@@ -35,9 +42,15 @@ namespace Assets.Scripts.DependencyInjection
         // Utils
         private void Register<T>(Func<T> defaultBuilder) where T : class
         {
-            var instance = this.FindInstances<T>().FirstOrDefault() ?? defaultBuilder.Invoke();
+            Register<T, T>(defaultBuilder);
+        }
+
+
+        private void Register<T, V>(Func<T> defaultBuilder) where T : class where V : class, T
+        {
+            var instance = this.FindInstances<V>().FirstOrDefault() ?? defaultBuilder.Invoke();
             this.Register(instance);
-        }        
+        }
 
         private IPathConfiguration DefaultPathConfiguration()
         {

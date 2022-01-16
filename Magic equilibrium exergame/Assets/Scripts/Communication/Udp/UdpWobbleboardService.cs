@@ -14,9 +14,16 @@ namespace Assets.Scripts.Communication.Udp
     public class UdpWobbleboardService : WobbleboardFetcher
     {
         // Private fields
-        private static readonly UdpClient _udpClient = new UdpClient(8000);
+        private UdpClient _udpClient;
 
 
+
+        // Initialization
+        private void Awake()
+        {
+            _udpClient?.Dispose();
+            _udpClient = new UdpClient(8000);                
+        }
 
         // Core
         protected override async UniTask<T> Get<T>(T responseSchema = default)
@@ -24,6 +31,12 @@ namespace Assets.Scripts.Communication.Udp
             var data = await _udpClient.ReceiveAsync();
             var json = Encoding.UTF8.GetString(data.Buffer);
             return JsonConvert.DeserializeObject<T>(json);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            _udpClient.Dispose();
         }
     }
 }

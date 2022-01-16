@@ -20,21 +20,21 @@ namespace Assets.Scripts.Communication.Abstractions
         // Initialization
         private void Start()
         {
-            _fetchingThread = new Thread(FetchDataLoop);     
+            _fetchingThread = new Thread(FetchDataLoop);    
+            IsApplicationRunning = true;
             _fetchingThread.Start();
-            Update().Forget();
         }
 
 
 
         // Core
-        private async UniTaskVoid Update()
+        protected virtual void Update()
         {
-            while (Application.isPlaying)
-            {
-                IsApplicationRunning = true;
-                await UniTask.NextFrame();
-            }
+            IsApplicationRunning = true;
+        }
+
+        protected virtual void OnDestroy()
+        {
             IsApplicationRunning = false;
         }
 
@@ -45,13 +45,14 @@ namespace Assets.Scripts.Communication.Abstractions
                 try
                 {
                     var responseSchema = new { XAngle = 0f, ZAngle = 0f };
-                    var response = await Get(responseSchema: responseSchema);
-                    SetOnMainThread(response.XAngle, response.ZAngle).Forget();
+                    var (isTimeout, response) = await Get(responseSchema: responseSchema).TimeoutWithoutException(TimeSpan.FromSeconds(1));
+                    if(!isTimeout)
+                        SetOnMainThread(response.XAngle, response.ZAngle).Forget();
                 }
                 catch (Exception ex) 
                 {                     
                 }
-            }
+            }            
         }
 
         protected abstract UniTask<T> Get<T>(T responseSchema = default);
@@ -65,6 +66,6 @@ namespace Assets.Scripts.Communication.Abstractions
         // Properties
         public float XAngle { get; private set; }
         public float ZAngle { get; private set; }
-        private bool IsApplicationRunning { get; set; }
+        private bool IsApplicationRunning { get; set; } 
     }
 }

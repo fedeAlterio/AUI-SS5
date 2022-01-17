@@ -12,8 +12,14 @@ namespace Assets.Scripts.WobbleBoardCalibration
 {
     public class WobbleBoardRotationManager : MonoBehaviour
     {
+        // Editor fields
+        [SerializeField] private float _horizontalAngle;
+
+
+
         // Private fields
         private WobbleboardInput _wobbleboardInput;
+        private WobbleBoardConfiguration _wobbleBoardConfiguration;
 
 
 
@@ -23,12 +29,18 @@ namespace Assets.Scripts.WobbleBoardCalibration
             _wobbleboardInput = FindObjectOfType<WobbleboardInput>();
         }
 
+        private void Start()
+        {
+            _wobbleBoardConfiguration = this.GetInstance<WobbleBoardConfiguration>();
+        }
+
 
 
         // Core
         private void Update()
         {
             transform.localRotation = GetRotation();
+            _wobbleBoardConfiguration.HorizontalRotationAngle = _horizontalAngle / 180 * Mathf.PI;
         }
 
 

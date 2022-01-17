@@ -32,7 +32,7 @@ namespace Assets.Scripts.Communication
 
 
         // Properties        
-        protected string BaseUrl { get; set; }
+        public string BaseUrl { get; }
         public IDictionary<string, string> Headers { get; } = new Dictionary<string, string>();
 
 

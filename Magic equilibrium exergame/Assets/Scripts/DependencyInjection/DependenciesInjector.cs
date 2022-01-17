@@ -8,6 +8,7 @@ using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.Path.BuildingStrategies.Configuration;
 using Assets.Scripts.Path.BuildingStrategies.Path;
 using Assets.Scripts.PlayerMovement.Smoothing;
+using Assets.Scripts.WobbleBoardCalibration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,8 @@ namespace Assets.Scripts.DependencyInjection
             var pathConfiguration = FindPathConfiguration();
             Register(() => pathConfiguration);
                                     
-            Register<IWobbleboardService, UdpWobbleboardService>(defaultBuilder : () => new MockWobbleboardService());            
+            Register<IWobbleboardService, UdpWobbleboardService>(defaultBuilder : () => new MockWobbleboardService());
+            this.Register(new WobbleBoardConfiguration());
         }
 
 

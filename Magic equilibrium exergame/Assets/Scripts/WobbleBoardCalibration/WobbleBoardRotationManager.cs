@@ -13,7 +13,7 @@ namespace Assets.Scripts.WobbleBoardCalibration
     public class WobbleBoardRotationManager : MonoBehaviour
     {
         // Editor fields
-        [SerializeField] private float _horizontalAngle;
+        [SerializeField] [Range(-90, 90)] private float _horizontalAngle;
 
 
 
@@ -49,7 +49,7 @@ namespace Assets.Scripts.WobbleBoardCalibration
         private Quaternion GetRotation()
         {
             var zEuler = Mathf.Rad2Deg * _wobbleboardInput.ZAngle;
-            var xEuler = Mathf.Rad2Deg * _wobbleboardInput.XAngle;
+            var xEuler = Mathf.Rad2Deg * _wobbleboardInput.XAngle;            
             return Quaternion.Euler(new Vector3(zEuler, 0, xEuler));
         }
     }

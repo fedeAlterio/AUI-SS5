@@ -709,3 +709,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16f1342a10d3434389cbd23b5512059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _horizontalAngle: 0

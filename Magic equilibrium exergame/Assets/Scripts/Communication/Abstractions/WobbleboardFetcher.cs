@@ -108,6 +108,10 @@ namespace Assets.Scripts.Communication.Abstractions
         private async UniTaskVoid SetOnMainThread(float xAngle, float zAngle)
         {
             await UniTask.SwitchToMainThread();
+            if (float.IsNaN(xAngle))
+                xAngle = 0;
+            if(float.IsNaN(zAngle)) 
+                zAngle = 0;
             (XAngle, ZAngle) = (xAngle, zAngle);
         }
     }

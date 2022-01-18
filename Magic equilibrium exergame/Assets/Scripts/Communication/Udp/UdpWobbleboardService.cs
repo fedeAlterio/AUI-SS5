@@ -21,9 +21,11 @@ namespace Assets.Scripts.Communication.Udp
         // Initialization
         private void Awake()
         {
-            _udpClient?.Dispose();
+            CloseUdp();
             _udpClient = new UdpClient(8000);                
         }
+
+
 
         // Core
         protected override async UniTask<T> Get<T>(T responseSchema = default)
@@ -35,8 +37,20 @@ namespace Assets.Scripts.Communication.Udp
 
         protected override void OnDestroy()
         {
+            CloseUdp();
             base.OnDestroy();
+        }
+
+
+
+        // Utils
+        private void CloseUdp()
+        {
+            if (_udpClient == null)
+                return;
+
             _udpClient.Dispose();
+            _udpClient.Close();
         }
     }
 }

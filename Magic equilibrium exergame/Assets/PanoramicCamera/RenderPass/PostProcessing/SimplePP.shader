@@ -45,18 +45,21 @@ Shader "Hidden/Shader/SimplePP"
     float _Intensity;
     TEXTURE2D_X(_InputTexture);
     sampler2D   _CameraATex;
+    float4x4    _FloorNormalizedToCameraClip;
+
 
     float4 CustomPostProcess(Varyings input) : SV_Target
     {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-        uint2 positionSS = input.texcoord * _ScreenSize.xy;
+        float4 normalizedFloorCoordinates = float4(input.texcoord.x, input.texcoord.y, 0.0f, 1.0f);
+        float4 cameraClipCoordinates = mul(_FloorNormalizedToCameraClip, normalizedFloorCoordinates);
+        cameraClipCoordinates = cameraClipCoordinates / cameraClipCoordinates.w;
+        float2 texCoords = float2(1 - cameraClipCoordinates.x, cameraClipCoordinates.y);
+        uint2 positionSS = texCoords * _ScreenSize.xy;
         float3 outColor = LOAD_TEXTURE2D_X(_InputTexture, positionSS).xyz;
-        float3 oc = 0.0f;
-        float2 normalizedCoords = float2(input.texcoord);
-        float4 aaa = tex2D(_CameraATex, normalizedCoords);
-
-        return aaa;
+        //float4 aaa = tex2D(_CameraATex, normalizedCoords);
+        return float4(outColor, 1.0f);
     }
 
     ENDHLSL

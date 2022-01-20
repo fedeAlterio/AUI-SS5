@@ -32,6 +32,9 @@ public sealed class SimplePP : CustomPostProcessVolumeComponent, IPostProcessCom
         if (m_Material == null)
             return;
         m_Material.SetTexture("_CameraATex", renderTexture.value);
+        m_Material.SetFloat("_Intensity", intensity.value);
+        m_Material.SetTexture("_InputTexture", source);
+        m_Material.SetMatrix("_FloorNormalizedToCameraClip", PerspectiveHandler.Matrix);
         HDUtils.DrawFullScreen(cmd, m_Material, destination);
     }
 

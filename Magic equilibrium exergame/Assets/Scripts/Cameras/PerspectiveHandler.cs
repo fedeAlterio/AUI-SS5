@@ -13,19 +13,17 @@ namespace Assets.Scripts.Cameras
         // Editor fields
         [SerializeField] [CannotBeNull] private List<Camera> _cameras = new List<Camera>();
         [SerializeField] private float _floorAspectRatio = 16 / 9.0f;
-        [SerializeField] private Material _customRendererTextureMaterial;
 
 
         // Initialization
         private void Start()
         {
             var normalizedFloorToCameraClip = ComputeNormalizedFloorToCameraClip();
-            _customRendererTextureMaterial.SetMatrix("_FloorNormalizedToCameraClip", normalizedFloorToCameraClip);
+            Matrix = normalizedFloorToCameraClip;
         }
 
         private Matrix4x4 ComputeNormalizedFloorToCameraClip()
         {
-
             var perspectiveData = GetPerspectiveData();
             return GetC(_cameras[1]) * GetA(perspectiveData) * GetB(perspectiveData); 
         }
@@ -58,7 +56,7 @@ namespace Assets.Scripts.Cameras
 
         // Properties
         private Camera FrontCamera => _cameras[0];
-
+        public static Matrix4x4 Matrix { get; private set; }
 
         private Matrix4x4 GetA(PerspectiveData perspectiveData)
         {

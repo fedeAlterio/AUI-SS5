@@ -184,9 +184,31 @@ MonoBehaviour:
   m_AdvancedMode: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.084
+    m_Value: 0.064
     min: 0
     max: 1
   renderTexture:
     m_OverrideState: 1
     m_Value: {fileID: 8600000, guid: ed597a8815af56d408e417a065d0573a, type: 2}
+--- !u!114 &3782322622902869426
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee9dca6f81a668478bf2f9621b43b59, type: 3}
+  m_Name: aaa
+  m_EditorClassIdentifier: 
+  active: 0
+  <displayName>k__BackingField: 
+  m_AdvancedMode: 0
+  m_IsInitialized: 0
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+    max: 1
+  m_Material: {fileID: 0}

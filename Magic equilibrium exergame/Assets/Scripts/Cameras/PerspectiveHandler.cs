@@ -13,29 +13,29 @@ namespace Assets.Scripts.Cameras
         // Editor fields
         [SerializeField] [CannotBeNull] private List<Camera> _cameras = new List<Camera>();
         [SerializeField] private float _floorAspectRatio = 16 / 9.0f;
-        
-        
-        
-        // Private fields
-        private PerspectiveData _perspectiveData;
-
+        [SerializeField] private Material _customRendererTextureMaterial;
 
 
         // Initialization
         private void Start()
         {
-            InitializePerspectiveData(); 
-            FloorNormalizedToCameraClip = GetC(_cameras[1]) * GetA(_perspectiveData) * GetB(_perspectiveData);
-            //InvokeRepeating(nameof(DoStuff),0, 10);
+
         }
 
-        private void DoStuff()
+        private void Update()
         {
-            FloorTexture = new Texture2D(FrontCamera.targetTexture.width, FrontCamera.targetTexture.height);            
-            CreateTexture();
+            ComputeMatrix();
+            _customRendererTextureMaterial.SetMatrix("_FloorNormalizedToCameraClip", NormalizedFloorToCameraClip);
         }
 
-        private void InitializePerspectiveData()
+
+        void ComputeMatrix()
+        {
+            var x = GetPerspectiveData();
+            NormalizedFloorToCameraClip = GetC(_cameras[1]) * GetA(x) * GetB(x);
+        }
+
+        private PerspectiveData GetPerspectiveData()
         {
             var planeDistance = FrontCamera.nearClipPlane;
             var bottomLeftViewPort = new Vector3(0, 0, planeDistance);
@@ -51,7 +51,7 @@ namespace Assets.Scripts.Cameras
 
             var floorWorldWidth = ux.magnitude;
             var floorWorldHeight = floorWorldWidth / _floorAspectRatio;
-            _perspectiveData = new PerspectiveData
+            return new PerspectiveData
             {                
                 BottomLeft = bottomLeft,
                 Ux = ux,
@@ -79,7 +79,7 @@ namespace Assets.Scripts.Cameras
         // Properties
         private Camera FrontCamera => _cameras[0];
         public Texture2D FloorTexture { get; private set; }
-        public Matrix4x4 FloorNormalizedToCameraClip { get; private set; }
+        public Matrix4x4 NormalizedFloorToCameraClip { get; private set; }
 
 
         private Matrix4x4 GetA(PerspectiveData perspectiveData)
@@ -96,7 +96,7 @@ namespace Assets.Scripts.Cameras
         {
             var ux = perspectiveData.Ux;
             var uz = perspectiveData.Uz;
-            var c1 = new Vector4(ux.x, ux.y, ux.z, 0);
+            var c1 = new Vector4(ux.x, ux.y, -ux.z, 0);
             var c2 = perspectiveData.FloorWorldHeight* new Vector4(uz.x, uz.y, uz.z, 0);
             var c3 = new Vector4(0, 0, 1, 0);
             var c4 = new Vector4(0, 0, 0, 1);
@@ -129,12 +129,12 @@ namespace Assets.Scripts.Cameras
 
         private CameraPoint ComputePointNew(Vector2 pointFloorCoordinates)
         {
-            InitializePerspectiveData();
+            var p = GetPerspectiveData();
             var camera = _cameras[1];
             var cameraWidthPixels = camera.targetTexture.width;
             var cameraHeightPixels = camera.targetTexture.height;
             var a = new Vector4(pointFloorCoordinates.x, pointFloorCoordinates.y, 0);
-            var point = Apply(FloorNormalizedToCameraClip, a);
+            var point = Apply(NormalizedFloorToCameraClip, a);
             if (IsInsideFrustum(point))
             {
                 var x = (int)Mathf.Clamp(point.x * cameraWidthPixels, 0, cameraWidthPixels);

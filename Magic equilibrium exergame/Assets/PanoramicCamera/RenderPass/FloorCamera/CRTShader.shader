@@ -25,10 +25,16 @@ Shader "FloorCustomRendererShader"
             sampler2D   _Tex;
             sampler2D   _Camera0Tex;
             sampler2D   _Camera1Tex;
+            float4x4    _FloorNormalizedToCameraClip;
+
 
             float4 frag(v2f_customrendertexture IN) : COLOR
             {
-                return _Color * tex2D(_Camera0Tex, IN.localTexcoord.xy);
+                float4 normalizedFloorCoordinates = float4(IN.localTexcoord.x, IN.localTexcoord.y, 0.0f, 1.0f);
+                float4 cameraClipCoordinates = mul(_FloorNormalizedToCameraClip, normalizedFloorCoordinates);
+                cameraClipCoordinates = cameraClipCoordinates / cameraClipCoordinates.w;
+                float2 texCoords = float2(1 - cameraClipCoordinates.x, cameraClipCoordinates.y);
+                return _Color * tex2D(_Camera1Tex, texCoords);
             }
             ENDCG
             }

@@ -16,7 +16,7 @@ namespace Assets.Scripts.Path.BuildingStrategies
 
 
         // Initialization
-        private void Start()
+        private void Awake()
         {
             Strategies = _strategies.ToDictionary(x => x.GetType().Name, x => x);
         }

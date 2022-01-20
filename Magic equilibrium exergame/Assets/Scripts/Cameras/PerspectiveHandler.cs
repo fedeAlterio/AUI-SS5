@@ -17,61 +17,26 @@ namespace Assets.Scripts.Cameras
         
         
         // Private fields
-        private Dictionary<(int i, int j), CameraPoint> _floorMap = new Dictionary<(int i, int j), CameraPoint>();
+        private PerspectiveData _perspectiveData;
+        private Matrix4x4 _floorToClip;
 
 
 
         // Initialization
         private void Start()
         {
+            InitializePerspectiveData(); 
+            _floorToClip = GetC(_cameras[1]) * GetA(_perspectiveData) * GetB(_perspectiveData);
             InvokeRepeating(nameof(DoStuff),0, 10);
         }
 
         private void DoStuff()
         {
-            _floorMap.Clear();
-            FloorTexture = new Texture2D(FrontCamera.targetTexture.width, FrontCamera.targetTexture.height);
-            InitializeCameraPoints();
+            FloorTexture = new Texture2D(FrontCamera.targetTexture.width, FrontCamera.targetTexture.height);            
             CreateTexture();
         }
 
-
-        private void CreateTexture()
-        {            
-            var cameraTextures = _cameras.Select(x => ToTexture2D(x.targetTexture)).ToArray();
-            for(var i=0; i < FloorTexture.width; i++)
-                for(var j=0; j < FloorTexture.height; j++)
-                {
-                    var cameraPoint = _floorMap[(i, j)];
-                    var color = cameraTextures[cameraPoint.CameraId]
-                        .GetPixel(cameraPoint.CameraX, cameraPoint.CameraY);
-                    FloorTexture.SetPixel(i, j, color);
-                    //FloorTexture.SetPixel(i, j, Color.green);
-                }
-            FloorTexture.Apply();
-        }
-
-
-        // Properties
-        private Camera FrontCamera => _cameras[0];
-        public Texture2D FloorTexture { get; private set; } 
-
-
-
-        // Core
-        private void InitializeCameraPoints()
-        {
-            var frontTexture = FrontCamera.targetTexture;
-            for(var i=0; i <frontTexture.width; i++)
-                for(var j=0; j <frontTexture.height; j++)
-                {
-                    var pointFloorCoordinates = new Vector2(i/(float)frontTexture.width, j/(float)frontTexture.height);
-                    var cameraPoint = ComputePoint(pointFloorCoordinates);
-                    _floorMap.Add((i,j), cameraPoint);
-                }
-        }
-
-        private CameraPoint ComputePoint(Vector2 pointFloorCoordinates)
+        private void InitializePerspectiveData()
         {
             var planeDistance = FrontCamera.nearClipPlane;
             var bottomLeftViewPort = new Vector3(0, 0, planeDistance);
@@ -83,32 +48,98 @@ namespace Assets.Scripts.Cameras
             var uy = topRight - bottomRight;
             var ux = bottomRight - bottomLeft;
             var uz = -Vector3.Cross(ux, uy).normalized;
-            Debug.DrawLine(bottomLeft, bottomLeft + ux, Color.red,2, false);
-            Debug.DrawLine(bottomLeft, bottomLeft + uy, Color.red, 2, false);
-            Debug.DrawLine(bottomLeft, bottomLeft + 1000000 * uz, Color.red, 2, false);
-            Debug.Log(Vector3.Dot(uz, ux));
-            Debug.Log(Vector3.Dot(uz, uy));
+
 
             var floorWorldWidth = ux.magnitude;
             var floorWorldHeight = floorWorldWidth / _floorAspectRatio;
-            var floorWorldCoordinates = bottomLeft + pointFloorCoordinates.x * ux + pointFloorCoordinates.y * floorWorldHeight * uz;
-            var cameraToPoint = (floorWorldCoordinates - FrontCamera.transform.position) / 10;
-            Debug.DrawLine(floorWorldCoordinates, floorWorldCoordinates - cameraToPoint , Color.green, 2, false);
+            _perspectiveData = new PerspectiveData
+            {                
+                BottomLeft = bottomLeft,
+                Ux = ux,
+                Uz = uz,
+                FloorWorldHeight = floorWorldHeight
+            };
+        }
 
-            for (var i=1; i < _cameras.Count; i++)
-            {
-                var camera = _cameras[i];
-                var cameraWidthPixels = camera.targetTexture.width;
-                var cameraHeightPixels = camera.targetTexture.height;
 
-                var point = camera.WorldToViewportPoint(floorWorldCoordinates);      
-                if(IsInsideFrustum(point))
+        private void CreateTexture()
+        {            
+            var cameraTextures = _cameras.Select(x => ToTexture2D(x.targetTexture)).ToArray();
+            for(var i=0; i < FloorTexture.width; i++)
+                for(var j=0; j < FloorTexture.height; j++)
                 {
-                    var x = (int)Mathf.Clamp(point.x * cameraWidthPixels, 0, cameraWidthPixels);
-                    var y = (int)Mathf.Clamp(point.y * cameraHeightPixels, 0, cameraHeightPixels);
-                    var cameraPoint = new CameraPoint(i,x,y);
-                    return cameraPoint;
-                }                
+                    var cameraPoint = ComputePointNew(new Vector2(i / (float) FloorTexture.width, j / (float) FloorTexture.height));
+                    var color = cameraTextures[cameraPoint.CameraId]
+                        .GetPixel(cameraPoint.CameraX, cameraPoint.CameraY);
+                    FloorTexture.SetPixel(i, j, color);
+                }
+            FloorTexture.Apply();
+        }
+
+
+        // Properties
+        private Camera FrontCamera => _cameras[0];
+        public Texture2D FloorTexture { get; private set; }        
+
+        private Matrix4x4 GetA(PerspectiveData perspectiveData)
+        {
+            return new Matrix4x4(
+                new Vector4(1, 0, 0, 0),
+                new Vector4(0, 1, 0, 0),
+                new Vector4(0, 0, 1, 0),
+                new Vector4(perspectiveData.BottomLeft.x, perspectiveData.BottomLeft.y, perspectiveData.BottomLeft.z, 1)
+                );
+        }
+
+        private Matrix4x4 GetB(PerspectiveData perspectiveData)
+        {
+            var ux = perspectiveData.Ux;
+            var uz = perspectiveData.Uz;
+            var c1 = new Vector4(ux.x, ux.y, ux.z, 0);
+            var c2 = perspectiveData.FloorWorldHeight* new Vector4(uz.x, uz.y, uz.z, 0);
+            var c3 = new Vector4(0, 0, 1, 0);
+            var c4 = new Vector4(0, 0, 0, 1);
+            return new Matrix4x4(c1, c2, c3, c4);
+        }
+
+        private Matrix4x4 TranslationMatrix(Vector3 v)
+        {
+            return Matrix4x4.Translate(v);
+        }
+         
+        private Matrix4x4 GetC(Camera camera)
+        {
+            Matrix4x4 P = camera.projectionMatrix;
+            Matrix4x4 V = camera.transform.worldToLocalMatrix;
+            Matrix4x4 scale = Matrix4x4.Scale(new Vector3(-0.5f, -0.5f, 1));
+            Matrix4x4 translate = Matrix4x4.Translate(new Vector3(0.5f, 0.5f, 0));
+            Matrix4x4 VP = translate * scale * P * V;
+            return VP;
+        }           
+        
+        private Vector3 Apply(Matrix4x4 m, Vector3 p)
+        {
+            var x = new Vector4(p.x, p.y, p.z, 1);
+            var result = m * x;
+            Vector3 ret = result;
+            ret /= result.w;
+            return ret;
+        }
+
+        private CameraPoint ComputePointNew(Vector2 pointFloorCoordinates)
+        {
+            InitializePerspectiveData();
+            var camera = _cameras[1];
+            var cameraWidthPixels = camera.targetTexture.width;
+            var cameraHeightPixels = camera.targetTexture.height;
+            var a = new Vector4(pointFloorCoordinates.x, pointFloorCoordinates.y, 0);
+            var point = Apply(_floorToClip, a);
+            if (IsInsideFrustum(point))
+            {
+                var x = (int)Mathf.Clamp(point.x * cameraWidthPixels, 0, cameraWidthPixels);
+                var y = (int)Mathf.Clamp(point.y * cameraHeightPixels, 0, cameraHeightPixels);
+                var cameraPoint = new CameraPoint(1, x, y);
+                return cameraPoint;
             }
             return new CameraPoint(0, 0, 0);
         }
@@ -118,19 +149,6 @@ namespace Assets.Scripts.Cameras
         {
             return -0 <= viewPortCoordinates.x && viewPortCoordinates.x <= 1
                 && -0 <= viewPortCoordinates.y && viewPortCoordinates.y <= 1;
-        }
-
-        void OnDrawGizmos()
-        {
-            Quaternion rotation = Quaternion.LookRotation(transform.TransformDirection(1,0,0));
-            Matrix4x4 trs = Matrix4x4.TRS(transform.TransformPoint(10,10,10), rotation, Vector3.one);
-            Gizmos.matrix = trs;
-            Color32 color = Color.blue;
-            color.a = 125;
-            Gizmos.color = color;
-            Gizmos.DrawCube(Vector3.zero, new Vector3(1.0f, 1.0f, 0.0001f));
-            Gizmos.matrix = Matrix4x4.identity;
-            Gizmos.color = Color.white;
         }
 
 

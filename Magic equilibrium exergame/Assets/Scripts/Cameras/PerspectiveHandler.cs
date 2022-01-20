@@ -18,7 +18,6 @@ namespace Assets.Scripts.Cameras
         
         // Private fields
         private PerspectiveData _perspectiveData;
-        private Matrix4x4 _floorToClip;
 
 
 
@@ -26,8 +25,8 @@ namespace Assets.Scripts.Cameras
         private void Start()
         {
             InitializePerspectiveData(); 
-            _floorToClip = GetC(_cameras[1]) * GetA(_perspectiveData) * GetB(_perspectiveData);
-            InvokeRepeating(nameof(DoStuff),0, 10);
+            FloorNormalizedToCameraClip = GetC(_cameras[1]) * GetA(_perspectiveData) * GetB(_perspectiveData);
+            //InvokeRepeating(nameof(DoStuff),0, 10);
         }
 
         private void DoStuff()
@@ -79,7 +78,9 @@ namespace Assets.Scripts.Cameras
 
         // Properties
         private Camera FrontCamera => _cameras[0];
-        public Texture2D FloorTexture { get; private set; }        
+        public Texture2D FloorTexture { get; private set; }
+        public Matrix4x4 FloorNormalizedToCameraClip { get; private set; }
+
 
         private Matrix4x4 GetA(PerspectiveData perspectiveData)
         {
@@ -133,7 +134,7 @@ namespace Assets.Scripts.Cameras
             var cameraWidthPixels = camera.targetTexture.width;
             var cameraHeightPixels = camera.targetTexture.height;
             var a = new Vector4(pointFloorCoordinates.x, pointFloorCoordinates.y, 0);
-            var point = Apply(_floorToClip, a);
+            var point = Apply(FloorNormalizedToCameraClip, a);
             if (IsInsideFrustum(point))
             {
                 var x = (int)Mathf.Clamp(point.x * cameraWidthPixels, 0, cameraWidthPixels);

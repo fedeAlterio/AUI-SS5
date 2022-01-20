@@ -189,4 +189,4 @@ MonoBehaviour:
     max: 1
   renderTexture:
     m_OverrideState: 1
-    m_Value: {fileID: 8600000, guid: 3e5f4a49715054e439c125062a424956, type: 2}
+    m_Value: {fileID: 8600000, guid: ed597a8815af56d408e417a065d0573a, type: 2}

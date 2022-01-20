@@ -25,6 +25,7 @@ namespace Assets.Scripts.Cameras
 
         private Matrix4x4 ComputeNormalizedFloorToCameraClip()
         {
+
             var perspectiveData = GetPerspectiveData();
             return GetC(_cameras[1]) * GetA(perspectiveData) * GetB(perspectiveData); 
         }

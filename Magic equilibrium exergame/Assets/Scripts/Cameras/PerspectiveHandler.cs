@@ -89,14 +89,6 @@ namespace Assets.Scripts.Cameras
             Matrix4x4 VP = translate * scale * P * V;
             return VP;
         }           
-        
-        private Vector3 Apply(Matrix4x4 m, Vector3 p)
-        {
-            var x = new Vector4(p.x, p.y, p.z, 1);
-            var result = m * x;
-            Vector3 ret = result;
-            ret /= result.w;
-            return ret;
-        }
+
     }
 }

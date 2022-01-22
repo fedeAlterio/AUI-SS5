@@ -8,7 +8,7 @@ using UnityEngine.Assertions;
 
 namespace Assets.Scripts.Cameras
 {   
-    public class PerspectiveHandler : MonoBehaviour
+    public class PostProcessingPerspectiveHandler : MonoBehaviour
     {
         // Editor fields
         [SerializeField] [CannotBeNull] private List<Camera> _cameras = new List<Camera>();

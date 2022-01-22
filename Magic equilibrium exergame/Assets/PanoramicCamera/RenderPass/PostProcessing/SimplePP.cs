@@ -8,7 +8,7 @@ using Assets.Scripts.Cameras;
 public sealed class SimplePP : CustomPostProcessVolumeComponent, IPostProcessComponent
 {
     // Private fields
-    private PerspectiveHandler _perspectiveHandler;
+    private PostProcessingPerspectiveHandler _perspectiveHandler;
 
     [Tooltip("Controls the intensity of the effect.")]
     public ClampedFloatParameter intensity = new ClampedFloatParameter(0f, 0f, 1f);
@@ -24,7 +24,7 @@ public sealed class SimplePP : CustomPostProcessVolumeComponent, IPostProcessCom
 
     public override void Setup()
     {
-        _perspectiveHandler = FindObjectOfType<PerspectiveHandler>();   
+        _perspectiveHandler = FindObjectOfType<PostProcessingPerspectiveHandler>();   
         if (Shader.Find(kShaderName) != null)
             m_Material = new Material(Shader.Find(kShaderName));
         else

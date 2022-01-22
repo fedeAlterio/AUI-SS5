@@ -7,6 +7,9 @@ using Assets.Scripts.Cameras;
 [Serializable, VolumeComponentMenu("Post-processing/Custom/SimplePP")]
 public sealed class SimplePP : CustomPostProcessVolumeComponent, IPostProcessComponent
 {
+    // Private fields
+    private PerspectiveHandler _perspectiveHandler;
+
     [Tooltip("Controls the intensity of the effect.")]
     public ClampedFloatParameter intensity = new ClampedFloatParameter(0f, 0f, 1f);
     public RenderTextureParameter renderTexture = new RenderTextureParameter(null);
@@ -21,6 +24,7 @@ public sealed class SimplePP : CustomPostProcessVolumeComponent, IPostProcessCom
 
     public override void Setup()
     {
+        _perspectiveHandler = FindObjectOfType<PerspectiveHandler>();   
         if (Shader.Find(kShaderName) != null)
             m_Material = new Material(Shader.Find(kShaderName));
         else
@@ -34,7 +38,7 @@ public sealed class SimplePP : CustomPostProcessVolumeComponent, IPostProcessCom
         m_Material.SetTexture("_CameraATex", renderTexture.value);
         m_Material.SetFloat("_Intensity", intensity.value);
         m_Material.SetTexture("_InputTexture", source);
-        m_Material.SetMatrix("_FloorNormalizedToCameraClip", PerspectiveHandler.Matrix);
+        m_Material.SetMatrix("_FloorNormalizedToCameraClip", _perspectiveHandler.ComputeNormalizedFloorToCameraClip());
         HDUtils.DrawFullScreen(cmd, m_Material, destination);
     }
 

@@ -19,13 +19,18 @@ namespace Assets.Scripts.Cameras
         private void Start()
         {
             var normalizedFloorToCameraClip = ComputeNormalizedFloorToCameraClip();
-            Matrix = normalizedFloorToCameraClip;
         }
 
-        private Matrix4x4 ComputeNormalizedFloorToCameraClip()
+        public Matrix4x4 ComputeNormalizedFloorToCameraClip()
         {
+            var cam = _cameras [1];
             var perspectiveData = GetPerspectiveData();
-            return GetC(_cameras[1]) * GetA(perspectiveData) * GetB(perspectiveData); 
+            var m = GetC(_cameras[1]) * GetA(perspectiveData) * GetB(perspectiveData);
+            //m.SetRow(2, new Vector4(0, 0, 1, 0));
+            //Matrix4x4 scale = Matrix4x4.Scale(new Vector3(-0.5f, -0.5f, 1));
+            //Matrix4x4 translate = Matrix4x4.Translate(new Vector3(-0.5f, -0.5f, 0));
+            //cam.projectionMatrix = translate.in * scale.inverse * m.inverse * translate * scale * cam.projectionMatrix;
+            return m;
         }
 
         private PerspectiveData GetPerspectiveData()
@@ -56,7 +61,6 @@ namespace Assets.Scripts.Cameras
 
         // Properties
         private Camera FrontCamera => _cameras[0];
-        public static Matrix4x4 Matrix { get; private set; }
 
         private Matrix4x4 GetA(PerspectiveData perspectiveData)
         {

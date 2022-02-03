@@ -38,6 +38,7 @@ namespace Assets.Scripts.Animations
         public float DeltaTime => Time.deltaTime;
         public float Speed { get; set; } = 10;
         public float SpeedScale { get; set; } = 1;
+        public PlayerLoopTiming PlayerLoopTiming { get; set; } = PlayerLoopTiming.Update;
 
 
 
@@ -144,7 +145,7 @@ namespace Assets.Scripts.Animations
 
                 if (Paused)
                     await _pauseTcs.Task;
-                await UniTask.NextFrame(CancellationToken);
+                await UniTask.NextFrame(PlayerLoopTiming, CancellationToken);
             } while (Paused || !_bindedMonoBehaviour.gameObject.activeSelf);
         }
 

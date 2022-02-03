@@ -22,7 +22,6 @@ public class RespawnManager : MonoBehaviour
 
     
     // Private fields
-    private bool _startSpawnCompleted;
     private CheckPointManager _checkPointManager;
     private DeathManager _deathManager;
     private AsyncOperationManager _respawnOperation;
@@ -39,24 +38,15 @@ public class RespawnManager : MonoBehaviour
         _playerRigidbody = _playerVelocity.GetComponent<Rigidbody>();
         _checkPointManager = FindObjectOfType<CheckPointManager>();
         _deathManager = FindObjectOfType<DeathManager>();
-        _checkPointManager.CheckpointAdded += OnCheckpointAdded;
         _respawnOperation = new AsyncOperationManager(this) { PlayerLoopTiming = PlayerLoopTiming.FixedUpdate };
         _deathManager.playerDeathEvent.AddListener(RespawnWithCountdown);
     }
 
     private void Start()
     {
-        _pathConfiguration = this.GetInstance<IPathConfiguration>();        
-    }
-
-
-    // Events handlers
-    private void OnCheckpointAdded(CheckPoint checkpoint)
-    {
-        if (_startSpawnCompleted)
-            return;
-
-        _startSpawnCompleted = true;        
+        _pathConfiguration = this.GetInstance<IPathConfiguration>();   
+        transform.position = CheckPointManager.instance.GetRespawnPosition();
+        RespawnWithCountdown();
     }
 
 
@@ -92,7 +82,7 @@ public class RespawnManager : MonoBehaviour
     {
         var startPosition = _playerRigidbody.position;
         var endPosition = CheckPointManager.instance.GetRespawnPosition();
-        var middlePointY = (endPosition.y - startPosition.y) + 1;
+        var middlePointY = (endPosition.y - startPosition.y) + 3;
         var deltaX = startPosition.x - endPosition.x;
         if (Mathf.Abs(deltaX) < _pathConfiguration.PathThickness*2)
             deltaX = _pathConfiguration.PathThickness * 2f * Mathf.Sign(deltaX);
@@ -100,6 +90,8 @@ public class RespawnManager : MonoBehaviour
         var middlePoint = new Vector3(x, middlePointY, (startPosition.z + endPosition.z)/2);
         var distance = Vector3.Distance(endPosition, startPosition);
         var bezier = new QuadraticBezier(startPosition, middlePoint, endPosition);
+
+
         await manager.Lerp(0, distance, t => _playerVelocity.transform.position = bezier.PointAt((t/distance) + bezier.MinT), speed: _respawnAnimationSpeed, smooth: true);
     }
 }

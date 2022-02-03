@@ -28,7 +28,7 @@ namespace Assets.Scripts.UI
         {
             _respawnManager = FindObjectOfType<RespawnManager>();
             _showNumberAnimation = new AsyncOperationManager(this);
-            _showNumberAnimation.Speed *= 0.8f;
+            _showNumberAnimation.Speed *= 0.6f;
             _respawnManager.CountdownTick += number => _showNumberAnimation.New(manager => ShowNumber(number, manager));
         }
 
@@ -44,13 +44,14 @@ namespace Assets.Scripts.UI
         private async UniTask ShowNumber(int number, IAsyncOperationManager manager)
         {
             _text.text = $"{number}";
-            await manager.Lerp(transform.localScale, _startScale * 1.5f, scale => transform.localScale = scale);
-            await manager.Lerp(transform.localScale, number == 0 ? Vector3.zero : _startScale, scale => transform.localScale = scale);
+            await manager.Lerp(-0.5f * Mathf.PI, 0.5f * Mathf.PI, t => transform.localScale = _startScale * (1 + 0.4f * Mathf.Cos(t)));
+            if (number == 0)
+                await FadeOut(manager);
         }
 
         private async UniTask FadeOut(IAsyncOperationManager manager)
         {
             await manager.Lerp(transform.localScale, Vector3.zero, scale => transform.localScale = scale);
-        }
+        }        
     }
 }

@@ -99,7 +99,7 @@ namespace Assets.Scripts.Calibration
             var args = new CalibrationEventArgs(CalibrationPhase.HorizontalAngle, CalibrationAngleTime);
             StateChanged?.Invoke(args);
             await manager.Delay(TimeSpan.FromSeconds(CalibrationAngleTime));
-            _wobbleBoardConfiguration.MaxHorizontalAngle = _woobleBoardService.ZAngle;
+            _wobbleBoardConfiguration.MaxHorizontalAngle = _woobleBoardService.XAngle;
             Debug.Log(Mathf.Rad2Deg * _wobbleBoardConfiguration.HorizontalRotationAngle);
         }
 

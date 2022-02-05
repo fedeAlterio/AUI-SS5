@@ -10,14 +10,14 @@ namespace Assets.Scripts.WobbleBoardCalibration
 {
     public class WobbleBoardConfiguration : MonoBehaviour, IWobbleBoardConfiguration
     {
-        [field: SerializeField] public float HorizontalRotationAngle { get; set; }
-        [field: SerializeField] public float MaxForwardlAngle { get; set; }
-        [field: SerializeField] public float MaxBackwardlAngle { get; set; }
-        [field: SerializeField] public float MaxHorizontalAngle { get; set; }
+        [field: SerializeField] public float HorizontalRotationAngle { get; set; } 
+        [field: SerializeField] public float MaxForwardlAngle { get; set; } = Mathf.PI / 2;
+        [field: SerializeField] public float MaxBackwardlAngle { get; set; } = -Mathf.PI / 2;
+        [field: SerializeField] public float MaxHorizontalAngle { get; set; } = Mathf.PI / 2;
 
-        private void Start()
+        private void Awake()
         {
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
         }
     }
 }

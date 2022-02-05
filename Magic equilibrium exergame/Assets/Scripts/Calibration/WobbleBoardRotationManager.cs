@@ -41,7 +41,6 @@ namespace Assets.Scripts.WobbleBoardCalibration
         {
             transform.localRotation = GetRotation();
             _wobbleBoardConfiguration.HorizontalRotationAngle = _horizontalAngle / 180 * Mathf.PI;
-            Debug.Log(new { _wobbleboardInput.XAngle, _wobbleboardInput.ZAngle });
         }
 
 

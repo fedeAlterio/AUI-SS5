@@ -14,17 +14,20 @@ namespace Assets.Scripts.Communication.Abstractions
 {
     public abstract class WobbleboardFetcher : MonoBehaviour, IWobbleboardService
     {
+        // Editor fields
+        [SerializeField] private bool _enableLogging;
+        
+            
         // Private fields
         private Thread _fetchingThread;
-        private WobbleBoardConfiguration _wobbleBoardConfiguration;
-
+        private IWobbleBoardConfiguration _wobbleBoardConfiguration;
 
 
         // Initialization
         private void Start()
         {
             _fetchingThread = new Thread(FetchDataLoop);
-            _wobbleBoardConfiguration = this.GetInstance<WobbleBoardConfiguration>();
+            _wobbleBoardConfiguration = this.GetInstance<IWobbleBoardConfiguration>();
             IsApplicationRunning = true;
             _fetchingThread.Start();
         }
@@ -50,9 +53,11 @@ namespace Assets.Scripts.Communication.Abstractions
             {
                 try
                 {
+                    if(_enableLogging)
+                        Debug.Log("Try to get info");
                     var responseSchema = new { X = 0f, Y = 0f, Z = 0f };
                     var (isTimeout, response) = await Get(responseSchema: responseSchema)
-                        .TimeoutWithoutException(TimeSpan.FromSeconds(1));
+                        .TimeoutWithoutException(TimeSpan.FromSeconds(10));
                     if (!isTimeout)
                     {
                         var localCoordinates = new Vector3(response.X, response.Y, response.Z);
@@ -63,6 +68,7 @@ namespace Assets.Scripts.Communication.Abstractions
                 }
                 catch (Exception ex)
                 {
+                    Debug.Log(ex);
                 }
             }
         }
@@ -108,7 +114,8 @@ namespace Assets.Scripts.Communication.Abstractions
             if(float.IsNaN(zAngle)) 
                 zAngle = 0;
             (XAngle, ZAngle) = (xAngle, zAngle);
-            Debug.Log((XAngle, zAngle));
+            if (_enableLogging)
+                Debug.Log((XAngle, ZAngle));
         }
     }
 }

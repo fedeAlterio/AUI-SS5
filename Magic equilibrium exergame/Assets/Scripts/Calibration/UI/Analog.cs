@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.PlayerMovement;
+﻿using Assets.Scripts.Abstractions;
+using Assets.Scripts.Path.BuildingStrategies;
+using Assets.Scripts.PlayerMovement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ namespace Assets.Scripts.Calibration.UI
     {
         // Private fields
         private RectTransform _rectTransform;
-        private WobbleBoardAxis _wobbleBoardAxis;
+        private IMovementAxis _wobbleBoardAxis;
 
 
 
@@ -20,11 +22,11 @@ namespace Assets.Scripts.Calibration.UI
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
-            _wobbleBoardAxis = FindObjectOfType<WobbleBoardAxis>();
         }
 
         private void Start()
         {
+            _wobbleBoardAxis = this.GetInstance<IMovementAxis>();
             
         }
 

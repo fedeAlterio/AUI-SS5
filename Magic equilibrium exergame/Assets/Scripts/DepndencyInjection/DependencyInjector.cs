@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Abstractions;
 using Assets.Scripts.DepndencyInjection.Mocks;
 using Assets.Scripts.Path.BuildingStrategies.Path;
+using Assets.Scripts.PlayerMovement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Assets.Scripts.DepndencyInjection
         {            
             AddDefault<IPathConfiguration>(new DefaultPathConfiguration(GetInstances<IPathStrategy>().Select(s => s.Name).ToList()));
             AddDefault<IWobbleBoardConfiguration>(new MockWobbleBoardConfiguration());
+            AddDefault<IMovementAxis>(new WASDMovementAxis());
         }
 
         private void AddDefault<T>(T builder)

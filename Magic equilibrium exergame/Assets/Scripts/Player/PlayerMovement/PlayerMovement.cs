@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.Scripts.Abstractions;
+using Assets.Scripts.Path.BuildingStrategies;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.PlayerMovement
 {
-    public abstract class PlayerMovementAbstract : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour
     {
         // Editor fields
         [SerializeField] private float _speed = 5;
@@ -16,8 +18,7 @@ namespace Assets.Scripts.PlayerMovement
 
         // Private fields
         private VelocityInput _velocityInput;
-        private float _horizontalAxis;
-        private float _verticalAxis;
+        private IMovementAxis _movementAxis;
 
 
 
@@ -27,25 +28,18 @@ namespace Assets.Scripts.PlayerMovement
             _velocityInput = GetComponent<VelocityInput>();
         }
 
-
-        private void Update()
+        private void Start()
         {
-            _horizontalAxis = HorizontalAxis;
-            _verticalAxis = VerticalAxis;
+            _movementAxis = this.GetInstance<IMovementAxis>();            
         }
 
-
-
-        // properties
-        public abstract float HorizontalAxis { get; }
-        public abstract float VerticalAxis { get; }
 
 
         // Events
         private void FixedUpdate()
         {
-            _velocityInput.inputX = _horizontalAxis * 5;
-            _velocityInput.inputZ = _verticalAxis * 5;
+            _velocityInput.inputX = _movementAxis.HorizontalAxis * _speed;
+            _velocityInput.inputZ = _movementAxis.VerticalAxis * _speed;
         }
     }
 }

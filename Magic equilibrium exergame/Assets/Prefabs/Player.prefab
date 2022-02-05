@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4783318018221494451}
   - component: {fileID: 4783318018221494450}
   - component: {fileID: 4783318018221494463}
-  - component: {fileID: 4783318018221494462}
   - component: {fileID: -7158725574742501665}
   - component: {fileID: 1365340006}
   - component: {fileID: 508144451}
@@ -116,19 +115,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4783318018221494462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4783318018221494449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5e48ea1e5a1d1c4eab9943bdd40c0ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 8
 --- !u!114 &-7158725574742501665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,7 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8b0599a3df35244bfdfc9000057c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVelocity: {fileID: 1365340006}
+  _respawnTimerPeriod: 0
+  _respawnAnimationSpeed: 1
 --- !u!114 &1365340006
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,6 @@ public class CheckPointManager : MonoBehaviour
 
     public static CheckPointManager instance;
     public List<CheckPoint> orderedCheckPoints = new List<CheckPoint>();
-
     private int lastCheckpoint;
 
     private void Awake()
@@ -28,6 +27,11 @@ public class CheckPointManager : MonoBehaviour
     }
 
 
+    // Properties
+    public Vector3 RespawnPosition => orderedCheckPoints.Any() ? orderedCheckPoints[lastCheckpoint].spawnPosition : Vector3.zero;
+    public IReadOnlyList<CheckPoint> CheckPoints => orderedCheckPoints;
+
+
     public void AddCheckpoint(CheckPoint checkPoint)
     {
         orderedCheckPoints.Add(checkPoint);
@@ -39,7 +43,7 @@ public class CheckPointManager : MonoBehaviour
 
     // When a checkpoint is reached, check whether that is the furthest the player has reached so far
     // If it is, update the index
-    public void CheckpointReached(CheckPoint checkPoint)
+    private void CheckpointReached(CheckPoint checkPoint)
     {
         int tempIndex = orderedCheckPoints.IndexOf(checkPoint);
         
@@ -47,11 +51,5 @@ public class CheckPointManager : MonoBehaviour
         {
             lastCheckpoint = tempIndex;
         }
-    }   
-
-    // Tells where to respawn the player
-    public Vector3 GetRespawnPosition()
-    {
-        return orderedCheckPoints[lastCheckpoint].spawnPosition;
-    } 
+    }
 }

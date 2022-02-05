@@ -23,7 +23,7 @@ namespace Assets.Scripts.Path.BuildingStrategies
 
         public void SearchStrategies()
         {
-            _strategies = this.FindInstances<T>().ToList();
+            _strategies = this.GetInstances<T>().ToList();
             Debug.Log("Searching in " + GetType());
             _searchStrategies = false;
         }

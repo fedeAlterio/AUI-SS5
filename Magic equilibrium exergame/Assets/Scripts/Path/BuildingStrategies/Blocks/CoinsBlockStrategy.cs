@@ -74,14 +74,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Blocks
             return gate;
         }
 
-        private GameObject NewOrientedGameObject(Vector3 position, Vector3 zAxis, Vector3 upAxis)
-        {
-            var gameObject = new GameObject("Oriented Wrapper");
-            var rotation = Quaternion.LookRotation(zAxis, upAxis);
-            gameObject.transform.position = position;
-            gameObject.transform.rotation = rotation;
-            return gameObject;
-        }
+
         
         private Coin BuildCoin(CurveBlock curve, Transform parent) => Instantiate(_coinPrefab, parent);
         private GateManager BuildGate(CurveBlock curve, Transform parent) => Instantiate(_gatePrefab, parent);

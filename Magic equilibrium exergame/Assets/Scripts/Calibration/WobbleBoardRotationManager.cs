@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Abstractions;
-using Assets.Scripts.DependencyInjection.Extensions;
+using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.PlayerMovement;
 using System;
 using System.Collections.Generic;
@@ -41,6 +41,7 @@ namespace Assets.Scripts.WobbleBoardCalibration
         {
             transform.localRotation = GetRotation();
             _wobbleBoardConfiguration.HorizontalRotationAngle = _horizontalAngle / 180 * Mathf.PI;
+            Debug.Log(new { _wobbleboardInput.XAngle, _wobbleboardInput.ZAngle });
         }
 
 

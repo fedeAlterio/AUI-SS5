@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
-namespace Assets.Scripts.Path.BuildingStrategies.Configuration
+namespace Assets.Scripts.DepndencyInjection.Mocks
 {
     public class DefaultPathConfiguration : IPathConfiguration
     {
@@ -24,6 +25,5 @@ namespace Assets.Scripts.Path.BuildingStrategies.Configuration
         public float CurveSize { get; } = 4;
         public float TextureScale { get; } = 0.25f;
         public float PathHeight { get; } = 1;
-
     }
 }

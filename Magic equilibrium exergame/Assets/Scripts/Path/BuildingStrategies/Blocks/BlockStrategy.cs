@@ -28,6 +28,18 @@ namespace Assets.Scripts.Path.BuildingStrategies.Blocks
             block.name += $" {name}";
             block.name.Trim();
         }
+
+
+
+        // Utils
+        protected GameObject NewOrientedGameObject(Vector3 position, Vector3 zAxis, Vector3 upAxis)
+        {
+            var gameObject = new GameObject("Oriented Wrapper");
+            var rotation = Quaternion.LookRotation(zAxis, upAxis);
+            gameObject.transform.position = position;
+            gameObject.transform.rotation = rotation;
+            return gameObject;
+        }
     }
 }
 

@@ -162,7 +162,11 @@ namespace Assets.Scripts.Animations
             if (Cancelled)
                 throw new OperationCanceledException();
         }
-
+        
+        public UniTask Delay(TimeSpan timeSpan)
+        {
+            return Delay((int) timeSpan.TotalMilliseconds);
+        }
 
         // Lerp
         public async UniTask Lerp(float from, float to, Action<float> callback, float speed, bool smooth = true)
@@ -225,5 +229,6 @@ namespace Assets.Scripts.Animations
         {
             return Lerp(from, to, callback, Speed, smooth);
         }
+
     }
 }

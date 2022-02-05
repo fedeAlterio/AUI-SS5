@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Abstractions;
 using Assets.Scripts.Animations;
-using Assets.Scripts.DependencyInjection.Extensions;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;

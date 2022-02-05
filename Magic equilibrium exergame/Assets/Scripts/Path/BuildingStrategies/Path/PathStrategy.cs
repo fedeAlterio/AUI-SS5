@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.DependencyInjection.Extensions;
-using Assets.Scripts.Models.Path.Blocks;
+﻿using Assets.Scripts.Models.Path.Blocks;
 using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Path.BuildingStrategies.Blocks;
 using System;
@@ -13,9 +12,15 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
 {
     public abstract class PathStrategy : MonoBehaviour, IPathStrategy
     {
+        // Private fields
+        private IPathConfiguration _pathConfiguration;
+
+
+
         // Initialization
-        private void Awake()
+        protected virtual void Start()
         {
+            _pathConfiguration = this.GetInstance<IPathConfiguration>();        
             BlocksContainer = FindObjectOfType<BlockContainer>();
         }
 
@@ -30,8 +35,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
         // Core
         public ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line)
         {
-            var pathConfiguration = this.GetInstance<IPathConfiguration>();
-            return Build(line, pathConfiguration);
+            return Build(line, _pathConfiguration);
         }
         public abstract ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration);
     }

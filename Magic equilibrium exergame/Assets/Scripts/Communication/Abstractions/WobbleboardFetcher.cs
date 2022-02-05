@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Abstractions;
-using Assets.Scripts.DependencyInjection.Extensions;
+using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.WobbleBoardCalibration;
 using Cysharp.Threading.Tasks;
 using System;
@@ -39,11 +39,6 @@ namespace Assets.Scripts.Communication.Abstractions
 
 
         // Core
-        protected virtual void Update()
-        {
-            IsApplicationRunning = true;
-        }
-
         protected virtual void OnDestroy()
         {
             IsApplicationRunning = false;
@@ -63,8 +58,7 @@ namespace Assets.Scripts.Communication.Abstractions
                         var localCoordinates = new Vector3(response.X, response.Y, response.Z);
                         AccelerometerCoordinatesToAngles(localCoordinates, out var horizontalAngle, out var forwardAngle);
                         //(XAngle, ZAngle) = (horizontalAngle, forwardAngle);
-                        SetOnMainThread(horizontalAngle, forwardAngle).Forget();
-                        Debug.Log((XAngle,ZAngle));
+                        SetOnMainThread(horizontalAngle, forwardAngle).Forget();                        
                     }
                 }
                 catch (Exception ex)
@@ -75,6 +69,7 @@ namespace Assets.Scripts.Communication.Abstractions
 
         private void AccelerometerCoordinatesToAngles(Vector3 gravityLocal, out float horizontalAngle, out float forwardAngle)
         {
+            gravityLocal = new Vector3(gravityLocal.z, -gravityLocal.x, -gravityLocal.y);
             gravityLocal = gravityLocal.normalized;
             var theta = _wobbleBoardConfiguration.HorizontalRotationAngle;
             // Accelertometer axis versors: Ax, Ay, Az
@@ -113,6 +108,7 @@ namespace Assets.Scripts.Communication.Abstractions
             if(float.IsNaN(zAngle)) 
                 zAngle = 0;
             (XAngle, ZAngle) = (xAngle, zAngle);
+            Debug.Log((XAngle, zAngle));
         }
     }
 }

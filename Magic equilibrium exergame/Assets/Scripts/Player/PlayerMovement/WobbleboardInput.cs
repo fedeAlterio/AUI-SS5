@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Abstractions;
-using Assets.Scripts.DependencyInjection.Extensions;
+using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.PlayerMovement.Smoothing;
 using System;
 using System.Collections.Generic;

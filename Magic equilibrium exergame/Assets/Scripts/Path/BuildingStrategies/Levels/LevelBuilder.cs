@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.DependencyInjection.Extensions;
-using Assets.Scripts.Models.Path.Blocks;
+﻿using Assets.Scripts.Models.Path.Blocks;
 using Assets.Scripts.Models.Path.Generation;
 using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Models.Path.Generation.Surface;

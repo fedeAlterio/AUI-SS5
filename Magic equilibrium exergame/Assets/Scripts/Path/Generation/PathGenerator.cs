@@ -1,11 +1,10 @@
 ﻿using Assets.Scripts.CheckPointSystem;
-using Assets.Scripts.DependencyInjection.Extensions;
 using Assets.Scripts.Models.Path;
 using Assets.Scripts.Models.Path.Blocks;
 using Assets.Scripts.Models.Path.Generation;
 using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Models.Path.Generation.Surface;
-using Assets.Scripts.Path.BuildingStrategies.Configuration;
+using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.Path.BuildingStrategies.Levels;
 using Assets.Scripts.Path.BuildingStrategies.Path;
 using System;
@@ -30,13 +29,15 @@ namespace Assets.Scripts.Path.Generation
 
 
 
-        // Initialization
-        private void Awake()
-        {
-        }
+        // Private fields
+        private IPathConfiguration _pathConfiguration;
 
+
+
+        // Initialization
         private void Start()
         {
+            _pathConfiguration = this.GetInstance<IPathConfiguration>();
             GenerateLevel();
         }
 
@@ -52,8 +53,7 @@ namespace Assets.Scripts.Path.Generation
         {
             _pathManager.Clear();
 
-            var pathConfiguration = this.GetInstance<IPathConfiguration>();
-            var blocks = _levelBuilder.BuildLevel(pathConfiguration).ToList();
+            var blocks = _levelBuilder.BuildLevel(_pathConfiguration).ToList();
             PathCurve = new CurvesUnion(blocks.Select(x => x.Curve));
             _pathManager.AddRange(blocks);
             PathGenerated?.Invoke(PathCurve);

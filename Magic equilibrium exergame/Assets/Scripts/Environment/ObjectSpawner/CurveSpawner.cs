@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.DependencyInjection.Extensions;
-using Assets.Scripts.Models.Path.Generation.Line;
+﻿using Assets.Scripts.Models.Path.Generation.Line;
+using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.Path.BuildingStrategies.Path;
 using Assets.Scripts.Path.Generation;
 using System;
@@ -30,9 +30,16 @@ namespace Assets.Scripts.Environment.ObjectSpawner
 
 
 
-        // Properties
-        private IPathConfiguration PathConfiguration => this.GetInstance<IPathConfiguration>();
+        // Initialization
+        private void Start()
+        {
+            PathConfiguration = this.GetInstance<IPathConfiguration>();
+        }
 
+
+
+        // Properties
+        public IPathConfiguration PathConfiguration { get; private set; }
 
 
         // Events

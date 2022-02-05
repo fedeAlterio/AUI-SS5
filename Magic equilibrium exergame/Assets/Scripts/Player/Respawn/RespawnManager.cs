@@ -1,6 +1,6 @@
 using Assets.Scripts.Animations;
-using Assets.Scripts.DependencyInjection.Extensions;
 using Assets.Scripts.Models.Path.Generation.Line;
+using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.Path.BuildingStrategies.Path;
 using Cysharp.Threading.Tasks;
 using System;
@@ -28,7 +28,8 @@ public class RespawnManager : MonoBehaviour
     private PlayerVelocity _playerVelocity;
     private Rigidbody _playerRigidbody;
     private RigidbodyConstraints _oldConstraints;
-    private IPathConfiguration _pathConfiguration;
+    private IPathConfiguration _pathConfiguration;    
+
 
 
     // Initialization
@@ -44,9 +45,15 @@ public class RespawnManager : MonoBehaviour
 
     private void Start()
     {
-        _pathConfiguration = this.GetInstance<IPathConfiguration>();   
-        transform.position = CheckPointManager.instance.GetRespawnPosition();
-        RespawnWithCountdown();
+        _pathConfiguration = this.GetInstance<IPathConfiguration>();
+        _respawnOperation.New(FirstSpawn);
+    }
+
+    private async UniTask FirstSpawn(IAsyncOperationManager manager)
+    {
+        while (CheckPointManager.instance.CheckPoints.Count == 0)
+            await manager.NextFrame();
+        transform.position = CheckPointManager.instance.RespawnPosition;
     }
 
 
@@ -81,16 +88,20 @@ public class RespawnManager : MonoBehaviour
     private async UniTask MovePlayerToCheckPoint(IAsyncOperationManager manager)
     {
         var startPosition = _playerRigidbody.position;
-        var endPosition = CheckPointManager.instance.GetRespawnPosition();
+        var endPosition = CheckPointManager.instance.RespawnPosition;
+        var distance = Vector3.Distance(endPosition, startPosition);
+        if (distance == 0)
+            return;
+
+
         var middlePointY = (endPosition.y - startPosition.y) + 3;
         var deltaX = startPosition.x - endPosition.x;
         if (Mathf.Abs(deltaX) < _pathConfiguration.PathThickness*2)
             deltaX = _pathConfiguration.PathThickness * 2f * Mathf.Sign(deltaX);
         var x = endPosition.x + deltaX;
         var middlePoint = new Vector3(x, middlePointY, (startPosition.z + endPosition.z)/2);
-        var distance = Vector3.Distance(endPosition, startPosition);
-        var bezier = new QuadraticBezier(startPosition, middlePoint, endPosition);
 
+        var bezier = new QuadraticBezier(startPosition, middlePoint, endPosition);
 
         await manager.Lerp(0, distance, t => _playerVelocity.transform.position = bezier.PointAt((t/distance) + bezier.MinT), speed: _respawnAnimationSpeed, smooth: true);
     }

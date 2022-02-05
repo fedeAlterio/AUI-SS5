@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Communication.Udp
 {
@@ -21,7 +22,6 @@ namespace Assets.Scripts.Communication.Udp
         // Initialization
         private void Awake()
         {
-            CloseUdp();
             _udpClient = new UdpClient(8000);                
         }
 
@@ -36,9 +36,15 @@ namespace Assets.Scripts.Communication.Udp
         }
 
         protected override void OnDestroy()
-        {
+        {            
             CloseUdp();
             base.OnDestroy();
+        }
+
+        private void OnDisable()
+        {
+            _udpClient.Close();            
+            _udpClient.Dispose();
         }
 
 
@@ -49,8 +55,8 @@ namespace Assets.Scripts.Communication.Udp
             if (_udpClient == null)
                 return;
 
-            _udpClient.Dispose();
             _udpClient.Close();
+            _udpClient.Dispose();
         }
     }
 }

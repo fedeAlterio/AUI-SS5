@@ -28,9 +28,10 @@ namespace Assets.Scripts.Animations
 
         UniTask Lerp(Color from, Color to, Action<Color> callback, float speed, bool smooth = true);
         UniTask Lerp(Color from, Color to, Action<Color> callback, bool smooth = true);
-        public UniTask Delay(int delayMs);
-        public float DeltaTime { get; }
-        public float Speed { get; set; }
-        public float SpeedScale { get; set; }
+        UniTask Delay(int delayMs);
+        UniTask Delay(TimeSpan timeSpan);
+        float DeltaTime { get; }
+        float Speed { get; set; }
+        float SpeedScale { get; set; }
     }
 }

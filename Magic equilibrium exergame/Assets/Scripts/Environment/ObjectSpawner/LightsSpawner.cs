@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.DependencyInjection.Extensions;
-using Assets.Scripts.Models;
+﻿using Assets.Scripts.Models;
 using Assets.Scripts.Models.Path.Generation.Line;
+using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.Path.BuildingStrategies.Path;
 using Assets.Scripts.Path.Generation;
 using System;
@@ -29,16 +29,17 @@ namespace Assets.Scripts.Environment.ObjectSpawner
 
 
         // Initialization
-        private void Awake()
+        private void Start()
         {
             _pathGenerator = FindObjectOfType<PathGenerator>();
-            _pathGenerator.PathGenerated += OnPathGenerated;            
+            _pathGenerator.PathGenerated += OnPathGenerated;
+            PathConfiguration = this.GetInstance<IPathConfiguration>();
         }        
 
 
 
         // Properties
-        private IPathConfiguration PathConfiguration => this.GetInstance<IPathConfiguration>();
+        private IPathConfiguration PathConfiguration { get; set; }
 
 
 

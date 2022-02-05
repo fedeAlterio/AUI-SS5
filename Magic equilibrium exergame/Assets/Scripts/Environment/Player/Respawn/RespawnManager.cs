@@ -99,7 +99,7 @@ public class RespawnManager : MonoBehaviour
         if (Mathf.Abs(deltaX) < _pathConfiguration.PathThickness*2)
             deltaX = _pathConfiguration.PathThickness * 2f * Mathf.Sign(deltaX);
         var x = endPosition.x + deltaX;
-        var middlePoint = new Vector3(x, middlePointY, (startPosition.z + endPosition.z)/2);
+        var middlePoint = new Vector3(x, startPosition.y + middlePointY, (startPosition.z + endPosition.z)/2);
 
         var bezier = new QuadraticBezier(startPosition, middlePoint, endPosition);
 

@@ -13,7 +13,7 @@ namespace Assets.Scripts.DepndencyInjection.Mocks
         // Initialization
         public DefaultPathConfiguration(IEnumerable<string> allowedStrategiesNames)
         {
-            PathStrategiesAllowed = allowedStrategiesNames.ToList();
+            PathStrategiesAllowed = allowedStrategiesNames.Distinct().ToList();
         }
 
 

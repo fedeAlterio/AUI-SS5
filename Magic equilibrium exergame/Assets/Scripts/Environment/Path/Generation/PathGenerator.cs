@@ -31,6 +31,7 @@ namespace Assets.Scripts.Path.Generation
 
         // Private fields
         private IPathConfiguration _pathConfiguration;
+        private bool _levelGenerated;
 
 
 
@@ -38,6 +39,14 @@ namespace Assets.Scripts.Path.Generation
         private void Start()
         {
             _pathConfiguration = this.GetInstance<IPathConfiguration>();
+        }
+
+        private void Update()
+        {
+            if(_levelGenerated)
+                return;
+
+            _levelGenerated = true;
             GenerateLevel();
         }
 

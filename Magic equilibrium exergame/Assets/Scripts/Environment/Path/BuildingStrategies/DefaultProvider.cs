@@ -13,7 +13,13 @@ namespace Assets.Scripts.Path.BuildingStrategies
         // Building Strategies
         public static IEnumerable<T> GetInstances<T>(this MonoBehaviour @this) where T : class
         {
-            return DependencyInjector.Instance.GetInstances<T>();
+            var type = typeof(T);
+            var instances = from t in type.Assembly.ExportedTypes
+                            where type.IsAssignableFrom(t) && typeof(MonoBehaviour).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface
+                            let instance = GameObject.FindObjectOfType(t) as T
+                            where instance != null
+                            select instance;
+            return instances.Distinct();
         }
 
         public static T GetInstance<T>(this MonoBehaviour @this) where T : class

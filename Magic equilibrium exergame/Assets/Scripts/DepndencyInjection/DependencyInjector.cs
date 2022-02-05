@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Abstractions;
 using Assets.Scripts.DepndencyInjection.Mocks;
+using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.Path.BuildingStrategies.Path;
 using Assets.Scripts.PlayerMovement;
 using System;
@@ -26,7 +27,7 @@ namespace Assets.Scripts.DepndencyInjection
 
         private void InitializeDefaults()
         {            
-            AddDefault<IPathConfiguration>(new DefaultPathConfiguration(GetInstances<IPathStrategy>().Select(s => s.Name).ToList()));
+            AddDefault<IPathConfiguration>(new DefaultPathConfiguration(this.GetInstances<IPathStrategy>().Select(s => s.Name).ToList()));
             AddDefault<IWobbleBoardConfiguration>(new MockWobbleBoardConfiguration());
             AddDefault<IMovementAxis>(new WASDMovementAxis());
         }
@@ -44,20 +45,10 @@ namespace Assets.Scripts.DepndencyInjection
 
 
         // Public
-        public IEnumerable<T> GetInstances<T>() where T : class
-        {
-            var type = typeof(T);
-            var instances = from t in type.Assembly.ExportedTypes
-                            where type.IsAssignableFrom(t) && typeof(MonoBehaviour).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface
-                            let instance = GameObject.FindObjectOfType(t) as T
-                            where instance != null
-                            select instance;
-            return instances;
-        }
 
         public T GetInstance<T>() where T : class
         {
-            var ret = GetInstances<T>().FirstOrDefault();
+            var ret = this.GetInstances<T>().FirstOrDefault();
             if (ret != null)
                 return ret;
 

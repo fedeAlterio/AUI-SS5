@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Path.BuildingStrategies.Levels
 {
@@ -15,7 +16,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
     {
         protected override IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(IPathConfiguration pathConfiguration)
         {
-            var line = NewLine();
+            var line = NewLine(start: Vector3.up * 20, Vector3.forward);
             var checkpoint = BlocksContainer.Get<CheckPointStrategy>();
             foreach (var strategy in PathStrategyContainer.Strategies.Values)
                 line = line.GoWith(strategy, pathConfiguration).With(checkpoint);

@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Calibration
 {
-    public class WobbleBoardAxis : MonoBehaviour
+    public class WobbleBoardAxis : MonoBehaviour, IMovementAxis
     {
         // Private fields
         private WobbleboardInput _wobbleboardInput;

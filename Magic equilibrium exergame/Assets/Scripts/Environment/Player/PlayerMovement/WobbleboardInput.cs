@@ -13,7 +13,7 @@ namespace Assets.Scripts.PlayerMovement
     public class WobbleboardInput : MonoBehaviour
     {
         // Private fields
-        private IWobbleboardService _wobbleboardService;
+        private IWobbleboardDataProvider _wobbleboardService;
         private Vector2Smoother _smoother;
 
 
@@ -21,7 +21,7 @@ namespace Assets.Scripts.PlayerMovement
         // Initialization
         private void Start()
         {
-            _wobbleboardService = this.GetInstance<IWobbleboardService>();
+            _wobbleboardService = this.GetInstance<IWobbleboardDataProvider>();
             var smoothingConfiguration = new SmoothingConfiguration
             {
                 Speed = 3,

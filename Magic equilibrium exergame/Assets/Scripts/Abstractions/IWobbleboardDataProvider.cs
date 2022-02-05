@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Abstractions
 {
-    public interface IWobbleboardService
+    public interface IWobbleboardDataProvider
     {
         public float XAngle { get; }
         public float ZAngle { get; }

@@ -27,7 +27,7 @@ namespace Assets.Scripts.Calibration
 
 
         // Private fields
-        private IWobbleboardService _woobleBoardService;
+        private IWobbleboardDataProvider _woobleBoardService;
         private AsyncOperationManager _calibrationOperation;
         private WobbleBoardConfiguration _wobbleBoardConfiguration;
 
@@ -41,7 +41,7 @@ namespace Assets.Scripts.Calibration
 
         private void Start()
         {
-            _woobleBoardService = this.GetInstance<IWobbleboardService>();
+            _woobleBoardService = this.GetInstance<IWobbleboardDataProvider>();
             _wobbleBoardConfiguration = this.GetInstance<WobbleBoardConfiguration>();
             _calibrationOperation.New(Calibrate);
         }

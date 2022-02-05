@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Communication.Abstractions
 {
-    public abstract class WobbleboardFetcher : MonoBehaviour, IWobbleboardService
+    public abstract class WobbleboardFetcher : MonoBehaviour, IWobbleboardDataProvider
     {
         // Editor fields
         [SerializeField] private bool _enableLogging;

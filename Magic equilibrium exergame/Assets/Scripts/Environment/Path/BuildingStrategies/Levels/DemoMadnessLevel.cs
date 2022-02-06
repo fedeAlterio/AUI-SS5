@@ -15,7 +15,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
     public class DemoMadnessLevel : LevelBuilder
     {
         // Properties
-        private BlockStrategy Checkpoint => BlocksContainer.Get<CheckPointStrategy>();
+        private BlockStrategy Checkpoint => BlocksContainer.Get<CheckPointBlockStrategy>();
         private BlockStrategy Coins => BlocksContainer.Get<CoinsBlockStrategy>();
         private MovingBlockStrategy MovingBlock => BlocksContainer.Get<MovingBlockStrategy>();
 

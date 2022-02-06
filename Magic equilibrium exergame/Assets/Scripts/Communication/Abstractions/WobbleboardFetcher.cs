@@ -53,8 +53,7 @@ namespace Assets.Scripts.Communication.Abstractions
             {
                 try
                 {
-                    if(_enableLogging)
-                        Debug.Log("Try to get info");
+                    Log("Try to get info");
                     var responseSchema = new { X = 0f, Y = 0f, Z = 0f };
                     var (isTimeout, response) = await Get(responseSchema: responseSchema)
                         .TimeoutWithoutException(TimeSpan.FromSeconds(10));
@@ -114,8 +113,14 @@ namespace Assets.Scripts.Communication.Abstractions
             if(float.IsNaN(zAngle)) 
                 zAngle = 0;
             (XAngle, ZAngle) = (xAngle, zAngle);
+            Log((XAngle, ZAngle));
+        }
+
+
+        private void Log(object obj)
+        {
             if (_enableLogging)
-                Debug.Log((XAngle, ZAngle));
+                Debug.Log(obj);
         }
     }
 }

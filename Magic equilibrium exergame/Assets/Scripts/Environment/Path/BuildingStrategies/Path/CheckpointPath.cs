@@ -15,7 +15,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
     {
         public override ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration)
         {
-            var checkPoint = BlocksContainer.Get<CheckPointStrategy>();
+            var checkPoint = BlocksContainer.Get<CheckPointBlockStrategy>();
             return line
                 .Go(Vector3.forward * 2)
                 .Go(Vector3.forward * 6)

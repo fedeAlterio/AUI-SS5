@@ -13,6 +13,7 @@ public class RespawnManager : MonoBehaviour
 {
     // Events
     public event Action<int> CountdownTick;
+    public event Action FirstTimePlayerSpawn;
 
 
 
@@ -54,6 +55,7 @@ public class RespawnManager : MonoBehaviour
         while (CheckPointManager.instance.CheckPoints.Count == 0)
             await manager.NextFrame();
         transform.position = CheckPointManager.instance.RespawnPosition;
+        FirstTimePlayerSpawn?.Invoke();
     }
 
 

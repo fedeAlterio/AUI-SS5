@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Path.BuildingStrategies.Blocks
 {
-    public class CheckPointStrategy : BlockStrategy
+    public class CheckPointBlockStrategy : BlockStrategy
     {
         // Private fields
         private int _checkpointId;       

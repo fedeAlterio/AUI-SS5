@@ -11,7 +11,7 @@ namespace Assets.Scripts.FinishLine
     public class FinishLineManager : MonoBehaviour
     {
         // Events
-        private event Action FinishLineReached;
+        public static event Action FinishLineReached;
 
 
         
@@ -21,8 +21,15 @@ namespace Assets.Scripts.FinishLine
             if (!other.gameObject.CompareTag(UnityTag.Player))
                 return;
 
-            Debug.Log("Finish");
             FinishLineReached?.Invoke();
+        }
+
+
+
+        // Cleaning events handlers on destroy
+        private void OnDestroy()
+        {
+            FinishLineReached = null;
         }
     }
 }

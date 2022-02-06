@@ -8,7 +8,7 @@ public class CheckPointManager : MonoBehaviour
 {
     // Events
     public event Action<CheckPoint> CheckpointAdded;
-
+    public event Action CheckpointTaken;
     public static CheckPointManager instance;
     public List<CheckPoint> orderedCheckPoints = new List<CheckPoint>();
     private int lastCheckpoint;
@@ -30,6 +30,7 @@ public class CheckPointManager : MonoBehaviour
     // Properties
     public Vector3 RespawnPosition => orderedCheckPoints.Any() ? orderedCheckPoints[lastCheckpoint].spawnPosition : Vector3.zero;
     public IReadOnlyList<CheckPoint> CheckPoints => orderedCheckPoints;
+    public int LastCheckpoint => lastCheckpoint;
 
 
     public void AddCheckpoint(CheckPoint checkPoint)
@@ -51,5 +52,6 @@ public class CheckPointManager : MonoBehaviour
         {
             lastCheckpoint = tempIndex;
         }
+        CheckpointTaken?.Invoke();
     }
 }

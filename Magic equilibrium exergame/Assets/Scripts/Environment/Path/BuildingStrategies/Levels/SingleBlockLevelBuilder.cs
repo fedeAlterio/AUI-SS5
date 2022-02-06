@@ -2,6 +2,7 @@
 using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Path.BuildingStrategies.Blocks;
 using Assets.Scripts.Path.BuildingStrategies.Extensions;
+using Assets.Scripts.Path.BuildingStrategies.Levels;
 using Assets.Scripts.Path.BuildingStrategies.Path;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,24 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Path.BuildingStrategies.Levels
+namespace Assets.Scripts.Environment.Path.BuildingStrategies.Levels
 {
-    public class DefaultLevelBuilder : LevelBuilder
+    public class SingleBlockLevelBuilder : LevelBuilder
     {
+        // Editor fields
+        [SerializeField] private PathStrategy _pathStrategy;
+
+
+
+        // Core
         protected override IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(IPathConfiguration pathConfiguration)
         {
-            var line = NewLine(start: Vector3.up * 20, Vector3.forward);
             var checkpoint = BlocksContainer.Get<CheckPointBlockStrategy>();
-            foreach (var strategy in PathStrategyContainer.Strategies.Values)
-                line = line.GoWith(strategy, pathConfiguration).With(checkpoint);
-            yield return line;
+            yield return NewLine()
+                .Go(Vector3.forward * 10)
+                .With(checkpoint)
+                .GoWith(_pathStrategy)
+                ;
         }
     }
 }
-

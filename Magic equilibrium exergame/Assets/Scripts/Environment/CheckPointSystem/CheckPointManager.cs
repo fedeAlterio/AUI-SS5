@@ -41,6 +41,13 @@ public class CheckPointManager : MonoBehaviour
         CheckpointAdded?.Invoke(checkPoint);
     }
 
+    public void ForceToCheckpoint(CheckPoint checkpoint)
+    {
+        lastCheckpoint = orderedCheckPoints.IndexOf(checkpoint);
+        CheckpointTaken?.Invoke();
+    }
+
+
 
     // When a checkpoint is reached, check whether that is the furthest the player has reached so far
     // If it is, update the index

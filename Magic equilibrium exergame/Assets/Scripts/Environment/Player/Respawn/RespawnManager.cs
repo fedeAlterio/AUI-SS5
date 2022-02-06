@@ -46,6 +46,7 @@ public class RespawnManager : MonoBehaviour
 
     private void Start()
     {
+        _oldConstraints = _playerRigidbody.constraints;
         _pathConfiguration = this.GetInstance<IPathConfiguration>();
         _respawnOperation.New(FirstSpawn);
     }
@@ -60,11 +61,21 @@ public class RespawnManager : MonoBehaviour
 
 
 
+    // Public
+    public void MovePlayerToCheckpoint(CheckPoint checkPoint)
+    {
+        CheckPointManager.instance.ForceToCheckpoint(checkPoint);
+        RespawnWithCountdown();
+    }
+
+
+
     // Respawn
     private void RespawnWithCountdown() => _respawnOperation.New(RespawnWithCountdown);
     private async UniTask RespawnWithCountdown(IAsyncOperationManager manager)
     {
         FreezePlayerPosition();
+        await manager.Delay(50);
         await MovePlayerToCheckPoint(manager);
         await WaitForCountdown(manager);
         UnFreezePlayerPosition();
@@ -81,7 +92,6 @@ public class RespawnManager : MonoBehaviour
 
     private void FreezePlayerPosition()
     {
-        _oldConstraints = _playerRigidbody.constraints;
         _playerRigidbody.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
     }
 
@@ -96,12 +106,12 @@ public class RespawnManager : MonoBehaviour
             return;
 
 
-        var middlePointY = (endPosition.y - startPosition.y) + 3;
+        var middlePointY = Mathf.Max(startPosition.y, endPosition.y) + 3;
         var deltaX = startPosition.x - endPosition.x;
         if (Mathf.Abs(deltaX) < _pathConfiguration.PathThickness*2)
             deltaX = _pathConfiguration.PathThickness * 2f * Mathf.Sign(deltaX);
         var x = endPosition.x + deltaX;
-        var middlePoint = new Vector3(x, startPosition.y + middlePointY, (startPosition.z + endPosition.z)/2);
+        var middlePoint = new Vector3(x, middlePointY, (startPosition.z + endPosition.z)/2);
 
         var bezier = new QuadraticBezier(startPosition, middlePoint, endPosition);
 

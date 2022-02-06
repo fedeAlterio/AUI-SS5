@@ -8,11 +8,16 @@ public class CheckPointManager : MonoBehaviour
 {
     // Events
     public event Action<CheckPoint> CheckpointAdded;
-    public event Action CheckpointTaken;
+    public event Action<CheckPoint> CurrentCheckpointChanged;
+
+
+    // Fields
     public static CheckPointManager instance;
     public List<CheckPoint> orderedCheckPoints = new List<CheckPoint>();
-    private int lastCheckpoint;
 
+
+
+    // Initialization
     private void Awake()
     {
         if(instance == null)
@@ -21,30 +26,31 @@ public class CheckPointManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        lastCheckpoint = 0;
-    }
 
 
     // Properties
-    public Vector3 RespawnPosition => orderedCheckPoints.Any() ? orderedCheckPoints[lastCheckpoint].spawnPosition : Vector3.zero;
+    public Vector3 RespawnPosition => orderedCheckPoints.Any() ? CurrentCheckpoint.spawnPosition : Vector3.zero;
     public IReadOnlyList<CheckPoint> CheckPoints => orderedCheckPoints;
-    public int LastCheckpoint => lastCheckpoint;
+    public CheckPoint CurrentCheckpoint { get; private set; }
+    public int CurrentCheckpointIndex => orderedCheckPoints.IndexOf(CurrentCheckpoint);
 
 
+    // Public
     public void AddCheckpoint(CheckPoint checkPoint)
     {
+        if(CurrentCheckpoint == null)
+            CurrentCheckpoint = checkPoint;
+
         orderedCheckPoints.Add(checkPoint);
-        orderedCheckPoints.OrderBy(checkpoint => checkPoint.iD).ToList();
-        checkPoint.Taken += CheckpointReached;
+        orderedCheckPoints.OrderBy(checkpoint => checkPoint.Id).ToList();
+        checkPoint.Hit += CheckpointReached;
         CheckpointAdded?.Invoke(checkPoint);
     }
 
     public void ForceToCheckpoint(CheckPoint checkpoint)
     {
-        lastCheckpoint = orderedCheckPoints.IndexOf(checkpoint);
-        CheckpointTaken?.Invoke();
+        CurrentCheckpoint = checkpoint;
+        CurrentCheckpointChanged?.Invoke(checkpoint);
     }
 
 
@@ -53,12 +59,12 @@ public class CheckPointManager : MonoBehaviour
     // If it is, update the index
     private void CheckpointReached(CheckPoint checkPoint)
     {
-        int tempIndex = orderedCheckPoints.IndexOf(checkPoint);
-        
-        if(lastCheckpoint < tempIndex)
-        {
-            lastCheckpoint = tempIndex;
-        }
-        CheckpointTaken?.Invoke();
+        int hitIndex = orderedCheckPoints.IndexOf(checkPoint);
+        var currentCheckpointIndex = orderedCheckPoints.IndexOf(CurrentCheckpoint);
+        if (hitIndex <= currentCheckpointIndex)
+            return;
+
+        CurrentCheckpoint = checkPoint;
+        CurrentCheckpointChanged?.Invoke(checkPoint);
     }
 }

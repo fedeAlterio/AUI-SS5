@@ -7,9 +7,9 @@ using UnityEngine;
 public class CheckPoint : MonoBehaviour
 {
     public Vector3 spawnPosition;
-    public int iD;
+    public int Id;
     public bool checkpointHit;
-    public event Action<CheckPoint> Taken;
+    public event Action<CheckPoint> Hit;
     private MeshFilter _meshRenderer;
 
 
@@ -29,7 +29,7 @@ public class CheckPoint : MonoBehaviour
 
     public void Initialize(int checkpointId)
     {
-        iD = checkpointId;
+        Id = checkpointId;
         CheckPointManager.instance.AddCheckpoint(this);
     }
 
@@ -38,14 +38,11 @@ public class CheckPoint : MonoBehaviour
     // Call this method when something collides with the checkpoint
     // Check if the colliding object is a Player, in which case call Manager
     private void OnCollisionEnter(Collision collisionInfo)
-    {
-        if (checkpointHit)
-            return;
-
+    {        
         if(collisionInfo.gameObject.CompareTag(UnityTag.Player))
         {
             checkpointHit = true;            
-            Taken?.Invoke(this);
+            Hit?.Invoke(this);
         }        
     }
 }

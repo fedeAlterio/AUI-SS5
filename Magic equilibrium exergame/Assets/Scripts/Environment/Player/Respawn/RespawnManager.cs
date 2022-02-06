@@ -28,8 +28,9 @@ public class RespawnManager : MonoBehaviour
     private AsyncOperationManager _respawnOperation;
     private PlayerVelocity _playerVelocity;
     private Rigidbody _playerRigidbody;
+    private Collider _playerCollider;
     private RigidbodyConstraints _oldConstraints;
-    private IPathConfiguration _pathConfiguration;    
+    private IPathConfiguration _pathConfiguration;
 
 
 
@@ -38,6 +39,7 @@ public class RespawnManager : MonoBehaviour
     {
         _playerVelocity = FindObjectOfType<PlayerVelocity>();
         _playerRigidbody = _playerVelocity.GetComponent<Rigidbody>();
+        _playerCollider = _playerVelocity.GetComponent<Collider>();
         _checkPointManager = FindObjectOfType<CheckPointManager>();
         _deathManager = FindObjectOfType<DeathManager>();
         _respawnOperation = new AsyncOperationManager(this) { PlayerLoopTiming = PlayerLoopTiming.FixedUpdate };
@@ -74,11 +76,11 @@ public class RespawnManager : MonoBehaviour
     private void RespawnWithCountdown() => _respawnOperation.New(RespawnWithCountdown);
     private async UniTask RespawnWithCountdown(IAsyncOperationManager manager)
     {
-        FreezePlayerPosition();
+        DisablePlayer();
         await manager.Delay(50);
         await MovePlayerToCheckPoint(manager);
         await WaitForCountdown(manager);
-        UnFreezePlayerPosition();
+        EnablePlayer();
     }
 
     private async UniTask WaitForCountdown(IAsyncOperationManager manager)
@@ -90,12 +92,17 @@ public class RespawnManager : MonoBehaviour
         }
     }
 
-    private void FreezePlayerPosition()
-    {
+    private void DisablePlayer()
+    {        
+        _playerCollider.enabled = false;
         _playerRigidbody.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
     }
 
-    private void UnFreezePlayerPosition() => _playerRigidbody.constraints = _oldConstraints;
+    private void EnablePlayer()
+    {
+        _playerRigidbody.constraints = _oldConstraints;
+        _playerCollider.enabled = true;
+    }
 
     private async UniTask MovePlayerToCheckPoint(IAsyncOperationManager manager)
     {

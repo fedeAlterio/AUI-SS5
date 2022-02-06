@@ -35,7 +35,7 @@ namespace Assets.Scripts.UI.Game_UI
         private void MoveNextCheckpoint()
         {
             var checkpointManager = CheckPointManager.instance;
-            var currentCheckpointNumber = checkpointManager.LastCheckpoint;
+            var currentCheckpointNumber = checkpointManager.CurrentCheckpointIndex;
             if (currentCheckpointNumber == checkpointManager.CheckPoints.Count - 1)
                 return;
 
@@ -46,7 +46,7 @@ namespace Assets.Scripts.UI.Game_UI
         private void MovePreviousCheckpoint()
         {
             var checkpointManager = CheckPointManager.instance;
-            var currentCheckpointNumber = checkpointManager.LastCheckpoint;
+            var currentCheckpointNumber = checkpointManager.CurrentCheckpointIndex;
             if (currentCheckpointNumber == 0)
                 return;
 

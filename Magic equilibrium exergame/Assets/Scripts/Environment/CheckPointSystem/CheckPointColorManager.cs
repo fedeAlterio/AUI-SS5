@@ -24,7 +24,7 @@ namespace Assets.Scripts.CheckPointSystem
         {
             _material = GetComponent<MeshRenderer>().material;
             _checkPoint = GetComponent<CheckPoint>();
-            _checkPoint.Taken += OnCheckpointTaken;
+            CheckPointManager.instance.CurrentCheckpointChanged += OnCheckpointChanged;
             _colorAnimation = new AsyncOperationManager(this);            
             _startColor = Color;
             Color = Color.green;
@@ -42,18 +42,19 @@ namespace Assets.Scripts.CheckPointSystem
                                     
 
         // Events
-        private void OnCheckpointTaken(CheckPoint checkPoint)
+        private void OnCheckpointChanged(CheckPoint currentCheckPoint)
         {
-            _colorAnimation.New(ChangeColor);
+            var isEnabled = currentCheckPoint.Id < _checkPoint.Id;
+            _colorAnimation.New(manager => ChangeColorTo(isEnabled ? Color.green : _startColor, manager));
         }        
 
 
 
         // Animations
-        private async UniTask ChangeColor(IAsyncOperationManager manager)
-        {
+        private async UniTask ChangeColorTo(Color color, IAsyncOperationManager manager)
+        {            
             var start = Color;
-            await manager.Lerp(start, _startColor, c => Color = c, speed:4);
+            await manager.Lerp(start, color, c => Color = c, speed:4);
         }
     }
 }

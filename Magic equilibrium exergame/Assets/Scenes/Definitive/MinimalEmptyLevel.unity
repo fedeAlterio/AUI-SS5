@@ -2725,6 +2725,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1609039502780588230, guid: cbe5cbd2b8c2c3b49b3dbae0723baed3, type: 3}
+      propertyPath: backgroundColorHDR.b
+      value: 0.23584908
+      objectReference: {fileID: 0}
+    - target: {fileID: 1609039502780588230, guid: cbe5cbd2b8c2c3b49b3dbae0723baed3, type: 3}
+      propertyPath: backgroundColorHDR.g
+      value: 0.1572143
+      objectReference: {fileID: 0}
+    - target: {fileID: 1609039502780588230, guid: cbe5cbd2b8c2c3b49b3dbae0723baed3, type: 3}
+      propertyPath: backgroundColorHDR.r
+      value: 0.07231222
+      objectReference: {fileID: 0}
+    - target: {fileID: 1609039502780588230, guid: cbe5cbd2b8c2c3b49b3dbae0723baed3, type: 3}
       propertyPath: probeLayerMask.m_Bits
       value: 4294967295
       objectReference: {fileID: 0}

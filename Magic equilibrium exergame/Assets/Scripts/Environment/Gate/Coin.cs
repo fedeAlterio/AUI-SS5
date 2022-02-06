@@ -26,7 +26,6 @@ namespace Assets.Scripts.Gate
         // Events
         private void OnCoinTaken()
         {
-            Debug.Log("Coin");
             AudioManager.instance.PlayClip("CoinTaken");
             transform.gameObject.SetActive(false);
             Taken?.Invoke(this);

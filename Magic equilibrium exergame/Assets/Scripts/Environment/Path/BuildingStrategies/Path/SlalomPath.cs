@@ -68,7 +68,6 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
             line = line.Go(first);       
             
             line = line.Go(forwardDirection * 10, isTangentSpace: false);
-            Debug.Log(line.CurrentDirection);
             return line;
         }
     }

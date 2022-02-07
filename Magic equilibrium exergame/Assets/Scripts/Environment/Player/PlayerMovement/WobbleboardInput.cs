@@ -24,7 +24,7 @@ namespace Assets.Scripts.PlayerMovement
             _wobbleboardService = this.GetInstance<IWobbleboardDataProvider>();
             var smoothingConfiguration = new SmoothingConfiguration
             {
-                Speed = 3,
+                Speed = 6,
                 SmoothingSensibility = (Mathf.PI / 2) / 12f
             };
             _smoother = new Vector2Smoother(this, smoothingConfiguration, center: Vector2.zero,

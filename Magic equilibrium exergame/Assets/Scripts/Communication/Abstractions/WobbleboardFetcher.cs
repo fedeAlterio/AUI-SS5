@@ -74,7 +74,7 @@ namespace Assets.Scripts.Communication.Abstractions
 
         private void AccelerometerCoordinatesToAngles(Vector3 gravityLocal, out float horizontalAngle, out float forwardAngle)
         {
-            gravityLocal = new Vector3(gravityLocal.z, -gravityLocal.x, -gravityLocal.y);
+            gravityLocal = new Vector3(-gravityLocal.z, -gravityLocal.x, -gravityLocal.y);
             gravityLocal = gravityLocal.normalized;
             var theta = _wobbleBoardConfiguration.HorizontalRotationAngle;
             // Accelertometer axis versors: Ax, Ay, Az

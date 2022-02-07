@@ -10,16 +10,6 @@ namespace Assets.Scripts.Menu
     [Serializable]
     public sealed class MyConfig : GameConfiguration, IPathConfiguration
     {
-        // Singleton
-        public static MyConfig Instance { get; private set; }
-
-
-
-        // Initilialization
-        public MyConfig()
-        {
-            Instance = this;
-        }
 
 
 

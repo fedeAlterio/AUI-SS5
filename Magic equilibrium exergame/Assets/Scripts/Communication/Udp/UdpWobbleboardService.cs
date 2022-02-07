@@ -31,6 +31,7 @@ namespace Assets.Scripts.Communication.Udp
         protected override async UniTask<T> Get<T>(T responseSchema = default)
         {
             var data = await _udpClient.ReceiveAsync();
+            Debug.Log("Dati");
             var json = Encoding.UTF8.GetString(data.Buffer);
             return JsonConvert.DeserializeObject<T>(json);
         }

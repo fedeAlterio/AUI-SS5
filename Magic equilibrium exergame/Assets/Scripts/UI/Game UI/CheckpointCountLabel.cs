@@ -36,7 +36,6 @@ namespace Assets.Scripts.UI.Game_UI
         // Core
         private void UpdateLabel()
         {
-
             _label.text = _checkPointManager.CheckPoints.Count == 0
                 ? string.Empty
                 : $"{_checkPointManager.CurrentCheckpointIndex} / {_checkPointManager.CheckPoints.Count-1}";

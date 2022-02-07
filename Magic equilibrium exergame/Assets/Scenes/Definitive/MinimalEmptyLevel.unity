@@ -1354,7 +1354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4762e6766464fe240b038012dab2b6f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <DeathCount>k__BackingField: 0
+  <DeathsCount>k__BackingField: 0
 --- !u!1 &827110507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1687,6 +1687,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1088598168}
+  - component: {fileID: 1088598169}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -1709,6 +1710,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1088598169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088598167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ab0df4e58a45f48b62151c63c3e65b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1092261290
 GameObject:
   m_ObjectHideFlags: 0
@@ -3859,7 +3872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pathManager: {fileID: 4778083218621329322}
-  _levelBuilder: {fileID: 1176727992}
+  _levelBuilder: {fileID: 6299531982843016677}
 --- !u!1 &4778083218621329324
 GameObject:
   m_ObjectHideFlags: 0

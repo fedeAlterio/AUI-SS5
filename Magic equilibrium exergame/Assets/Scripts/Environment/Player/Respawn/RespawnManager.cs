@@ -1,4 +1,5 @@
 using Assets.Scripts.Animations;
+using Assets.Scripts.Menu;
 using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.Path.BuildingStrategies.Path;
@@ -57,8 +58,11 @@ public class RespawnManager : MonoBehaviour
     {
         while (CheckPointManager.instance.CheckPoints.Count == 0)
             await manager.NextFrame();
-        transform.position = CheckPointManager.instance.RespawnPosition;
+
+        _playerCollider.transform.position = CheckPointManager.instance.CurrentCheckpoint.spawnPosition;
+        MovePlayerToCheckpoint(CheckPointManager.instance.CurrentCheckpoint);             
         FirstTimePlayerSpawn?.Invoke();
+
     }
 
 
@@ -94,7 +98,7 @@ public class RespawnManager : MonoBehaviour
 
     private void DisablePlayer()
     {
-        _playerCollider.isTrigger = true;
+        _playerCollider.isTrigger = true;        
         _playerRigidbody.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
     }
 

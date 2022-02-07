@@ -13,7 +13,7 @@ namespace Assets.Scripts.WobbleBoardCalibration
     public class WobbleBoardRotationManager : MonoBehaviour
     {
         // Editor fields
-        [SerializeField] [Range(-90, 90)] private float _horizontalAngle;
+        [SerializeField] [Range(-180, 180)] private float _horizontalAngle;
 
 
 

@@ -93,15 +93,15 @@ public class RespawnManager : MonoBehaviour
     }
 
     private void DisablePlayer()
-    {        
-        _playerCollider.enabled = false;
+    {
+        _playerCollider.isTrigger = true;
         _playerRigidbody.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
     }
 
     private void EnablePlayer()
     {
         _playerRigidbody.constraints = _oldConstraints;
-        _playerCollider.enabled = true;
+        _playerCollider.isTrigger = false;
     }
 
     private async UniTask MovePlayerToCheckPoint(IAsyncOperationManager manager)

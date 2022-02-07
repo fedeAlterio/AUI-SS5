@@ -3,6 +3,7 @@ using Assets.Scripts.DepndencyInjection.Mocks;
 using Assets.Scripts.Path.BuildingStrategies;
 using Assets.Scripts.Path.BuildingStrategies.Path;
 using Assets.Scripts.PlayerMovement;
+using Assets.Scripts.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Assets.Scripts.DepndencyInjection
     public class DependencyInjector : MonoBehaviour
     {
         private Dictionary<Type, object> _defaults = new Dictionary<Type, object>();        
+        private static Dictionary<Type, object> _staticDependencies = new Dictionary<Type, object>();
 
 
 
@@ -30,6 +32,7 @@ namespace Assets.Scripts.DepndencyInjection
             AddDefault<IPathConfiguration>(new DefaultPathConfiguration(this.GetInstances<IPathStrategy>().Select(s => s.Name).ToList()));
             AddDefault<IWobbleBoardConfiguration>(new MockWobbleBoardConfiguration());
             AddDefault<IMovementAxis>(new WASDMovementAxis());
+            AddDefault<ILevelStatistics>(new LevelStatistics());    
         }
 
         private void AddDefault<T>(T builder)
@@ -45,15 +48,23 @@ namespace Assets.Scripts.DepndencyInjection
 
 
         // Public
+        public void RegisterStaticInstance<T>(T instance)
+        {
+            _staticDependencies.Add(instance.GetType(), instance);
+        }
+
 
         public T GetInstance<T>() where T : class
         {
-            var ret = this.GetInstances<T>().FirstOrDefault();
-            if (ret != null)
-                return ret;
+            if (_staticDependencies.TryGetValue(typeof(T), out var instance))
+                return (T) instance;
 
-            if (_defaults.TryGetValue(typeof(T), out var defaultInstance))
-                return (T) defaultInstance;
+            instance = this.GetInstances<T>().FirstOrDefault();
+            if (instance != null)
+                return (T) instance;
+
+            if (_defaults.TryGetValue(typeof(T), out instance))
+                return (T) instance;
 
             return null;
         }

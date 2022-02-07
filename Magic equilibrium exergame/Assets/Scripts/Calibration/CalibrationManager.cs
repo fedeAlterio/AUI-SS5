@@ -21,8 +21,9 @@ namespace Assets.Scripts.Calibration
 
 
         // Editor fields
-        [SerializeField] private int StartPhaseTime = 10;
-        [SerializeField] private int CalibrationAngleTime = 10;
+        [SerializeField] private int _startPhaseTime = 10;
+        [SerializeField] private int _calibrationAngleTime = 10;
+        [SerializeField] private int _endPhaseTime = 5;
 
 
 
@@ -71,43 +72,43 @@ namespace Assets.Scripts.Calibration
 
         private async UniTask EndPhase(IAsyncOperationManager manager)
         {
-            var args = new CalibrationEventArgs(CalibrationPhase.End, CalibrationAngleTime);
+            var args = new CalibrationEventArgs(CalibrationPhase.End, _calibrationAngleTime);
             StateChanged?.Invoke(args);
-            await manager.Delay(TimeSpan.FromSeconds(CalibrationAngleTime));
+            await manager.Delay(TimeSpan.FromSeconds(_endPhaseTime));
         }
 
         private async UniTask ForwardAngleClaibration(IAsyncOperationManager manager)
         {
-            var args = new CalibrationEventArgs(CalibrationPhase.ForwardAngle, CalibrationAngleTime);
+            var args = new CalibrationEventArgs(CalibrationPhase.ForwardAngle, _calibrationAngleTime);
             StateChanged?.Invoke(args);
-            await manager.Delay(TimeSpan.FromSeconds(CalibrationAngleTime));
+            await manager.Delay(TimeSpan.FromSeconds(_calibrationAngleTime));
             _wobbleBoardConfiguration.MaxForwardlAngle = _woobleBoardService.ZAngle;
             Debug.Log(Mathf.Rad2Deg * _wobbleBoardConfiguration.MaxForwardlAngle);
         }
 
         private async UniTask BackwardAngleClaibration(IAsyncOperationManager manager)
         {
-            var args = new CalibrationEventArgs(CalibrationPhase.BackwardAngle, CalibrationAngleTime);
+            var args = new CalibrationEventArgs(CalibrationPhase.BackwardAngle, _calibrationAngleTime);
             StateChanged?.Invoke(args);
-            await manager.Delay(TimeSpan.FromSeconds(CalibrationAngleTime));
+            await manager.Delay(TimeSpan.FromSeconds(_calibrationAngleTime));
             _wobbleBoardConfiguration.MaxBackwardlAngle = _woobleBoardService.ZAngle;
             Debug.Log(Mathf.Rad2Deg * _wobbleBoardConfiguration.MaxBackwardlAngle);
         }
 
         private async UniTask HorizontalAngleCalibration(IAsyncOperationManager manager)
         {
-            var args = new CalibrationEventArgs(CalibrationPhase.HorizontalAngle, CalibrationAngleTime);
+            var args = new CalibrationEventArgs(CalibrationPhase.HorizontalAngle, _calibrationAngleTime);
             StateChanged?.Invoke(args);
-            await manager.Delay(TimeSpan.FromSeconds(CalibrationAngleTime));
+            await manager.Delay(TimeSpan.FromSeconds(_calibrationAngleTime));
             _wobbleBoardConfiguration.MaxHorizontalAngle = _woobleBoardService.XAngle;
             Debug.Log(Mathf.Rad2Deg * _wobbleBoardConfiguration.HorizontalRotationAngle);
         }
 
         private async UniTask StartPhase(IAsyncOperationManager manager)
         {
-            var args = new CalibrationEventArgs(CalibrationPhase.Start, StartPhaseTime);
+            var args = new CalibrationEventArgs(CalibrationPhase.Start, _startPhaseTime);
             StateChanged?.Invoke(args);
-            await manager.Delay(TimeSpan.FromSeconds(StartPhaseTime));
+            await manager.Delay(TimeSpan.FromSeconds(_startPhaseTime));
         }
     }
 }

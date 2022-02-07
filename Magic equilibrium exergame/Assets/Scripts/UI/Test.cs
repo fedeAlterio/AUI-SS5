@@ -12,7 +12,7 @@ namespace Assets.Scripts.UI
     {
         private void Update()
         {
-            MyConfig config = (MyConfig) GameSetting.instance.configuration;    
+            //MyConfig config = (MyConfig) GameSetting.instance.configuration;    
 
         }
     }

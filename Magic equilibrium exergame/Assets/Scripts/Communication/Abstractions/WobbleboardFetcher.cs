@@ -55,15 +55,11 @@ namespace Assets.Scripts.Communication.Abstractions
                 {
                     Log("Try to get info");
                     var responseSchema = new { X = 0f, Y = 0f, Z = 0f };
-                    var (isTimeout, response) = await Get(responseSchema: responseSchema)
-                        .TimeoutWithoutException(TimeSpan.FromSeconds(10));
-                    if (!isTimeout)
-                    {
-                        var localCoordinates = new Vector3(response.X, response.Y, response.Z);
-                        AccelerometerCoordinatesToAngles(localCoordinates, out var horizontalAngle, out var forwardAngle);
-                        //(XAngle, ZAngle) = (horizontalAngle, forwardAngle);
-                        SetOnMainThread(horizontalAngle, forwardAngle).Forget();                        
-                    }
+                    var response = await Get(responseSchema: responseSchema);                        
+                    var localCoordinates = new Vector3(response.X, response.Y, response.Z);
+                    AccelerometerCoordinatesToAngles(localCoordinates, out var horizontalAngle, out var forwardAngle);
+                    //(XAngle, ZAngle) = (horizontalAngle, forwardAngle);
+                    SetOnMainThread(horizontalAngle, forwardAngle).Forget();                        
                 }
                 catch (Exception ex)
                 {

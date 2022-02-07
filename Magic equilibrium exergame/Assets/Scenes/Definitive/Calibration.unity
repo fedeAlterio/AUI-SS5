@@ -181,8 +181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44532ceac8b62b4397e6764c0f39826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPhaseTime: 5
-  CalibrationAngleTime: 10000
+  _startPhaseTime: 10
+  _calibrationAngleTime: 10
+  _endPhaseTime: 0
 --- !u!1001 &687042982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1066,7 +1067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa792e7bb9b9374790e2281ef85296d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _horizontalAngle: -91
+  _horizontalAngle: -15
 --- !u!4 &1728075116 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 28531f1f84e4d0d4f8175a9025bc9427, type: 3}

@@ -16,6 +16,7 @@ namespace Assets.Scripts.DepndencyInjection
     public class DependencyInjector : MonoBehaviour
     {
         private Dictionary<Type, object> _defaults = new Dictionary<Type, object>();        
+        private Dictionary<Type, Func<object>> _dependencies = new Dictionary<Type, Func<object>>();        
 
 
 
@@ -23,7 +24,15 @@ namespace Assets.Scripts.DepndencyInjection
         private void Awake()
         {
             Instance = this;
+            RegisterDependencies();
             InitializeDefaults(); 
+        }
+
+        private void RegisterDependencies()
+        {
+            IPathConfiguration configuration = GameSetting.instance.configuration as IPathConfiguration;
+            if (configuration != null)
+                Register<IPathConfiguration>(() => configuration);
         }
 
         private void InitializeDefaults()
@@ -42,19 +51,30 @@ namespace Assets.Scripts.DepndencyInjection
 
 
         // Properties
-        public static DependencyInjector Instance { get; private set; }    
+        public static DependencyInjector Instance { get; private set; }
 
 
+
+        // Public
+        public void Register<T> (Func<T> builder)
+        {
+            _ = builder ?? throw new ArgumentNullException(nameof(builder));
+            _dependencies[typeof(T)] = () => builder();
+        }
         public T GetInstance<T>() where T : class
         {
+            var type = typeof(T);
+            if(_dependencies.TryGetValue(type, out var instanceBuilder))
+                return (T) instanceBuilder.Invoke();
+
             object instance = this.GetInstances<T>().FirstOrDefault();
             if (instance != null)
                 return (T) instance;
 
-            if (_defaults.TryGetValue(typeof(T), out instance))
+            if (_defaults.TryGetValue(type, out instance))
                 return (T) instance;
 
-            return null;
+            throw new InvalidOperationException($"Type {type} not registered");
         }
     }
 }

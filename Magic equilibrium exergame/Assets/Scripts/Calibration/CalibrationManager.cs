@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Abstractions;
 using Assets.Scripts.Animations;
 using Assets.Scripts.Path.BuildingStrategies;
+using Assets.Scripts.PlayerMovement;
+using Assets.Scripts.ScenesManager;
 using Assets.Scripts.WobbleBoardCalibration;
 using Cysharp.Threading.Tasks;
 using System;
@@ -31,12 +33,13 @@ namespace Assets.Scripts.Calibration
         private IWobbleboardDataProvider _woobleBoardService;
         private AsyncOperationManager _calibrationOperation;
         private WobbleBoardConfiguration _wobbleBoardConfiguration;
-
+        private WobbleboardInput _wobbleboardInput;
 
 
         // Initialization
         private void Awake()
         {
+            _wobbleboardInput = FindObjectOfType<WobbleboardInput>();
             _calibrationOperation = new AsyncOperationManager(this);
         }
 
@@ -67,7 +70,9 @@ namespace Assets.Scripts.Calibration
             await BackwardAngleClaibration(manager);
             await HorizontalAngleCalibration(manager);
             await EndPhase(manager);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+            DontDestroyOnLoad(_wobbleboardInput.gameObject);
+            await GameSceneManager.LoadNextScene();
         }
 
         private async UniTask EndPhase(IAsyncOperationManager manager)

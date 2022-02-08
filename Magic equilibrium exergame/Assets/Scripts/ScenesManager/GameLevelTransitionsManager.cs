@@ -42,7 +42,7 @@ namespace Assets.Scripts.ScenesManager
         // BlockTime
         private async UniTask TransitionToStatistics(IAsyncOperationManager manager)
         {                 
-            await GameSceneManager.LoadScene("EndMenu", dontDestroyOnChange: _levelStatisticsObserver);
+            await GameSceneManager.LoadScene(GameScene.EndMenu, dontDestroyOnChange: _levelStatisticsObserver.gameObject);
         }
     }
 }

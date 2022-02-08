@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -60,10 +61,10 @@ public class UDPListener : MonoBehaviour
     private void OnApplicationQuit()
     {
         abort = true;
-        foreach (int p in requestPortHandlers.Keys) {
+        foreach (int p in requestPortHandlers.Keys.ToList()) {
             UnregisterUDPChannel(p);
         }
-        _listener.Close();
+        _listener?.Close();
     }
 
     private void OnDestroy()
@@ -104,7 +105,8 @@ public class UDPListener : MonoBehaviour
         }
         finally
         {
-            requestPortListener[port].Close();
+            if(requestPortListener.TryGetValue(port, out var listener))
+                listener.Close();            
         }
     }
 

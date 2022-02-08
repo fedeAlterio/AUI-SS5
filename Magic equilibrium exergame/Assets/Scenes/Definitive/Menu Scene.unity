@@ -278,15 +278,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 33
+    m_Left: 28
     m_Right: 0
     m_Top: 40
     m_Bottom: 40
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 1
-  m_CellSize: {x: 266, y: 80}
-  m_Spacing: {x: 66.5, y: 213}
+  m_CellSize: {x: 231.2, y: 80}
+  m_Spacing: {x: 57.8, y: 237.5}
   m_Constraint: 1
   m_ConstraintCount: 1
 --- !u!222 &60799370
@@ -365,7 +365,7 @@ MonoBehaviour:
   - {fileID: 1411761672}
   - {fileID: 1008321547}
   - {fileID: 961982172}
-  GameSceneIndex: 2
+  GameSceneIndex: 3
 --- !u!114 &72543327
 MonoBehaviour:
   m_ObjectHideFlags: 0

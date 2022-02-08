@@ -46,7 +46,7 @@ public class ExperienceManagerComunication : MonoBehaviour
     private IEnumerator SendCommand(JObject command, MagicRoomManager.WebCallback callback = null)
     {
         string json = command.ToString(Newtonsoft.Json.Formatting.None);
-        Debug.LogError("Message Sent " + json);
+        Debug.Log("Message Sent " + json);
         byte[] body = System.Text.Encoding.UTF8.GetBytes(json);
         UnityWebRequest request = new UnityWebRequest(address, "POST")
         {

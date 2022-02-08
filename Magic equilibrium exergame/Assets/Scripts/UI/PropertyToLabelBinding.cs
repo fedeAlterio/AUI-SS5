@@ -13,7 +13,16 @@ namespace Assets.Scripts.UI
         // Editor fields
         [SerializeField] private TextMeshProUGUI _label;
 
-        
+
+
+        // Initialization
+        private void Awake()
+        {
+            if(_label == null)
+                _label = GetComponent<TextMeshProUGUI>();
+        }
+
+
 
         // Properties
         [field:SerializeField] public string PropertyName { get; set; }

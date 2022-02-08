@@ -18,7 +18,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
 
 
 
-        // Generation
+        // Generation   
         protected override IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(IPathConfiguration pathConfiguration)
         {
             var allowedStrategies = pathConfiguration.PathStrategiesAllowed.Select(PathStrategyContainer.GetByName);

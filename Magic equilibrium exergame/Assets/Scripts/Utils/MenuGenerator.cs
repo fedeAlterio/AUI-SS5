@@ -51,13 +51,13 @@ public class MenuGenerator : MonoBehaviour
         }
         else
         {
-            resetGrid();
-            if (ThemePropertyName != "")
-            {
-                ThemeManager.StartUp();
-                theme = GameObject.Find("MenuApplicationTitleAndTheme(Clone)").GetComponent<PropertyMenuBlockManager>();
-                theme.loadCurrentThemeDetail();
-            }
+            //resetGrid();
+            //if (ThemePropertyName != "")
+            //{
+            //    ThemeManager.StartUp();
+            //    theme = GameObject.Find("MenuApplicationTitleAndTheme(Clone)").GetComponent<PropertyMenuBlockManager>();
+            //    theme.loadCurrentThemeDetail();
+            //}
         }
         setMinValues();
         

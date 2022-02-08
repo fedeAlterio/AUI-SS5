@@ -1837,7 +1837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pathMaterial: {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
-  _pathStrategy: {fileID: 1962579429}
+  _pathStrategy: {fileID: 1565333391}
 --- !u!1 &1180205584
 GameObject:
   m_ObjectHideFlags: 0
@@ -4246,7 +4246,7 @@ GameObject:
   - component: {fileID: 9189813157047281443}
   - component: {fileID: 1013486914012907420}
   m_Layer: 0
-  m_Name: Checkpoin
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

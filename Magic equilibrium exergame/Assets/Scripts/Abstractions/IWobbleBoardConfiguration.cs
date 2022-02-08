@@ -12,6 +12,7 @@ namespace Assets.Scripts.Abstractions
         public float MaxForwardlAngle { get; }
         public float MaxBackwardlAngle { get; }
         public float MaxHorizontalAngle { get; }
+        public int Sensibility { get; }
 
     }
 }

@@ -14,21 +14,28 @@ namespace Assets.Scripts.PlayerMovement
     {
         // Private fields
         private IWobbleboardDataProvider _wobbleboardService;
+        private IWobbleBoardConfiguration _wobbleBoardConfiguration;
+        private SmoothingConfiguration _smoothingConfiguration;
         private Vector2Smoother _smoother;
-
 
 
         // Initialization
         private void Start()
         {
             _wobbleboardService = this.GetInstance<IWobbleboardDataProvider>();
-            var smoothingConfiguration = new SmoothingConfiguration
+            _wobbleBoardConfiguration = this.GetInstance<IWobbleBoardConfiguration>();
+            _smoothingConfiguration = new SmoothingConfiguration
             {
                 Speed = 6,
-                SmoothingSensibility = (Mathf.PI / 2) / 12f
+                SmoothingSensibility = (Mathf.PI / 2) / Mathf.Max(1, _wobbleBoardConfiguration.Sensibility)
             };
-            _smoother = new Vector2Smoother(this, smoothingConfiguration, center: Vector2.zero,
+            _smoother = new Vector2Smoother(this, _smoothingConfiguration, center: Vector2.zero,
                 toSmoothValueGetter: () => new Vector2(_wobbleboardService.XAngle, _wobbleboardService.ZAngle));
+        }
+
+        private void Update()
+        {
+            _smoothingConfiguration.SmoothingSensibility = (Mathf.PI / 2) / Mathf.Max(1, _wobbleBoardConfiguration.Sensibility);
         }
 
 

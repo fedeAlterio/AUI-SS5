@@ -1831,7 +1831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pathMaterial: {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
-  _pathStrategy: {fileID: 359942696}
+  _pathStrategy: {fileID: 1662901546}
 --- !u!1 &1180205584
 GameObject:
   m_ObjectHideFlags: 0
@@ -2597,6 +2597,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7acb1651f96b384fa72e907f710dd9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pathLength: 200
+  _easyHolesCouplesCount: 2
+  _easyHoleSize: 0.5
+  _easyHolePercentageOnStep: 0.421
+  _mediumHolesCouplesCount: 2
+  _mediumHoleSize: 0.5
+  _mediumHolePercentageOnStep: 0.6
+  _hardHolesCouplesCount: 2
+  _hardHoleSize: 0.6
+  _hardHolePercentageOnStep: 0.863
 --- !u!1001 &1671043776
 PrefabInstance:
   m_ObjectHideFlags: 0

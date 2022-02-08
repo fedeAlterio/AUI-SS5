@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Models.Path.Blocks;
+﻿using Assets.Scripts.Environment.Path.BuildingStrategies.Path;
+using Assets.Scripts.Models.Path.Blocks;
 using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Path.BuildingStrategies.Blocks;
 using Assets.Scripts.Path.BuildingStrategies.Extensions;
@@ -24,10 +25,12 @@ namespace Assets.Scripts.Environment.Path.BuildingStrategies.Levels
         protected override IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(IPathConfiguration pathConfiguration)
         {
             var checkpoint = BlocksContainer.Get<CheckPointBlockStrategy>();
+            var finishLine = PathStrategyContainer.Get<FinishPathStrategy>();
             yield return NewLine()
                 .Go(Vector3.forward * 10)
                 .With(checkpoint)
                 .GoWith(_pathStrategy)
+                .GoWith(finishLine)
                 ;
         }
     }

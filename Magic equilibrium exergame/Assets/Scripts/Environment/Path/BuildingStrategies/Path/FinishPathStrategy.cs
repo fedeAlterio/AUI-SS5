@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Environment.Path.BuildingStrategies.Path
 {
-    public class FinishStrategy : PathStrategy
+    public class FinishPathStrategy : PathStrategy
     {
         public override ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration)
         {

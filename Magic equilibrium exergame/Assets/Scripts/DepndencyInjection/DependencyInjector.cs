@@ -16,7 +16,6 @@ namespace Assets.Scripts.DepndencyInjection
     public class DependencyInjector : MonoBehaviour
     {
         private Dictionary<Type, object> _defaults = new Dictionary<Type, object>();        
-        private static Dictionary<Type, object> _staticDependencies = new Dictionary<Type, object>();
 
 
 
@@ -43,23 +42,12 @@ namespace Assets.Scripts.DepndencyInjection
 
 
         // Properties
-        public static DependencyInjector Instance { get; private set; }
-
-
-
-        // Public
-        public void RegisterStaticInstance<T>(T instance)
-        {
-            _staticDependencies.Add(instance.GetType(), instance);
-        }
+        public static DependencyInjector Instance { get; private set; }    
 
 
         public T GetInstance<T>() where T : class
         {
-            if (_staticDependencies.TryGetValue(typeof(T), out var instance))
-                return (T) instance;
-
-            instance = this.GetInstances<T>().FirstOrDefault();
+            object instance = this.GetInstances<T>().FirstOrDefault();
             if (instance != null)
                 return (T) instance;
 

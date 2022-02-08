@@ -41,10 +41,8 @@ namespace Assets.Scripts.ScenesManager
 
         // BlockTime
         private async UniTask TransitionToStatistics(IAsyncOperationManager manager)
-        {
-            var levelStatistics = LevelStatistics.FromOther(_levelStatisticsObserver);
-            this.RegisterStaticInstance<ILevelStatistics>(levelStatistics);
-            await SceneManager.LoadSceneAsync("EndMenu");
+        {                 
+            await GameSceneManager.LoadScene("EndMenu", dontDestroyOnChange: _levelStatisticsObserver);
         }
     }
 }

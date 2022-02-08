@@ -11,13 +11,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Definitive/EmptyLevel.unity
     guid: 57b6b01f9296eeb41b1fbc4a34f1f0a8
-  - enabled: 0
-    path: Assets/Scenes/Definitive/EndMenu.unity
-    guid: 9acb26116aea4c64986c9d2ba68fe9f3
   - enabled: 1
     path: Assets/Scenes/Definitive/MinimalEmptyLevel.unity
     guid: 9dba7c2859fd0424db27dda65b1d2728
   - enabled: 1
     path: Assets/Scenes/Others/Menu Scene.unity
     guid: 7678b2754f61a3c45b9557f7817e7587
+  - enabled: 1
+    path: Assets/Scenes/Definitive/EndMenu.unity
+    guid: 9acb26116aea4c64986c9d2ba68fe9f3
   m_configObjects: {}

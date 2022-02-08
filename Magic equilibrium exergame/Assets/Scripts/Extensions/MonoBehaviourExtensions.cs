@@ -26,11 +26,6 @@ namespace Assets.Scripts.Path.BuildingStrategies
         {
             return DependencyInjector.Instance.GetInstance<T>();
         }
-
-        public static void RegisterStaticInstance<T>(this MonoBehaviour @this, T instance)
-        {
-            DependencyInjector.Instance.RegisterStaticInstance(instance);
-        }
     }
 }
 

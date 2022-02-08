@@ -62,8 +62,7 @@ namespace Assets.Scripts.Communication.Abstractions
                     SetOnMainThread(horizontalAngle, forwardAngle).Forget();                        
                 }
                 catch (Exception ex)
-                {
-                    Debug.Log(ex);
+                {                    
                 }
             }
         }

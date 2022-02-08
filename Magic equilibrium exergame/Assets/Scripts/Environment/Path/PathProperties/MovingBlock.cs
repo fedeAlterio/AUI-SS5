@@ -12,19 +12,21 @@ public class MovingBlock : MonoBehaviour
     private Vector3 _startPosition;
     private AsyncOperationManager _delayStartMovement;
     private Vector3 _nextPosition;
+    private bool _firstMovement = true;
 
 
     // Initialization
     private void Awake()
     {
-        _startPosition = transform.localPosition;
         _delayStartMovement = new AsyncOperationManager(this);
+        _startPosition = transform.localPosition;
     }
 
     private void Start()
     {
         var material = GetComponent<MeshRenderer>().material;
         material.SetColor("_" + nameof(Color), Color.yellow);
+        
     }
 
 
@@ -42,6 +44,12 @@ public class MovingBlock : MonoBehaviour
         var movementDirection = endPosition - _startPosition;
         var middlePoint = (_startPosition + endPosition) / 2;
         var target = _isPlayerOver ? endPosition : _startPosition;
+        if (_firstMovement)
+        {
+            transform.localPosition = target;
+            return;
+        }
+
         if (Vector3.Distance(transform.localPosition, target) < float.Epsilon)
             return;
 

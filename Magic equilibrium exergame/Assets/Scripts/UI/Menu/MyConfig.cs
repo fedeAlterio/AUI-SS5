@@ -27,7 +27,7 @@ namespace Assets.Scripts.Menu
         public float PathThickness { get; set; } = 4;
 
         [Hidden]
-        public float CurveSize { get; set; } = 4;
+        public float CurveSize { get; set; } = 10;
 
         [Hidden]
         public float TextureScale { get; set; } = 0.25f;

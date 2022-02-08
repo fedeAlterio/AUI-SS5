@@ -47,8 +47,9 @@ namespace Assets.Scripts.Calibration
         {
             _woobleBoardService = this.GetInstance<IWobbleboardDataProvider>();
             _wobbleBoardConfiguration = this.GetInstance<WobbleBoardConfiguration>();
+
             _calibrationOperation.New(Calibrate);
-        }
+        }        
 
 
 

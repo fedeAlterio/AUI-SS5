@@ -30,7 +30,7 @@ namespace Assets.Scripts.DepndencyInjection
 
         private void RegisterDependencies()
         {
-            IPathConfiguration configuration = GameSetting.instance.configuration as IPathConfiguration;
+            IPathConfiguration configuration = GameSetting.instance?.configuration as IPathConfiguration;
             if (configuration != null)
                 Register<IPathConfiguration>(() => configuration);
         }

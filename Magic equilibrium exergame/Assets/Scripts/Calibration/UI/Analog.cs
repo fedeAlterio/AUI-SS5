@@ -14,7 +14,7 @@ namespace Assets.Scripts.Calibration.UI
     {
         // Private fields
         private RectTransform _rectTransform;
-        private IMovementAxis _wobbleBoardAxis;
+        private IMovementAxis _movementAxis;
 
 
 
@@ -26,8 +26,7 @@ namespace Assets.Scripts.Calibration.UI
 
         private void Start()
         {
-            _wobbleBoardAxis = this.GetInstance<IMovementAxis>();
-            
+            _movementAxis = this.GetInstance<IMovementAxis>();            
         }
 
 
@@ -49,7 +48,7 @@ namespace Assets.Scripts.Calibration.UI
         // Core 
         private void Update()
         {
-            Position = 0.5f * new Vector2(_wobbleBoardAxis.HorizontalAxis, _wobbleBoardAxis.VerticalAxis);
+            Position = 0.5f * new Vector2(_movementAxis.HorizontalAxis, _movementAxis.VerticalAxis);
         }
     }
 }

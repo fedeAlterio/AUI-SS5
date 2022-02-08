@@ -1831,7 +1831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pathMaterial: {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
-  _pathStrategy: {fileID: 1509664030}
+  _pathStrategy: {fileID: 359942696}
 --- !u!1 &1180205584
 GameObject:
   m_ObjectHideFlags: 0

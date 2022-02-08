@@ -20,6 +20,13 @@ namespace Assets.Scripts.UI
         {
             if(_label == null)
                 _label = GetComponent<TextMeshProUGUI>();
+            var playerCount = GameSetting.instance?.players?.Count ?? 0;
+
+            int playerCount2;
+            if (GameSetting.instance != null && GameSetting.instance.players != null)
+                playerCount2 = GameSetting.instance.players.Count;
+            else
+                playerCount2 = 0;
         }
 
 

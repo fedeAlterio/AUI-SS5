@@ -1532,6 +1532,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f468476f4c84974e8499b7467b92fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _easyDirection: {x: 0, y: -1, z: 3}
+  _easyLength: 15
+  _mediumDirection: {x: 0, y: -1.4, z: 3}
+  _mediumLength: 15
+  _hardDirection: {x: 0, y: -1.7, z: 3}
+  _hardLength: 15
 --- !u!1 &897540899
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,7 +1837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pathMaterial: {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
-  _pathStrategy: {fileID: 1565333391}
+  _pathStrategy: {fileID: 864425127}
 --- !u!1 &1180205584
 GameObject:
   m_ObjectHideFlags: 0
@@ -2454,10 +2460,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _easyDirection: {x: 0, y: 1, z: 3}
   _easyLength: 10
-  _mediumDirection: {x: 0, y: 1.4, z: 3}
+  _mediumDirection: {x: 0, y: 1.35, z: 3}
   _mediumLength: 10
   _hardDirection: {x: 0, y: 1.7, z: 3}
-  _hardLength: 10
+  _hardLength: 8
 --- !u!1 &1572942285
 GameObject:
   m_ObjectHideFlags: 0

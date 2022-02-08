@@ -10,19 +10,19 @@ using UnityEngine;
 
 namespace Assets.Scripts.Path.BuildingStrategies.Path
 {
-    public class UpRampPathStrategy : DifficultyDependentPathStrategy
+    public class DownRampPathStrategy : DifficultyDependentPathStrategy
     {
         // Editor fields
         [Header("Easy")]
-        [SerializeField] private Vector3 _easyDirection = new Vector3(0, 1, 3);
+        [SerializeField] private Vector3 _easyDirection = new Vector3(0, -1, 3);
         [SerializeField] private float _easyLength = 10;
         [Space]
         [Header("Medium")]
-        [SerializeField] private Vector3 _mediumDirection = new Vector3(0, 2, 4);
+        [SerializeField] private Vector3 _mediumDirection = new Vector3(0, -2, 4);
         [SerializeField] private float _mediumLength = 10;
         [Space]
         [Header("Hard")]
-        [SerializeField] private Vector3 _hardDirection = new Vector3(0, 3, 5);
+        [SerializeField] private Vector3 _hardDirection = new Vector3(0, -3, 5);
         [SerializeField] private float _hardLength = 10;
 
 

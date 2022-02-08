@@ -26,7 +26,7 @@ namespace Assets.Scripts.Environment.Path.BuildingStrategies.Levels
         {
             var checkpoint = BlocksContainer.Get<CheckPointBlockStrategy>();
             var finishLine = PathStrategyContainer.Get<FinishPathStrategy>();
-            yield return NewLine()
+            yield return NewLine(start: Vector3.up * 20, direction: Vector3.forward)
                 .Go(Vector3.forward * 10)
                 .With(checkpoint)
                 .GoWith(_pathStrategy)

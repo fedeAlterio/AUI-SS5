@@ -10,9 +10,6 @@ namespace Assets.Scripts.Menu
     [Serializable]
     public sealed class MyConfig : GameConfiguration, IPathConfiguration
     {
-
-
-
         // IPathConfiguration
         [PropertyRange(1, 3)]
         [PropertyDefaultValue(2)]
@@ -47,7 +44,7 @@ namespace Assets.Scripts.Menu
         public bool UpRamp { get; set; }
 
 
-        [BindToStrategy(typeof(DownRampStrategy))]
+        [BindToStrategy(typeof(DownRampPathStrategy))]
         public bool DownRamp { get; set; }                
 
 

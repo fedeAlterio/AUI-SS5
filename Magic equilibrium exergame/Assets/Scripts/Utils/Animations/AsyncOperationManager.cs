@@ -114,10 +114,8 @@ namespace Assets.Scripts.Animations
                 IsRunning = true;
                 await task;
             }
-            catch (MissingReferenceException e)
-            {
-
-            }
+            catch (MissingReferenceException) { }            
+            catch (OperationCanceledException) { }
             catch (Exception e)
             {
                 Debug.Log(e);

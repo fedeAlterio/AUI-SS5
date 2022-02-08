@@ -1831,7 +1831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pathMaterial: {fileID: 2100000, guid: faa9efb078cf44845b215d93b1ac2cd9, type: 2}
-  _pathStrategy: {fileID: 1662901546}
+  _pathStrategy: {fileID: 1565333391}
 --- !u!1 &1180205584
 GameObject:
   m_ObjectHideFlags: 0
@@ -2452,6 +2452,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eabe0a8fb2fae6348afa5d53474b514b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _easyDirection: {x: 0, y: 1, z: 3}
+  _easyLength: 10
+  _mediumDirection: {x: 0, y: 1.4, z: 3}
+  _mediumLength: 10
+  _hardDirection: {x: 0, y: 1.7, z: 3}
+  _hardLength: 10
 --- !u!1 &1572942285
 GameObject:
   m_ObjectHideFlags: 0

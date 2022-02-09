@@ -29,7 +29,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
                 .Cyclic()
                 .Take(pathConfiguration.Length);
             var strategies = InjectCheckpoints(allowedStrategies);
-            var line = NewLine(start: Vector3.up * 5, direction: Vector3.forward)
+            var line = NewLine(start: Vector3.up * 7, direction: Vector3.forward)
                 .GoWith(Checkpoint);
             foreach (var strategy in strategies)                
                 line = line.GoWith(strategy);

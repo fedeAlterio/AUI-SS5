@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Calibration
 {
@@ -26,14 +27,21 @@ namespace Assets.Scripts.Calibration
         [SerializeField] private int _startPhaseTime = 10;
         [SerializeField] private int _calibrationAngleTime = 10;
         [SerializeField] private int _endPhaseTime = 5;
+        [SerializeField] private float _maximumDeltaForCalibration = 0.3f;
+        [SerializeField] private int _secondsOfStabilityForCalibration = 3;
+        [SerializeField] private Image _image;
 
 
 
         // Private fields
-        private IWobbleboardDataProvider _woobleBoardService;
+        private IWobbleboardDataProvider _wobbleBoardService;
+        private IMovementAxis _movementAxis;
         private AsyncOperationManager _calibrationOperation;
         private WobbleBoardConfiguration _wobbleBoardConfiguration;
         private WobbleboardInput _wobbleboardInput;
+        private Vector2 _calibrationPivot;
+        private DateTime _calibrationPivotDate;
+
 
 
         // Initialization
@@ -45,11 +53,16 @@ namespace Assets.Scripts.Calibration
 
         private void Start()
         {
-            _woobleBoardService = this.GetInstance<IWobbleboardDataProvider>();
+            _wobbleBoardService = this.GetInstance<IWobbleboardDataProvider>();
             _wobbleBoardConfiguration = this.GetInstance<WobbleBoardConfiguration>();
+            _movementAxis = this.GetInstance<IMovementAxis>();
+            _calibrationOperation.New(Calibrate);            
+        }
 
-            _calibrationOperation.New(Calibrate);
-        }        
+
+
+        // Properties
+        public Vector2 CurrentAxisDirection => new Vector2(_movementAxis.HorizontalAxis, _movementAxis.VerticalAxis);
 
 
 
@@ -64,8 +77,10 @@ namespace Assets.Scripts.Calibration
 
 
         // Core
+
         private async UniTask Calibrate(IAsyncOperationManager manager)
         {
+            await manager.NextFrame();
             await StartPhase(manager);
             await RightAngleCalibration(manager);
             await LeftAngleCalibration(manager);
@@ -88,32 +103,32 @@ namespace Assets.Scripts.Calibration
         {
             var args = new CalibrationEventArgs(CalibrationPhase.ForwardAngle, _calibrationAngleTime);
             StateChanged?.Invoke(args);
-            await manager.Delay(TimeSpan.FromSeconds(_calibrationAngleTime));
-            _wobbleBoardConfiguration.MaxForwardlAngle = _woobleBoardService.ZAngle;
+            await WaitUntilStability(acceptacnceTest: () => _wobbleBoardService.ZAngle > 0);
+            _wobbleBoardConfiguration.MaxForwardlAngle = _wobbleBoardService.ZAngle;
         }
 
         private async UniTask BackwardAngleClaibration(IAsyncOperationManager manager)
         {
             var args = new CalibrationEventArgs(CalibrationPhase.BackwardAngle, _calibrationAngleTime);
             StateChanged?.Invoke(args);
-            await manager.Delay(TimeSpan.FromSeconds(_calibrationAngleTime));
-            _wobbleBoardConfiguration.MaxBackwardlAngle = _woobleBoardService.ZAngle;
+            await WaitUntilStability(acceptacnceTest: () => _wobbleBoardService.ZAngle < 0);
+            _wobbleBoardConfiguration.MaxBackwardlAngle = _wobbleBoardService.ZAngle;
         }
 
         private async UniTask RightAngleCalibration(IAsyncOperationManager manager)
         {
             var args = new CalibrationEventArgs(CalibrationPhase.RightAngle, _calibrationAngleTime);
             StateChanged?.Invoke(args);
-            await manager.Delay(TimeSpan.FromSeconds(_calibrationAngleTime));
-            _wobbleBoardConfiguration.MaxRightAngle = _woobleBoardService.XAngle;
+            await WaitUntilStability(acceptacnceTest: () => _wobbleBoardService.XAngle < 0);
+            _wobbleBoardConfiguration.MaxRightAngle = _wobbleBoardService.XAngle;
         }
 
         private async UniTask LeftAngleCalibration(IAsyncOperationManager manager)
         {
             var args = new CalibrationEventArgs(CalibrationPhase.LeftAngle, _calibrationAngleTime);
             StateChanged?.Invoke(args);
-            await manager.Delay(TimeSpan.FromSeconds(_calibrationAngleTime));
-            _wobbleBoardConfiguration.MaxLeftAngle = _woobleBoardService.XAngle;
+            await WaitUntilStability(acceptacnceTest: () => _wobbleBoardService.XAngle > 0);
+            _wobbleBoardConfiguration.MaxLeftAngle = _wobbleBoardService.XAngle;
         }
 
         private async UniTask StartPhase(IAsyncOperationManager manager)
@@ -121,6 +136,28 @@ namespace Assets.Scripts.Calibration
             var args = new CalibrationEventArgs(CalibrationPhase.Start, _startPhaseTime);
             StateChanged?.Invoke(args);
             await manager.Delay(TimeSpan.FromSeconds(_startPhaseTime));
+        }
+
+        private async UniTask WaitUntilStability(Func<bool> acceptacnceTest)
+        {
+            ChangePivot();
+            Color WithAlpha(Color color, float alpha) => new Color(color.r, color.g, color.b, alpha);
+            while(DateTime.Now - _calibrationPivotDate < TimeSpan.FromSeconds(_secondsOfStabilityForCalibration))
+            {
+                var completionPercentage = (DateTime.Now - _calibrationPivotDate).TotalMilliseconds / TimeSpan.FromSeconds(_secondsOfStabilityForCalibration).TotalMilliseconds;
+                Debug.Log(new { completionPercentage });
+                _image.color = Color.Lerp(WithAlpha(_image.color, 0), WithAlpha(_image.color, 1), (float) completionPercentage);
+                var distanceFromPivot = Vector2.Distance(CurrentAxisDirection, _calibrationPivot);
+                if (distanceFromPivot > _maximumDeltaForCalibration || !acceptacnceTest())
+                    ChangePivot();
+                await UniTask.NextFrame(cancellationToken: this.GetCancellationTokenOnDestroy());
+            }
+        }
+
+        private void ChangePivot()
+        {
+            _calibrationPivot = CurrentAxisDirection;
+            _calibrationPivotDate = DateTime.Now;
         }
     }
 }

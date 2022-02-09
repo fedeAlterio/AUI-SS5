@@ -133,8 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 207423665}
   - component: {fileID: 207423667}
-  - component: {fileID: 207423666}
-  - component: {fileID: 207423668}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -157,21 +155,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &207423666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 207423664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2749ed82f377c7344a124f8504056013, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <CurrentDirection>k__BackingField: 0
-  <SelectionPercentage>k__BackingField: 0
-  <SelectionChangeSpeed>k__BackingField: 1
 --- !u!114 &207423667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,18 +170,6 @@ MonoBehaviour:
   _startPhaseTime: 5
   _calibrationAngleTime: 7
   _endPhaseTime: 5
---- !u!114 &207423668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 207423664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91c34c5fc574c644ab912a49d69d472c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &444359447
 GameObject:
   m_ObjectHideFlags: 0

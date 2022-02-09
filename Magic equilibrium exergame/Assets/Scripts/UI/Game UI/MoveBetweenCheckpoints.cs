@@ -32,7 +32,7 @@ namespace Assets.Scripts.UI.Game_UI
         }
 
 
-        private void MoveNextCheckpoint()
+        public void MoveNextCheckpoint()
         {
             var checkpointManager = CheckPointManager.instance;
             var currentCheckpointNumber = checkpointManager.CurrentCheckpointIndex;
@@ -43,7 +43,7 @@ namespace Assets.Scripts.UI.Game_UI
             _respawnManager.MovePlayerToCheckpoint(nextCheckpoint);
         }
 
-        private void MovePreviousCheckpoint()
+        public void MovePreviousCheckpoint()
         {
             var checkpointManager = CheckPointManager.instance;
             var currentCheckpointNumber = checkpointManager.CurrentCheckpointIndex;

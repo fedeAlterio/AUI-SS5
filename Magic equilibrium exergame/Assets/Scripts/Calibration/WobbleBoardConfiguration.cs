@@ -13,7 +13,8 @@ namespace Assets.Scripts.WobbleBoardCalibration
         [field: SerializeField] public float HorizontalRotationAngle { get; set; } 
         [field: SerializeField] public float MaxForwardlAngle { get; set; } = Mathf.PI / 2;
         [field: SerializeField] public float MaxBackwardlAngle { get; set; } = -Mathf.PI / 2;
-        [field: SerializeField] public float MaxHorizontalAngle { get; set; } = Mathf.PI / 2;
+        [field: SerializeField] public float MaxRightAngle { get; set; } = Mathf.PI / 2;
+        [field: SerializeField] public float MaxLeftAngle { get; set; } = Mathf.PI / 2;
         [field: SerializeField] public int Sensibility { get; set; } = 25;
 
         private void Awake()

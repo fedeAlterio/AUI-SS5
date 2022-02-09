@@ -10,7 +10,7 @@ namespace Assets.Scripts.PlayerMovement
 {
     public class WASDMovementAxis : IMovementAxis
     {
-        public float HorizontalAxis => Input.GetAxis("Horizontal");
-        public float VerticalAxis => Input.GetAxis("Vertical");
+        public float HorizontalAxis => Input.GetAxisRaw("Horizontal");
+        public float VerticalAxis => Input.GetAxisRaw("Vertical");
     }
 }

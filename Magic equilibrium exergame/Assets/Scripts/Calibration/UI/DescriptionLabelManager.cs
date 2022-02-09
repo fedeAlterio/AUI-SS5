@@ -13,7 +13,8 @@ namespace Assets.Scripts.Calibration.UI
             { CalibrationPhase.Start, "Before start, we need to calibrate the board" },
             { CalibrationPhase.ForwardAngle, "Incline the board forward, at the max of your possibility" },
             { CalibrationPhase.BackwardAngle, "Incline the board backward, at the max of your possibility" },
-            { CalibrationPhase.HorizontalAngle, "Incline the board right, at the max of your possibility" },
+            { CalibrationPhase.RightAngle, "Incline the board right, at the max of your possibility" },
+            { CalibrationPhase.LeftAngle, "Incline the board left, at the max of your possibility" },
             { CalibrationPhase.End, "We can start now" },
         };
     }

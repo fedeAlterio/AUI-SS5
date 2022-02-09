@@ -8,35 +8,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
     public class AxisSelector : MonoBehaviour
     {
+        // Editor fields
+        [SerializeField] private Image _rightImage;
+        [SerializeField] private Image _leftImage;
+        [SerializeField] private Image _topImage;
+        [SerializeField] private Image _bottomImage;
+        [SerializeField] private Color _selectionColor = Color.green;
+
+
         // Private fields
         private IMovementAxis _axis;
         private AsyncOperationManager _selection;
-        private UniTaskCompletionSource<AxisSelectionDirection> _selectionTCS;        
+        private AsyncOperationManager _unselection;
+        private UniTaskCompletionSource<AxisSelectionDirection> _selectionTCS;
+        private Color _startColor;
+        private Image[] _allImages;
 
 
         // Initialization
         private void Awake()
         {
-            _selection = new AsyncOperationManager(this);
+            _selection = new AsyncOperationManager(this) { UseGameTimeScale = false };
+            _unselection = new AsyncOperationManager(this) { UseGameTimeScale = false };
+            _allImages = new[] { _bottomImage, _topImage, _rightImage, _leftImage };
         }
 
         private void Start()
         {
-            _axis = this.GetInstance<IMovementAxis>();            
+            _axis = this.GetInstance<IMovementAxis>();
+            _startColor = _leftImage.color;
         }
 
 
 
         // Properties
-        [field: SerializeField] public AxisSelectionDirection CurrentDirection { get; private set; }
+        [field: SerializeField] public AxisSelectionDirection CurrentDirection { get; private set; } = AxisSelectionDirection.Cancel;
         [field: SerializeField] public float SelectionPercentage { get; private set; }
-        [field: SerializeField] public int SelectionChangeSpeed { get; set; } = 1;
-        public bool IsSelecting { get; private set; }
+        [field: SerializeField] public float SelectionChangeSpeed { get; set; } = 1;
+        public bool IsSelecting { get; private set; }        
 
 
 
@@ -47,12 +62,30 @@ namespace Assets.Scripts.UI.Menu
                 return;
 
             var currentDirection = GetCurrentDirection();
-            if (CurrentDirection == currentDirection)
-                return;
-
+            var isDirectionChanged = CurrentDirection != currentDirection;
             CurrentDirection = currentDirection;
-            _selection.New(ChangeDirection);
+            if(isDirectionChanged)
+            {
+                ResetAxis();                
+                _selection.New(ChangeDirection);
+            }
+            ChangeColor();
         }
+
+        private void ResetAxis()
+        {                        
+            _unselection.New(UnSelect);
+            SelectionPercentage = 0;            
+        }
+
+
+        private void ChangeColor()
+        {
+            var currentImage = GetCurrentImage();
+            if (currentImage == null)
+                return;            
+            currentImage.color = Color.Lerp(_startColor, _selectionColor, SelectionPercentage);
+        }        
 
 
 
@@ -70,10 +103,20 @@ namespace Assets.Scripts.UI.Menu
             return selection;
         }
 
+        private async UniTask UnSelect(IAsyncOperationManager manager)
+        {
+            var currentImage = GetCurrentImage();
+            await _allImages.Where(image => image != currentImage).Select(image => manager.Lerp(image.color, _startColor, c => image.color = c, speed: 3* SelectionChangeSpeed));
+        }
+
 
         // Core
         private AxisSelectionDirection GetCurrentDirection()
         {
+            var axisNorm = new Vector2(_axis.HorizontalAxis, _axis.VerticalAxis).magnitude;
+            if (axisNorm < 0.6f)
+                return AxisSelectionDirection.Cancel;
+
             var isHorizontalDominantDirection = Mathf.Abs(_axis.HorizontalAxis) > Mathf.Abs(_axis.VerticalAxis);
             var isPositiveDirection = (isHorizontalDominantDirection ? _axis.HorizontalAxis : _axis.VerticalAxis) > 0;
             return (isHorizontalDominantDirection, isPositiveDirection) switch
@@ -88,8 +131,22 @@ namespace Assets.Scripts.UI.Menu
 
         private async UniTask ChangeDirection(IAsyncOperationManager manager)
         {
+            if (CurrentDirection == AxisSelectionDirection.Cancel)
+                return;
+
             await manager.Lerp(0, 1, val => SelectionPercentage = val, speed: SelectionChangeSpeed);
             _selectionTCS?.TrySetResult(CurrentDirection);
         }
+
+
+        // Utils
+        private Image GetCurrentImage() => CurrentDirection switch
+        {
+            AxisSelectionDirection.Left => _leftImage,
+            AxisSelectionDirection.Right => _rightImage,
+            AxisSelectionDirection.Up => _topImage,
+            AxisSelectionDirection.Down => _bottomImage,
+            _ => null
+        };
     }
 }

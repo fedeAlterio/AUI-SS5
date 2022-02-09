@@ -11,7 +11,8 @@ namespace Assets.Scripts.Calibration
         Start,
         ForwardAngle,
         BackwardAngle,
-        HorizontalAngle,
+        RightAngle,
+        LeftAngle,
         End
     }
 }

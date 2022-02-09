@@ -35,11 +35,14 @@ namespace Assets.Scripts.Animations
         public bool Paused => _pauseTcs != null;
         public CancellationToken CancellationToken => _cancellationTokenSource?.Token ?? default;
         public bool Cancelled => CancellationToken.IsCancellationRequested;
-        public float DeltaTime => PlayerLoopTiming == PlayerLoopTiming.Update ? Time.deltaTime : Time.fixedDeltaTime;
+        public float DeltaTime =>
+            UseGameTimeScale
+            ? PlayerLoopTiming == PlayerLoopTiming.Update ? Time.deltaTime : Time.fixedDeltaTime
+            : 1 / 60.0f;
         public float Speed { get; set; } = 10;
         public float SpeedScale { get; set; } = 1;
         public PlayerLoopTiming PlayerLoopTiming { get; set; } = PlayerLoopTiming.Update;
-
+        public bool UseGameTimeScale { get; set; } = true;
 
 
         // Public                     
@@ -101,7 +104,7 @@ namespace Assets.Scripts.Animations
         {
             StopTask().Forget();
             while (_cancellationTokenSource != null)
-                await UniTask.NextFrame();
+                await NextFrameTask;
 
             _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(_bindedMonoBehaviour.GetCancellationTokenOnDestroy());
             _previousTask = TaskWrapper(task.Invoke(this), onCancel);
@@ -144,9 +147,13 @@ namespace Assets.Scripts.Animations
 
                 if (Paused)
                     await _pauseTcs.Task;
-                await UniTask.NextFrame(PlayerLoopTiming, CancellationToken);
+                await NextFrameTask;
             } while (Paused || !_bindedMonoBehaviour.gameObject.activeSelf);
         }
+
+        private UniTask NextFrameTask => UseGameTimeScale
+                    ? UniTask.NextFrame(PlayerLoopTiming, CancellationToken)
+                    : UniTask.Delay((int) DeltaTime, ignoreTimeScale: true, cancellationToken: CancellationToken);
 
 
         // Delay

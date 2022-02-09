@@ -22,6 +22,7 @@ public class RespawnManager : MonoBehaviour
     [SerializeField] private int _respawnTimerPeriod;
     [SerializeField] private float _respawnAnimationSpeed = 1;
 
+
     
     // Private fields
     private CheckPointManager _checkPointManager;

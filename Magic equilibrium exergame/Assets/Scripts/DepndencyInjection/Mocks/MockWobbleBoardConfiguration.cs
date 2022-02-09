@@ -13,7 +13,9 @@ namespace Assets.Scripts.DepndencyInjection.Mocks
         public float HorizontalRotationAngle => 0;
         public float MaxForwardlAngle => Mathf.PI / 2;
         public float MaxBackwardlAngle => -Mathf.PI / 2;
-        public float MaxHorizontalAngle => Mathf.PI / 2;
+        public float MaxRightAngle => Mathf.PI / 2;
+        public float MaxLeftAngle => -Mathf.PI / 2;
         public int Sensibility => 20;
+
     }
 }

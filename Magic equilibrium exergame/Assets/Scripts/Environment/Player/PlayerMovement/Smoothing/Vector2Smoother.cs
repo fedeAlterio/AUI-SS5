@@ -57,7 +57,7 @@ namespace Assets.Scripts.PlayerMovement.Smoothing
                     return;
                 else
                     value = _center;
-            Value = Vector2.Lerp(Value, value, _configuration.Speed * Time.deltaTime);
+            Value = Vector2.Lerp(Value, value, _configuration.Speed * Time.unscaledDeltaTime);
         }
     }
 }

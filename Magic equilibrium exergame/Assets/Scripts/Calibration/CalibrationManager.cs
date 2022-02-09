@@ -67,9 +67,10 @@ namespace Assets.Scripts.Calibration
         private async UniTask Calibrate(IAsyncOperationManager manager)
         {
             await StartPhase(manager);
+            await RightAngleCalibration(manager);
+            await LeftAngleCalibration(manager);
             await ForwardAngleClaibration(manager);
             await BackwardAngleClaibration(manager);
-            await HorizontalAngleCalibration(manager);
             await EndPhase(manager);
 
             DontDestroyOnLoad(_wobbleboardInput.gameObject);
@@ -89,7 +90,6 @@ namespace Assets.Scripts.Calibration
             StateChanged?.Invoke(args);
             await manager.Delay(TimeSpan.FromSeconds(_calibrationAngleTime));
             _wobbleBoardConfiguration.MaxForwardlAngle = _woobleBoardService.ZAngle;
-            Debug.Log(Mathf.Rad2Deg * _wobbleBoardConfiguration.MaxForwardlAngle);
         }
 
         private async UniTask BackwardAngleClaibration(IAsyncOperationManager manager)
@@ -98,16 +98,22 @@ namespace Assets.Scripts.Calibration
             StateChanged?.Invoke(args);
             await manager.Delay(TimeSpan.FromSeconds(_calibrationAngleTime));
             _wobbleBoardConfiguration.MaxBackwardlAngle = _woobleBoardService.ZAngle;
-            Debug.Log(Mathf.Rad2Deg * _wobbleBoardConfiguration.MaxBackwardlAngle);
         }
 
-        private async UniTask HorizontalAngleCalibration(IAsyncOperationManager manager)
+        private async UniTask RightAngleCalibration(IAsyncOperationManager manager)
         {
-            var args = new CalibrationEventArgs(CalibrationPhase.HorizontalAngle, _calibrationAngleTime);
+            var args = new CalibrationEventArgs(CalibrationPhase.RightAngle, _calibrationAngleTime);
             StateChanged?.Invoke(args);
             await manager.Delay(TimeSpan.FromSeconds(_calibrationAngleTime));
-            _wobbleBoardConfiguration.MaxHorizontalAngle = _woobleBoardService.XAngle;
-            Debug.Log(Mathf.Rad2Deg * _wobbleBoardConfiguration.HorizontalRotationAngle);
+            _wobbleBoardConfiguration.MaxRightAngle = _woobleBoardService.XAngle;
+        }
+
+        private async UniTask LeftAngleCalibration(IAsyncOperationManager manager)
+        {
+            var args = new CalibrationEventArgs(CalibrationPhase.LeftAngle, _calibrationAngleTime);
+            StateChanged?.Invoke(args);
+            await manager.Delay(TimeSpan.FromSeconds(_calibrationAngleTime));
+            _wobbleBoardConfiguration.MaxLeftAngle = _woobleBoardService.XAngle;
         }
 
         private async UniTask StartPhase(IAsyncOperationManager manager)

@@ -50,7 +50,7 @@ namespace Assets.Scripts.Calibration
             get
             {
                 var rawAngle = _wobbleboardInput.XAngle;
-                var factor = _wobbleBoardConfiguration.MaxHorizontalAngle;
+                var factor = rawAngle < 0 ? _wobbleBoardConfiguration.MaxRightAngle : _wobbleBoardConfiguration.MaxLeftAngle;
                 if (factor == 0)
                     factor = Mathf.PI / 2;
                 var normalizedAngle = rawAngle * Mathf.PI * 0.5f / Mathf.Abs(factor);

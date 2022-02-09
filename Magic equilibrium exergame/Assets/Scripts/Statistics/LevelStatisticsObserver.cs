@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.UI.Game_UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,15 @@ namespace Assets.Scripts.Statistics
 {
     public class LevelStatisticsObserver : MonoBehaviour, ILevelStatistics
     {
+        // Private fields
+        private InGameTimer _inGameTimer;
+
+
+
         // Initialization
         private void Start()
         {
+            _inGameTimer = FindObjectOfType<InGameTimer>();
             DeathManager.instance.playerDeathEvent.AddListener(OnPlayerDeath);            
         }        
 
@@ -19,7 +26,7 @@ namespace Assets.Scripts.Statistics
 
         // Poperties
         [field:SerializeField] public int DeathsCount { get; set; }
-
+        [field:SerializeField] public int SecondsCount { get; set; }
 
 
 
@@ -27,6 +34,20 @@ namespace Assets.Scripts.Statistics
         private void OnPlayerDeath()
         {
             DeathsCount++;
+        }
+
+        private void Update()
+        {
+            UpdateSeconds();
+        }
+
+
+        // Core
+        private void UpdateSeconds()
+        {
+            if (_inGameTimer == null)
+                return;
+            SecondsCount = (int)_inGameTimer.ElapsedSeconds;
         }
     }
 }

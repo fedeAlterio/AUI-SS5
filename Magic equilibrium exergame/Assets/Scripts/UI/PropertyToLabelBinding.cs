@@ -43,7 +43,7 @@ namespace Assets.Scripts.UI
             if (Object == null)
                 return;
 
-            var text = Object.GetType().GetProperty(PropertyName).GetValue(Object).ToString();
+            var text = Object.GetType().GetProperty(PropertyName)?.GetValue(Object)?.ToString();
             _label.text = text ?? string.Empty;
         }
     }

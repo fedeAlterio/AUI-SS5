@@ -24,5 +24,6 @@ namespace Assets.Scripts.Statistics
 
         // Properties
         public int DeathsCount { get; set; }
+        public int SecondsCount { get; set; } = 22;
     }
 }

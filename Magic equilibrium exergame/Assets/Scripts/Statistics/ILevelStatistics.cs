@@ -9,5 +9,6 @@ namespace Assets.Scripts.Statistics
     public interface ILevelStatistics
     {
         int DeathsCount { get; set; }
+        public int SecondsCount { get; set; }
     }
 }

@@ -8,6 +8,13 @@ namespace Assets.Scripts.Extensions
 {
     public static class IEnumerableExtensions
     {
+        public static IEnumerable<T> Cyclic<T>(this IEnumerable<T> @this)
+        {
+            while (true)
+                foreach (var x in @this)
+                    yield return x;
+        }
+
         public static IEnumerable<(T a, T b)> ToPairs<T>(this IEnumerable<T> @this)
         {            
             var enumerator = @this.GetEnumerator();

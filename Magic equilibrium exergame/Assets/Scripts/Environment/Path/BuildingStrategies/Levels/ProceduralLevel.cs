@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Environment.Path.BuildingStrategies.Path;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Models.Path.Blocks;
 using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Path.BuildingStrategies.Extensions;
@@ -25,6 +26,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
         {
             var allowedStrategies = pathConfiguration.PathStrategiesAllowed
                 .Select(PathStrategyContainer.GetByName)
+                .Cyclic()
                 .Take(pathConfiguration.Length);
             var strategies = InjectCheckpoints(allowedStrategies);
             var line = NewLine(start: Vector3.up * 5, direction: Vector3.forward)

@@ -76,6 +76,7 @@ namespace Assets.Scripts.Models.Path.Generation
             get => _surfaces[_surfaces.Count - 1];
             set => _surfaces[_surfaces.Count - 1] = value;
         }
+        public float CurrentLength => Vector3.Distance(_startPosition, CurrentPosition);
 
 
 

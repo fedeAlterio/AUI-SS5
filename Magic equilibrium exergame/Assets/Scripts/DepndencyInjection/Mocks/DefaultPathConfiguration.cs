@@ -20,7 +20,7 @@ namespace Assets.Scripts.DepndencyInjection.Mocks
 
         // Properties
         public int Difficulty => (int) PathDifficulty.Easy;
-        public int Length => 10;
+        public int Length => 1000;
         public IReadOnlyList<string> PathStrategiesAllowed { get; }
         public float PathThickness { get; } = 6;
         public float CurveSize { get; } = 10;

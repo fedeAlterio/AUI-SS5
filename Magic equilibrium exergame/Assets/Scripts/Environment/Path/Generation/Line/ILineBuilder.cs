@@ -18,5 +18,6 @@ namespace Assets.Scripts.Models.Path.Generation.Line
         IReadOnlyList<T> Build();
         Vector3 CurrentDirection { get; }
         Vector3 CurrentPosition { get; }        
+        float CurrentLength { get; }
     }
 }

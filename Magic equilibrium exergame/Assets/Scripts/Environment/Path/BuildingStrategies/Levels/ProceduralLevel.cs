@@ -23,14 +23,16 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
         // Generation   
         protected override IEnumerable<ILineBuilder<CurveBlock>> CreateLevel(IPathConfiguration pathConfiguration)
         {
-            var allowedStrategies = pathConfiguration.PathStrategiesAllowed.Select(PathStrategyContainer.GetByName);
+            var allowedStrategies = pathConfiguration.PathStrategiesAllowed
+                .Select(PathStrategyContainer.GetByName)
+                .Take(pathConfiguration.Length);
             var strategies = InjectCheckpoints(allowedStrategies);
             var line = NewLine(start: Vector3.up * 5, direction: Vector3.forward)
                 .GoWith(Checkpoint);
-            foreach (var strategy in strategies)
-                line.GoWith(strategy);
+            foreach (var strategy in strategies)                
+                line = line.GoWith(strategy);
 
-            line.GoWith(Finish);
+            line = line.GoWith(Finish);
             yield return line;
         }
 

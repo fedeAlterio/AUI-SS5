@@ -16,7 +16,7 @@ namespace Assets.Scripts.Menu
         public int Difficulty { get; set; }
 
 
-        [PropertyRange(1, 200)]
+        [PropertyRange(1, 15)]
         public int Length { get; set; }
 
 

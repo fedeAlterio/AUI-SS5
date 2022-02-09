@@ -22,7 +22,7 @@ namespace Assets.Scripts.DepndencyInjection.Mocks
         public int Difficulty => (int) PathDifficulty.Easy;
         public int Length => 10;
         public IReadOnlyList<string> PathStrategiesAllowed { get; }
-        public float PathThickness { get; } = 4;
+        public float PathThickness { get; } = 6;
         public float CurveSize { get; } = 10;
         public float TextureScale { get; } = 0.25f;
         public float PathHeight { get; } = 1;

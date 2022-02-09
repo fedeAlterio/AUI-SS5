@@ -24,7 +24,7 @@ namespace Assets.Scripts.Menu
         public float PathThickness { get; set; } = 6;
 
         [Hidden]
-        public float CurveSize { get; set; } = 10;
+        public float CurveSize { get; set; } = 9;
 
         [Hidden]
         public float TextureScale { get; set; } = 0.25f;
@@ -48,7 +48,7 @@ namespace Assets.Scripts.Menu
         public bool DownRamp { get; set; }                
 
 
-        [BindToStrategy(typeof(UpRampPathStrategy))]
+        [BindToStrategy(typeof(PathWithHolesStrategy))]
         public bool Holes { get; set; }
 
 
@@ -75,7 +75,7 @@ namespace Assets.Scripts.Menu
         {
             get
             {
-                var strategiesWithProperties = from property in GetType().GetProperties()
+                var strategiesWithProperties = from property in typeof(MyConfig).GetProperties()
                                                let bindingAttribute = property.GetCustomAttributes(typeof(BindToStrategyAttribute), true)
                                                                               .Cast<BindToStrategyAttribute>()
                                                                               .FirstOrDefault()

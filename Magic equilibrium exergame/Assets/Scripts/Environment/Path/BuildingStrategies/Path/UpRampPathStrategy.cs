@@ -48,7 +48,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
         private ILineBuilder<CurveBlock> BuildMedium(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration)
         {
             return line
-                .Go(_mediumDirection.normalized * _mediumLength)
+                .Go(_mediumDirection.normalized * _mediumLength)                
                 ;
         }
 

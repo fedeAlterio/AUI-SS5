@@ -13,7 +13,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
     {
         public override ILineBuilder<CurveBlock> Build(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration)
         {
-            return line.Go(Vector3.forward * 10);
+            return line.Go(Vector3.forward * 10, isTangentSpace: false);
         }
     }
 }

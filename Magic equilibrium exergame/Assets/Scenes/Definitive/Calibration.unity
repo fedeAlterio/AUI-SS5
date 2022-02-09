@@ -1514,7 +1514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa792e7bb9b9374790e2281ef85296d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _horizontalAngle: -15
+  _horizontalAngle: 5
 --- !u!4 &1728075116 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 28531f1f84e4d0d4f8175a9025bc9427, type: 3}

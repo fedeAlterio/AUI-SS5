@@ -12,9 +12,13 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
 {
     public class SlalomPath : DifficultyDependentPathStrategy
     {
+        // Editor fields
+        [SerializeField] private float _angleFactor = 0.3f;
+
+
+
         // Private fields
         private const int PathLength = 10;
-
 
 
         // Initialization
@@ -43,19 +47,19 @@ namespace Assets.Scripts.Path.BuildingStrategies.Path
         // Core
         private ILineBuilder<CurveBlock> BuildEasy(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration)
         {
-            Right = new Vector3(1, 0, 1).normalized;            
+            Right = new Vector3(_angleFactor, 0, 1).normalized;            
             return BuildSlalom(line, 2, true);
         }
 
         private ILineBuilder<CurveBlock> BuildMedium(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration)
         {
-            Right = new Vector3(1.3f, 0, 1).normalized;
+            Right = new Vector3(_angleFactor * 1.3f, 0, 1).normalized;
             return BuildSlalom(line, 2, true);
         }
 
         private ILineBuilder<CurveBlock> BuildHard(ILineBuilder<CurveBlock> line, IPathConfiguration pathConfiguration)
         {
-            Right = new Vector3(1.5f, 0, 1).normalized;
+            Right = new Vector3(_angleFactor * 1.5f, 0, 1).normalized;
             return BuildSlalom(line, 2, true);
         }
 

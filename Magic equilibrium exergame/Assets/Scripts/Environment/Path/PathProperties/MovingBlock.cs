@@ -47,6 +47,7 @@ public class MovingBlock : MonoBehaviour
         if (_firstMovement)
         {
             transform.localPosition = target;
+            _firstMovement = false;
             return;
         }
 

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Models.Path.Blocks;
+﻿using Assets.Scripts.Environment.Path.BuildingStrategies.Path;
+using Assets.Scripts.Models.Path.Blocks;
 using Assets.Scripts.Models.Path.Generation.Line;
 using Assets.Scripts.Path.BuildingStrategies.Extensions;
 using Assets.Scripts.Path.BuildingStrategies.Path;
@@ -15,7 +16,8 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
     {
         // Path Strategies
         private CheckpointPath Checkpoint => PathStrategyContainer.Get<CheckpointPath>();
-
+        private FinishPathStrategy Finish => PathStrategyContainer.Get<FinishPathStrategy>();
+        private ForwardPath Forward => PathStrategyContainer.Get<ForwardPath>();
 
 
         // Generation   
@@ -23,9 +25,12 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
         {
             var allowedStrategies = pathConfiguration.PathStrategiesAllowed.Select(PathStrategyContainer.GetByName);
             var strategies = InjectCheckpoints(allowedStrategies);
-            var line = NewLine(start : Vector3.up * 5, direction : Vector3.forward);
+            var line = NewLine(start: Vector3.up * 5, direction: Vector3.forward)
+                .GoWith(Checkpoint);
             foreach (var strategy in strategies)
                 line.GoWith(strategy);
+
+            line.GoWith(Finish);
             yield return line;
         }
 
@@ -37,6 +42,7 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
             foreach(var strategy in pathStrategies)
             {
                 yield return strategy;
+                yield return Forward;
                 yield return Checkpoint;
             }
         }

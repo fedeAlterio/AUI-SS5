@@ -35,6 +35,6 @@ public class VelocityInput : MonoBehaviour
     private void FixedUpdate()
     {
         // Modify player's speed based on input and other modifiers beeing applied
-        playerVelocity.UpdateSpeed(0.3f* (inputX + modifierX), inputZ + modifierZ);
+        playerVelocity.UpdateSpeed(0.6f* (inputX + modifierX), inputZ + modifierZ);
     }
 }

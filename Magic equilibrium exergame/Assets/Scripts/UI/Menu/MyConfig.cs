@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Path.BuildingStrategies.Path;
+﻿using Assets.Scripts.Environment.Path.BuildingStrategies.Path;
+using Assets.Scripts.Path.BuildingStrategies.Path;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Assets.Scripts.Menu
         public int Difficulty { get; set; }
 
 
-        [PropertyRange(1, 15)]
+        [PropertyRange(1, 12)]
         public int Length { get; set; }
 
 
@@ -59,6 +60,9 @@ namespace Assets.Scripts.Menu
         [BindToStrategy(typeof(CoinsPathStrategy))]
         public bool Coins { get; set; }
 
+
+        [BindToStrategy(typeof(ThinPathStrategy))]
+        public bool ThinPath { get; set; }
 
 
 

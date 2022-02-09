@@ -10,6 +10,9 @@ namespace Assets.Scripts.Extensions
     {
         public static IEnumerable<T> Cyclic<T>(this IEnumerable<T> @this)
         {
+            if(!@this.Any())
+                yield break;
+
             while (true)
                 foreach (var x in @this)
                     yield return x;

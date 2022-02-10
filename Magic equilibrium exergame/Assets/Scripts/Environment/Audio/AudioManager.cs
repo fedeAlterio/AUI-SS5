@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Cysharp.Threading.Tasks;
 
 public class AudioManager : MonoBehaviour
 {
@@ -64,5 +65,18 @@ public class AudioManager : MonoBehaviour
         Sound s = Array.Find(soundClips, sound => sound.name == name);
 
         s.source.Play();
+    }
+
+    public void PlayClip(AudioClip clip)
+    {
+        var s = Array.Find(soundClips, sound => sound.clip == clip);
+        s.source.Play();
+    }
+
+    public async UniTask PlayClipAsync(string name)
+    {
+        Sound s = Array.Find(soundClips, sound => sound.name == name);
+        s.source.Play();
+        await UniTask.Delay(TimeSpan.FromSeconds(s.clip.length), cancellationToken: this.GetCancellationTokenOnDestroy(), ignoreTimeScale: true);
     }
 }

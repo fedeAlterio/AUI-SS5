@@ -1,4 +1,5 @@
 using Assets.Scripts.Animations;
+using Assets.Scripts.Environment.Audio;
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     // Editor fields
-    [SerializeField] private int _hitDelay;    
+    [SerializeField] private int _hitDelay;
+    [SerializeField] private Sfx _clip = Sfx.EnemyHit;
+
 
 
     // Private fields
@@ -54,7 +57,8 @@ public class Enemy : MonoBehaviour
     {
         if (!IsEnabled)
             return;
-        //await manager.Delay(_hitDelay);
+        //await UniTask.Delay(_hitDelay, cancellationToken: this.GetCancellationTokenOnDestroy());
+        AudioManager.instance.PlayClip(_clip.ToString());
         DeathManager.instance.PlayerDeath();
     }
 }

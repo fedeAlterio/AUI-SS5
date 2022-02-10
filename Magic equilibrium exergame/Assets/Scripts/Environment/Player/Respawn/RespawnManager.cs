@@ -68,6 +68,12 @@ public class RespawnManager : MonoBehaviour
 
 
 
+    // Properties
+    public bool IsRespawning { get; private set; }
+
+
+
+
     // Public
     public void MovePlayerToCheckpoint(CheckPoint checkPoint)
     {
@@ -81,11 +87,12 @@ public class RespawnManager : MonoBehaviour
     private void RespawnWithCountdown() => _respawnOperation.New(RespawnWithCountdown);
     private async UniTask RespawnWithCountdown(IAsyncOperationManager manager)
     {
+        IsRespawning = true;
         DisablePlayer();
-        await manager.Delay(50);
         await MovePlayerToCheckPoint(manager);
         await WaitForCountdown(manager);
         EnablePlayer();
+        IsRespawning = false;
     }
 
     private async UniTask WaitForCountdown(IAsyncOperationManager manager)

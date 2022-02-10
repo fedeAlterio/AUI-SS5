@@ -150,7 +150,7 @@ namespace Assets.Scripts.Animations
 
         private UniTask NextFrameTask => UseGameTimeScale
                     ? UniTask.NextFrame(PlayerLoopTiming, CancellationToken)
-                    : UniTask.Delay((int) DeltaTime, ignoreTimeScale: true, cancellationToken: CancellationToken);
+                    : UniTask.Delay((int) (DeltaTime * 1000), ignoreTimeScale: true, cancellationToken: CancellationToken);
 
 
         // Delay

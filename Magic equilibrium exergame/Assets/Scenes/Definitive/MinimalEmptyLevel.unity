@@ -1112,6 +1112,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5443723762205897640, guid: cf511b1616a881640a3e14c355df6ccc, type: 3}
+      propertyPath: soundClips.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5443723762205897640, guid: cf511b1616a881640a3e14c355df6ccc, type: 3}
+      propertyPath: soundClips.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 230c10ab0e29ff745a1fa92f88c0b02a, type: 3}
+    - target: {fileID: 5443723762205897640, guid: cf511b1616a881640a3e14c355df6ccc, type: 3}
+      propertyPath: soundClips.Array.data[1].name
+      value: EnemyHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 5443723762205897640, guid: cf511b1616a881640a3e14c355df6ccc, type: 3}
+      propertyPath: soundClips.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: a3b1498fce673ee47a13a23f2543e8f1, type: 3}
+    - target: {fileID: 5443723762205897640, guid: cf511b1616a881640a3e14c355df6ccc, type: 3}
+      propertyPath: soundClips.Array.data[2].name
+      value: PlayerMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 5443723762205897640, guid: cf511b1616a881640a3e14c355df6ccc, type: 3}
+      propertyPath: soundClips.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 024325d41a414d84ab93a0c7a1956185, type: 3}
+    - target: {fileID: 5443723762205897640, guid: cf511b1616a881640a3e14c355df6ccc, type: 3}
+      propertyPath: soundClips.Array.data[3].name
+      value: Finish
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf511b1616a881640a3e14c355df6ccc, type: 3}
 --- !u!1 &530215544
@@ -1409,6 +1437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitDelay: 0
+  _clip: 0
   <IsEnabled>k__BackingField: 1
 --- !u!1 &633154227
 GameObject:
@@ -1982,7 +2011,7 @@ MonoBehaviour:
   _selectionColor: {r: 0.0292809, g: 0.42887563, b: 0.8867924, a: 1}
   <CurrentDirection>k__BackingField: 0
   <SelectionPercentage>k__BackingField: 0
-  <SelectionChangeSpeed>k__BackingField: 2.3
+  <SelectionChangeSpeed>k__BackingField: 2.5
 --- !u!114 &897755408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4645,7 +4674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _respawnTimerPeriod: 3
-  _respawnAnimationSpeed: 3
+  _respawnAnimationSpeed: 2
 --- !u!4 &2454306526182058557
 Transform:
   m_ObjectHideFlags: 0
@@ -4859,6 +4888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitDelay: 0
+  _clip: 0
   <IsEnabled>k__BackingField: 1
 --- !u!1 &3616997870844621885
 GameObject:
@@ -5031,6 +5061,7 @@ GameObject:
   - component: {fileID: 944728427}
   - component: {fileID: 2003283278}
   - component: {fileID: 4783318016462902973}
+  - component: {fileID: 4783318016462902976}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5105,6 +5136,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4783318016462902976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4783318016462902972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 125fae2ba8d02d541b03ddfd39408a08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clip: 0
 --- !u!114 &4838179994032313104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5328,6 +5372,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1142325359}
     m_Modifications:
+    - target: {fileID: 7427542452525379911, guid: 383b22d3120115d4e9201c27fe8df51f, type: 3}
+      propertyPath: m_Center.y
+      value: -1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971818809084612104, guid: 383b22d3120115d4e9201c27fe8df51f, type: 3}
+      propertyPath: _hitDelay
+      value: 900
+      objectReference: {fileID: 0}
     - target: {fileID: 8168323665240166956, guid: 383b22d3120115d4e9201c27fe8df51f, type: 3}
       propertyPath: m_Name
       value: Ocean

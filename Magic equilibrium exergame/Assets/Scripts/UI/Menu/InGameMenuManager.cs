@@ -57,12 +57,13 @@ namespace Assets.Scripts.UI.Menu
             Time.timeScale = 0;
 
             var selection = await _axisSelector.Select();
-            await HandleSelection(selection);
-
             Time.timeScale = timeScale;
             SetIsMenuInteractable(false);
             _canvasGroup.alpha = 0;
             _isVisible = false;
+
+            await manager.Delay(50);
+            await HandleSelection(selection);
         }        
 
         private void SetIsMenuInteractable(bool isInteractable)

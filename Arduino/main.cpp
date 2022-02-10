@@ -16,8 +16,8 @@ CRGB leds[NUM_LEDS];
 Adafruit_MPU6050 mpu;
 
 
-const char* ssid     = "ssid";
-const char* password = "pass";
+const char* ssid     = "MAGIKA";
+const char* password = "!magika!";
 
 // Set web server port number to 80
 WiFiServer server(80);
@@ -29,6 +29,9 @@ String outputDATAState = "off";
 String object = "balance board";
 String status = "not working";
 String IP;
+String UdpIp;
+int UdpPort;
+bool _udpInitialized = false;
 
 char result[20];
 
@@ -51,14 +54,30 @@ WiFiUDP Udp;
 ESP8266WebServer httpRestServer(HTTP_REST_PORT);
 
 
-// Functions declarations
-void getAccelerometerAngles(float * xAngle, float * zAngle);
+// declarations
+void getAccelerometerData(float * x, float * y, float * z);
 
 
+// Utils
+void UpdateUdpIpAndPort(String message){
+  StaticJsonDocument<1000> doc;
+  deserializeJson(doc, message);
+  String ip = doc["ipTarget"];
+  int port = doc["portTarget"];
+  UdpIp = ip;
+  UdpPort = port;
+  Serial.println(ip);
+  Serial.println(port);
+}
 
-
-
-
+void UpdateUdpIpAndPort(DynamicJsonDocument doc){
+  String ip = doc["ipTarget"];
+  int port = doc["portTarget"];
+  UdpIp = ip;
+  UdpPort = port;
+  Serial.println(ip);
+  Serial.println(port);
+}
 
 
 // REST
@@ -81,6 +100,8 @@ DynamicJsonDocument GetNetwork(){
      DynamicJsonDocument doc(1024);
      doc["ip"] = "192.168.0.38";
      doc["ssid"] = "NeRV";     
+     JsonArray availableCredentials = doc.createNestedArray("availableCredentials");
+     availableCredentials.add("I3Lab");     
      return doc;
 }
 
@@ -92,8 +113,8 @@ DynamicJsonDocument GetDeviceStateJson(){
    doc["uptime"] = 423;
    doc["stateChannel"] = GetStateChannelJson();
    doc["eventChannel"] = GetEventChannel();
-   JsonArray availableCredentials = doc.createNestedArray("availableCredentials");
-   availableCredentials.add("I3Lab");
+   doc["network"] = GetNetwork();
+
    return doc;
 }
 
@@ -111,11 +132,11 @@ DynamicJsonDocument GetSoftwareVersion()
 
 DynamicJsonDocument GetInformationJson(){
   DynamicJsonDocument doc(1024);
-  doc["id"] = "1935007";
-  doc["productId"] = "123456_smartobject_ABCDEF";
-  doc["deviceModel"] = "Smile O Meter";
+  doc["id"] = "1736107";
+  doc["productId"] = "1736107_wobbleboard_product_id";
+  doc["deviceModel"] = "Wobbleboard";
   doc["mdnsService"] = "smartobject";
-  doc["mdnsAddress"] = "smileometer_5007";
+  doc["mdnsAddress"] = "wobbleboard_5007";
   doc["softwareVersion"] = GetSoftwareVersion();
   return doc;
 }
@@ -158,15 +179,15 @@ DynamicJsonDocument GetStateJson(){
 // Get Capabilities
 DynamicJsonDocument GetSensorsJson(){
   DynamicJsonDocument doc(124);
-  JsonArray rfids = doc.createNestedArray("rfids");
-  rfids.add(0);
+  // JsonArray rfids = doc.createNestedArray("rfids");
+  // rfids.add(0);
   return doc;
 }
 
 DynamicJsonDocument BuildRfidsJson()
 {
   DynamicJsonDocument rfids(50);
-  rfids["rifds"] = "0";
+  // rfids["rifds"] = "0";
   return rfids;
 }
 
@@ -230,12 +251,58 @@ DynamicJsonDocument GetCapabilitiesJson()
 
 // Rest accelertometer data
 DynamicJsonDocument GetAccelerometerDataAsJson(){
-  float xAngle, zAngle;
-  getAccelerometerAngles(&xAngle, &zAngle);
+  float x, y, z;
+  getAccelerometerData(&x, &y, &z);
 
   DynamicJsonDocument doc(100);
-  doc["xAngle"] = xAngle;
-  doc["zAngle"] = zAngle;
+  doc["x"] = x;
+  doc["y"] = y;
+  doc["z"] = z;
+  return doc;
+}
+
+
+// UDP
+DynamicJsonDocument GetUdpGyroscopeJson(){
+  DynamicJsonDocument doc(100);
+  doc["x"] = 0;
+  doc["y"] = 0;
+  doc["z"] = 0;
+  return doc;
+}
+
+
+DynamicJsonDocument GetUdpPositionJson(){
+  DynamicJsonDocument doc(100);
+  doc["x"] = 0;
+  doc["y"] = 0;
+  doc["z"] = 0;
+  return doc;
+}
+
+
+DynamicJsonDocument GetUdpKinematicsJson(){
+  DynamicJsonDocument doc(300);
+  doc["id"] = "id";
+  doc["accelerometer"] = GetAccelerometerDataAsJson();
+  doc["gyroscope"] =GetUdpGyroscopeJson();
+  doc["position"] =GetUdpGyroscopeJson();
+  return doc;
+}
+
+DynamicJsonDocument GetUdpSensorsJson(){
+  DynamicJsonDocument doc(300);
+  doc["Kinematics"] = GetUdpKinematicsJson();
+  return doc;
+}
+
+DynamicJsonDocument GetAccelerometerDataAsJsonInMagicRoom(){
+  float x, y, z;
+  getAccelerometerData(&x, &y, &z);
+
+  DynamicJsonDocument doc(1000);
+  doc["id"] = "id",
+  doc["Sensors"] = GetUdpSensorsJson();
   return doc;
 }
 
@@ -260,8 +327,11 @@ DynamicJsonDocument getResponse(String requestType){
   if(requestType.indexOf("getCapabilities") >= 0)
     return GetCapabilitiesJson();   
   
-  return GetAccelerometerDataAsJson();
+  return GetAccelerometerDataAsJsonInMagicRoom();
 }
+
+
+
 
 String readHeader(WiFiClient client){
   String header;
@@ -281,6 +351,15 @@ void restServerRouting(){
         String response;
         serializeJson(json, response);
         httpRestServer.send(200, "text/json", response.c_str());
+      });
+
+       httpRestServer.on("/setStream", HTTP_POST, []() {
+        String header = httpRestServer.arg("plain");
+        // String requestType = getRequestType(header);
+        // DynamicJsonDocument doc = getResponse(requestType);
+        UpdateUdpIpAndPort(header);
+        _udpInitialized = true;
+        httpRestServer.send(200, "text/json", "ok");
       });
   }
 
@@ -327,11 +406,18 @@ void restServerRouting(){
   delay(500);
   }
 
-  void getAccelerometerAngles(float * xAngle, float * zAngle){
+  // void getAccelerometerAngles(float * xAngle, float * zAngle){
+     
+  //    *xAngle = atan(- a.acceleration.x / a.acceleration.z);
+  //    *zAngle = atan(a.acceleration.y / a.acceleration.z);
+  // }
+
+  void getAccelerometerData(float * x, float * y, float * z){
      sensors_event_t a, g, temp;
      mpu.getEvent(&a, &g, &temp);
-     *xAngle = atan(- a.acceleration.x / a.acceleration.z);
-     *zAngle = atan(a.acceleration.y / a.acceleration.z);
+     *x = a.acceleration.x;
+     *y = a.acceleration.y;
+     *z = a.acceleration.z;
   }
 
 
@@ -379,6 +465,15 @@ void SendAccelerometerDataThroughUdp(){
 }
 
 
+void SendAccelerometerDataThroughUdpInMagicRoom(){
+  IPAddress ip;
+  ip.fromString(UdpIp.c_str());
+  DynamicJsonDocument data = GetAccelerometerDataAsJsonInMagicRoom();
+  String json;
+  serializeJson(data, json);
+  udpSendPacketTo(ip, UdpPort, json.c_str());
+}
+
 
 
 
@@ -411,6 +506,8 @@ void initializeMPU(){
       }
     }
   Serial.println("\nMPU6050 Found!");
+  leds[0] = CRGB::Blue;
+  leds[1] = CRGB::Green;
 }
 
 
@@ -427,21 +524,34 @@ void initializeMpu(){
 }
 
 
-
+void TestUdpIpAndPortUpdater(){
+  DynamicJsonDocument doc(200);
+  doc["ipTarget"] = "192.168.1.22";
+  doc["portTarget"] = 9999;
+  String text;
+  serializeJson(doc, text);
+  UpdateUdpIpAndPort(text);
+}
+void PrintAccelerometerData() {
+ String response;
+  serializeJson(GetAccelerometerDataAsJsonInMagicRoom(), response);
+  Serial.println(response);
+}
 
 // Arduino Setup
 void setup() {
   Serial.begin(115200);
 
-  Serial.println("dddd");
-  FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
-  
+  PrintAccelerometerData();
+  TestUdpIpAndPortUpdater();
+
   initializeMPU();
   connectToWifi();
   initializeUdp();
   initializeMpu();
 
-  
+  FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
+  FastLED.setBrightness(50);
   
   if(MDNS.begin("myesp")){
     status = "ok";
@@ -454,9 +564,12 @@ void setup() {
 
 void loop(){
 
+ 
   MDNS.update();
   httpRestServer.handleClient();
-  printAccelerometerData();
+  // printAccelerometerData();  
   SendAccelerometerDataThroughUdp();
+  if(_udpInitialized)
+    SendAccelerometerDataThroughUdpInMagicRoom();
 }
 

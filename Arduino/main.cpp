@@ -346,6 +346,7 @@ String readHeader(WiFiClient client){
 void restServerRouting(){
     httpRestServer.on("/", HTTP_POST, []() {
         String header = httpRestServer.arg("plain");
+        Serial.println(header);
         String requestType = getRequestType(header);
         DynamicJsonDocument json = getResponse(requestType);
         String response;
@@ -457,7 +458,7 @@ void sendUdp(){
 
 void SendAccelerometerDataThroughUdp(){
   IPAddress ip;
-  ip.fromString("192.168.1.6");
+  ip.fromString("192.168.1.12");
   DynamicJsonDocument data = GetAccelerometerDataAsJson();
   String json;
   serializeJson(data, json);

@@ -1982,7 +1982,7 @@ MonoBehaviour:
   _selectionColor: {r: 0.0292809, g: 0.42887563, b: 0.8867924, a: 1}
   <CurrentDirection>k__BackingField: 0
   <SelectionPercentage>k__BackingField: 0
-  <SelectionChangeSpeed>k__BackingField: 1.5
+  <SelectionChangeSpeed>k__BackingField: 2.3
 --- !u!114 &897755408
 MonoBehaviour:
   m_ObjectHideFlags: 0

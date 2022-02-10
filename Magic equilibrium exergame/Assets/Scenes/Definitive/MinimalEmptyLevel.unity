@@ -296,7 +296,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1609039502780588224, guid: cbe5cbd2b8c2c3b49b3dbae0723baed3, type: 3}
       propertyPath: field of view
-      value: 101.4
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 1609039502780588224, guid: cbe5cbd2b8c2c3b49b3dbae0723baed3, type: 3}
       propertyPath: m_TargetDisplay
@@ -1330,6 +1330,7 @@ GameObject:
   - component: {fileID: 608891635}
   - component: {fileID: 608891637}
   - component: {fileID: 608891636}
+  - component: {fileID: 608891638}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -1379,9 +1380,9 @@ Terrain:
   m_DetailObjectDistance: 80
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
-  m_SplatMapDistance: 1000
+  m_SplatMapDistance: 1292
   m_HeightmapMaximumLOD: 0
-  m_ShadowCastingMode: 2
+  m_ShadowCastingMode: 0
   m_DrawHeightmap: 1
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
@@ -1395,6 +1396,20 @@ Terrain:
   m_GroupingID: 0
   m_RenderingLayerMask: 257
   m_AllowAutoConnect: 1
+--- !u!114 &608891638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608891634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae451de3dc9ad1d489e5a400238a282c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitDelay: 0
+  <IsEnabled>k__BackingField: 1
 --- !u!1 &633154227
 GameObject:
   m_ObjectHideFlags: 0
@@ -2323,7 +2338,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1142325358}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 6.8, y: 0, z: -145}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4223380472470311713}

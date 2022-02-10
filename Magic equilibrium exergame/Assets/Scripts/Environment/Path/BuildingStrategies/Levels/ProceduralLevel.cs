@@ -28,8 +28,9 @@ namespace Assets.Scripts.Path.BuildingStrategies.Levels
                 .Select(PathStrategyContainer.GetByName)
                 .Cyclic()
                 .Take(pathConfiguration.Length);
+            var totDownRamp = allowedStrategies.Where(s => s is DownRampPathStrategy).Count();
             var strategies = InjectCheckpoints(allowedStrategies);
-            var line = NewLine(start: Vector3.up * 7, direction: Vector3.forward)
+            var line = NewLine(start: Vector3.up *  (1 + 8  * totDownRamp), direction: Vector3.forward)
                 .GoWith(Checkpoint);
             foreach (var strategy in strategies)                
                 line = line.GoWith(strategy);

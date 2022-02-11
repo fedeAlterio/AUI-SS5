@@ -35,7 +35,7 @@ namespace Assets.Scripts.Animations
         public bool Paused => _pauseTcs != null;
         public CancellationToken CancellationToken => _cancellationTokenSource?.Token ?? default;
         public bool Cancelled => CancellationToken.IsCancellationRequested;
-        public float DeltaTime => Time.unscaledDeltaTime;
+        public float DeltaTime => PlayerLoopTiming == PlayerLoopTiming.FixedUpdate ? Time.fixedDeltaTime : Time.unscaledDeltaTime;
         public float Speed { get; set; } = 10;
         public float SpeedScale { get; set; } = 1;
         public PlayerLoopTiming PlayerLoopTiming { get; set; } = PlayerLoopTiming.Update;

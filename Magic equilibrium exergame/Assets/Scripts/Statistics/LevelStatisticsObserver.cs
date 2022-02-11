@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.UI.Game_UI;
+using Assets.Scripts.UI.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Assets.Scripts.Statistics
     {
         // Private fields
         private InGameTimer _inGameTimer;
+        private InGameMenuManager _inGameMenu;
 
 
 
@@ -19,7 +21,12 @@ namespace Assets.Scripts.Statistics
         private void Start()
         {
             _inGameTimer = FindObjectOfType<InGameTimer>();
-            DeathManager.instance.playerDeathEvent.AddListener(OnPlayerDeath);            
+            _inGameMenu = FindObjectOfType<InGameMenuManager>();
+            DeathManager.instance.playerDeathEvent.AddListener(OnPlayerDeath);
+            _inGameMenu.ExercizeSkipped += () =>
+            {
+                ExercizesSkipped++;
+            };
         }        
 
 
@@ -27,6 +34,7 @@ namespace Assets.Scripts.Statistics
         // Poperties
         [field:SerializeField] public int DeathsCount { get; set; }
         [field:SerializeField] public int SecondsCount { get; set; }
+        [field: SerializeField] public int ExercizesSkipped { get; set; }
 
 
 

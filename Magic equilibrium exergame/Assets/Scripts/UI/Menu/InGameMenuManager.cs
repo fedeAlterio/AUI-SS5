@@ -13,6 +13,11 @@ namespace Assets.Scripts.UI.Menu
 {
     public class InGameMenuManager : MonoBehaviour
     {
+        // Events
+        public event Action ExercizeSkipped;
+
+
+
         // Private fields
         private CanvasGroup _canvasGroup;
         private AsyncOperationManager _showOperation;
@@ -81,6 +86,7 @@ namespace Assets.Scripts.UI.Menu
                     break;
                 case AxisSelectionDirection.Right:
                     _moveBetweenCheckpoints.MoveNextCheckpoint();
+                    ExercizeSkipped?.Invoke();
                     break;
                 case AxisSelectionDirection.Left:
                     _moveBetweenCheckpoints.MovePreviousCheckpoint();

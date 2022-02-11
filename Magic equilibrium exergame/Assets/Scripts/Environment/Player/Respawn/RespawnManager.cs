@@ -63,7 +63,6 @@ public class RespawnManager : MonoBehaviour
         _playerCollider.transform.position = CheckPointManager.instance.CurrentCheckpoint.spawnPosition;
         MovePlayerToCheckpoint(CheckPointManager.instance.CurrentCheckpoint);             
         FirstTimePlayerSpawn?.Invoke();
-
     }
 
 
@@ -100,7 +99,7 @@ public class RespawnManager : MonoBehaviour
         for (var i = 0; i <= _respawnTimerPeriod; i++)
         {
             CountdownTick?.Invoke(_respawnTimerPeriod - i);
-            await manager.Delay(1000);
+            await UniTask.Delay(1000, ignoreTimeScale: true);
         }
     }
 

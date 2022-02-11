@@ -1693,6 +1693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <DeathsCount>k__BackingField: 0
   <SecondsCount>k__BackingField: 0
+  <ExercizesSkipped>k__BackingField: 0
 --- !u!1 &827110507
 GameObject:
   m_ObjectHideFlags: 0
@@ -4674,7 +4675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _respawnTimerPeriod: 3
-  _respawnAnimationSpeed: 2
+  _respawnAnimationSpeed: 3.7
 --- !u!4 &2454306526182058557
 Transform:
   m_ObjectHideFlags: 0
